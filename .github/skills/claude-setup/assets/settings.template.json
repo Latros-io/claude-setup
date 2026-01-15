@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": ["WebSearch"]
+  },
+  "mcpServers": {
+    "filesystem": {},
+    "github": {}
+  },
+  "agents": [
+    "Bash",
+    "Explore",
+    "Plan"
+  ],
+  "skills": [
+    "git-workflow",
+    "test-runner"
+  ],
+  "rules": [
+    "code-style",
+    "testing"
+  ]
+}
