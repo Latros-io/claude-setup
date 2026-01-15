@@ -23,63 +23,87 @@ A **centralized registry** of reusable components for Claude Code projects:
 
 ## Installation
 
-### As a Claude Plugin (Recommended)
+Inside a Claude Code instance, run the following commands:
 
-```bash
-# Install via Claude Code plugin system
-claude plugin install Latros-io/.claude
+### Step 1: Add the marketplace
 
-# Or install directly
-git clone https://github.com/Latros-io/.claude ~/.claude-plugins/skills-registry
+```
+/plugin marketplace add Latros-io/.claude
 ```
 
-### Manual Installation
+### Step 2: Install the plugin
 
-```bash
-git clone https://github.com/Latros-io/.claude ~/.claude
 ```
+/plugin install claude-skills
+```
+
+### Step 3: Run setup
+
+```
+/claude-skills:setup
+```
+
+Done! The setup wizard starts immediately — no restart needed.
 
 ## Quick Start
 
-### 1. Navigate to Your Project
+### 1. Run Setup
 
-```bash
-cd /path/to/your-project
+In your Claude Code instance:
+
+```
+/claude-skills:setup
 ```
 
-### 2. Run Setup
-
-```bash
-# If installed as plugin
-claude-skills-setup
-
-# If manually installed
-~/.claude/.github/skills/claude-setup/scripts/setup.sh
-```
-
-### 3. Select Components
+### 2. Select Components
 
 Answer 4 interactive questions:
 
+**Step 1/4: MCP Servers**
 ```
-Step 1/4: MCP Servers
-1) filesystem  2) github  3) postgres  4) docker
-Enter numbers (comma-separated): 1,2
+Which MCP servers would you like to enable?
+1) filesystem
+2) github
+3) postgres
+4) docker
 
-Step 2/4: Agents
-1) Bash  2) Explore  3) Plan  4) general-purpose
-Enter numbers (comma-separated): 1,2
-
-Step 3/4: Skills
-1) git-workflow  2) test-runner  3) cicd-helper  4) doc-generator
-Enter numbers (comma-separated): 1,2
-
-Step 4/4: Rules
-1) code-style  2) testing  3) security  4) documentation
 Enter numbers (comma-separated): 1,2
 ```
 
-### 4. Installation Complete! 🎉
+**Step 2/4: Agents**
+```
+Which agents would you like to enable?
+1) Bash
+2) Explore
+3) Plan
+4) general-purpose
+
+Enter numbers (comma-separated): 1,2
+```
+
+**Step 3/4: Skills**
+```
+Which skills would you like to enable?
+1) git-workflow
+2) test-runner
+3) cicd-helper
+4) doc-generator
+
+Enter numbers (comma-separated): 1,2
+```
+
+**Step 4/4: Rules**
+```
+Which rules would you like to enable?
+1) code-style
+2) testing
+3) security
+4) documentation
+
+Enter numbers (comma-separated): 1,2
+```
+
+### 3. Installation Complete! 🎉
 
 Your project now contains:
 ```
@@ -109,16 +133,17 @@ System adds: github MCP + Bash agent
 
 ### ✅ Update Mode
 Re-run setup to add or remove components:
-```bash
-claude-skills-setup  # or run setup.sh again
+```
+/claude-skills:setup
 # Choose "Update (add/remove)" when prompted
 ```
 
 ### ✅ Customization Tracking
 Modify installed components freely. Updates preserve your changes:
 ```bash
+# Edit any installed component
 vim .github/skills/git-workflow/SKILL.md
-# Your customizations are tracked and preserved
+# Your customizations are tracked and preserved on update
 ```
 
 ### ✅ Local Extensions
@@ -206,18 +231,18 @@ Rules: code-style
 
 ```
 ┌─────────────────────────────────────┐
-│  Central Repository                 │
-│  (Claude Plugin)                    │
+│  Claude Plugin                      │
+│  (Installed via /plugin install)    │
 │                                     │
 │  ├── registry.json   ← Catalog     │
 │  ├── .github/                       │
 │  │   ├── skills/    ← All skills   │
 │  │   ├── agents/    ← All agents   │
 │  │   └── rules/     ← All rules    │
-│  └── setup script                   │
+│  └── setup command                  │
 └─────────────────────────────────────┘
               ↓
-      User runs setup
+    User runs /claude-skills:setup
               ↓
 ┌─────────────────────────────────────┐
 │  Your Project                       │
@@ -255,9 +280,8 @@ Rules: code-style
 
 ### Example 1: Fresh Setup
 
-```bash
-cd ~/my-new-project
-claude-skills-setup
+```
+/claude-skills:setup
 
 # Select components
 # Installation completes
@@ -266,9 +290,8 @@ claude-skills-setup
 
 ### Example 2: Add Components Later
 
-```bash
-cd ~/my-project
-claude-skills-setup
+```
+/claude-skills:setup
 
 # Choose "Update (add/remove)"
 # Select additional components
@@ -282,7 +305,7 @@ claude-skills-setup
 vim .github/skills/git-workflow/SKILL.md
 
 # Run update
-claude-skills-setup
+/claude-skills:setup
 
 # Your customizations are detected and preserved
 # "File has been customized: .github/skills/git-workflow/SKILL.md"
@@ -317,7 +340,7 @@ mkdir -p .github/skills/custom-deploy
 vim .github/skills/custom-deploy/SKILL.md
 
 # Run setup - custom skill appears in list
-claude-skills-setup
+/claude-skills:setup
 ```
 
 ## Requirements
@@ -327,6 +350,8 @@ claude-skills-setup
 - **OS**: macOS, Linux, or WSL on Windows
 
 ### Install jq
+
+If setup fails with "jq: command not found":
 
 ```bash
 # macOS
@@ -372,14 +397,14 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ## Troubleshooting
 
-### Setup script not found
+### Plugin not found
 
-```bash
-# Verify plugin installation
-ls ~/.claude-plugins/skills-registry
+```
+# Make sure marketplace is added
+/plugin marketplace add Latros-io/.claude
 
-# Or check manual installation
-ls ~/.claude/.github/skills/claude-setup/scripts/setup.sh
+# Then install
+/plugin install claude-skills
 ```
 
 ### jq not installed
@@ -387,6 +412,7 @@ ls ~/.claude/.github/skills/claude-setup/scripts/setup.sh
 ```bash
 # Install jq (see Requirements section)
 brew install jq  # macOS
+sudo apt-get install jq  # Ubuntu/Debian
 ```
 
 ### Components not working
@@ -399,7 +425,18 @@ cat .claude/installation.state.json
 cat .claude/settings.local.json
 
 # Re-run setup if needed
-claude-skills-setup
+/claude-skills:setup
+```
+
+### Setup command not found
+
+```bash
+# Verify plugin is installed
+/plugin list
+
+# Should show "claude-skills" in the list
+# If not, reinstall:
+/plugin install claude-skills
 ```
 
 ## Support
