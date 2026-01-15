@@ -1,30 +1,29 @@
 {
-  "displayName": "Claude Skills Registry",
-  "shortDescription": "Selective installation for skills, agents, and rules",
-  "longDescription": "A centralized registry of reusable components for Claude Code. Select and install only the skills, agents, and rules your project needs. Includes git-workflow, test-runner, code-style rules, and more. Keep your Claude Code context slim and focused.",
-  "category": "productivity",
-  "tags": [
-    "skills",
-    "agents",
-    "configuration",
-    "workflow",
-    "productivity"
-  ],
-  "screenshots": [],
-  "features": [
-    "Selective component installation",
-    "Automatic dependency resolution",
-    "Update mode to add/remove components",
-    "Customization tracking and preservation",
-    "Local registry for custom components",
-    "Self-contained projects"
-  ],
-  "requirements": {
-    "bash": "4.0+",
-    "jq": "1.5+"
+  "name": "claude-skills-registry",
+  "owner": {
+    "name": "Latros.io",
+    "email": "support@latros.io"
   },
-  "compatibility": {
-    "os": ["macos", "linux", "wsl"],
-    "claudeCode": ">=1.0.0"
-  }
+  "metadata": {
+    "description": "Selective installation system for Claude Code skills, agents, and rules",
+    "version": "2.0.0"
+  },
+  "plugins": [
+    {
+      "name": "claude-skills",
+      "source": "./",
+      "description": "A centralized registry of reusable components for Claude Code. Select and install only the skills, agents, and rules your project needs. Includes git-workflow skill with conventional commits, Bash agent for safe command execution, code-style rules, and more. Keep your Claude Code context slim and focused by installing only what you use.",
+      "category": "productivity",
+      "tags": [
+        "skills",
+        "agents",
+        "rules",
+        "registry",
+        "configuration",
+        "workflow",
+        "git",
+        "productivity"
+      ]
+    }
+  ]
 }

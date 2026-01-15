@@ -4,7 +4,7 @@
 
 **Keep your Claude Code context slim and focused** by installing only the components your project needs.
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/Latros-io/.claude)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/Latros-io/claude-setup)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/claude--code-plugin-purple.svg)](https://claude.ai/code)
 
@@ -28,7 +28,7 @@ Inside a Claude Code instance, run the following commands:
 ### Step 1: Add the marketplace
 
 ```
-/plugin marketplace add Latros-io/.claude
+/plugin marketplace add Latros-io/claude-setup
 ```
 
 ### Step 2: Install the plugin
@@ -401,7 +401,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ```
 # Make sure marketplace is added
-/plugin marketplace add Latros-io/.claude
+/plugin marketplace add Latros-io/claude-setup
 
 # Then install
 /plugin install claude-skills
@@ -441,8 +441,8 @@ cat .claude/settings.local.json
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/Latros-io/.claude/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/.claude/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-setup/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-setup/discussions)
 
 ## License
 

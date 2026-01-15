@@ -554,8 +554,8 @@ Follow semantic versioning:
 
 ## Questions?
 
-- **Issues**: [GitHub Issues](https://github.com/Latros-io/.claude/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/.claude/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-setup/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-setup/discussions)
 - **Email**: [support@latros.io](mailto:support@latros.io)
 
 ## License
