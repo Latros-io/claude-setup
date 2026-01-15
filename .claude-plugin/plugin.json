@@ -18,11 +18,5 @@
     "selective-installation",
     "configuration",
     "claude-code"
-  ],
-  "commands": {
-    "setup": {
-      "description": "Interactive setup wizard to select and install components",
-      "script": ".github/skills/claude-setup/scripts/setup.sh"
-    }
-  }
+  ]
 }
