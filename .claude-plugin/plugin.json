@@ -1,0 +1,27 @@
+{
+  "name": "claude-skills-registry",
+  "description": "Selective installation system for Claude Code skills, agents, and rules - install only what you need to keep context slim and focused",
+  "version": "2.0.0",
+  "author": {
+    "name": "Latros.io",
+    "url": "https://github.com/Latros-io"
+  },
+  "homepage": "https://github.com/Latros-io/.claude",
+  "repository": "https://github.com/Latros-io/.claude",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "agents",
+    "rules",
+    "registry",
+    "components",
+    "selective-installation",
+    "configuration",
+    "claude-code"
+  ],
+  "main": ".github/skills/claude-setup/scripts/setup.sh",
+  "install": {
+    "type": "interactive",
+    "command": "bash .github/skills/claude-setup/scripts/setup.sh"
+  }
+}

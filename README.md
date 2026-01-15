@@ -1,369 +1,418 @@
-# .claude
+# Claude Skills Registry
 
-Interactive 4-step configuration wizard for Claude Code projects.
+> A Claude Code plugin for selective installation of skills, agents, and rules
 
-> 📖 **New to this?** Read the [Visual Guide (HOWTO.md)](HOWTO.md) for a step-by-step walkthrough with diagrams!
+**Keep your Claude Code context slim and focused** by installing only the components your project needs.
 
-## How It Works
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/Latros-io/.claude)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/claude--code-plugin-purple.svg)](https://claude.ai/code)
 
-This skill asks you 4 questions and then **creates 2 files**:
-1. `.claude/settings.local.json` - Your Claude Code configuration
-2. `CLAUDE.md` - Project guidance file
+---
 
-**Important**: The skill only creates configuration files. It doesn't copy, modify, or remove any other files in your project.
+## What is This?
+
+A **centralized registry** of reusable components for Claude Code projects:
+
+- 🎯 **Skills**: Specialized capabilities (git workflows, test running, documentation)
+- 🤖 **Agents**: Focused AI assistants (Bash execution, code exploration, planning)
+- 📋 **Rules**: Guidelines and best practices (code style, security, testing)
+- 🔌 **MCP Servers**: External integrations (GitHub, filesystem, databases)
+
+**Selective installation** means your project only contains what you actually use.
 
 ## Installation
 
-### Step 1: Clone this repository
-
-Open your terminal **anywhere** and run:
+### As a Claude Plugin (Recommended)
 
 ```bash
-cd ~
-git clone https://github.com/Latros-io/.claude
+# Install via Claude Code plugin system
+claude plugin install Latros-io/.claude
+
+# Or install directly
+git clone https://github.com/Latros-io/.claude ~/.claude-plugins/skills-registry
 ```
 
-This creates a folder at `~/.claude/` with the skill files.
-
-### Step 2: Copy the skill to your project
-
-Navigate to **YOUR PROJECT** directory:
+### Manual Installation
 
 ```bash
-cd /path/to/YOUR-PROJECT
+git clone https://github.com/Latros-io/.claude ~/.claude
 ```
 
-For example:
-```bash
-cd ~/projects/my-app
-```
+## Quick Start
 
-Then copy the skill folder:
+### 1. Navigate to Your Project
 
 ```bash
-cp -r ~/.claude/.github/skills/claude-setup .github/skills/
+cd /path/to/your-project
 ```
 
-This copies only the `claude-setup` skill folder into your project at:
-```
-YOUR-PROJECT/.github/skills/claude-setup/
-```
-
-### Step 3: Run the setup script
-
-**You must be in YOUR PROJECT directory** (not in the .claude repo):
+### 2. Run Setup
 
 ```bash
-# Make sure you're in your project directory
-cd /path/to/YOUR-PROJECT
+# If installed as plugin
+claude-skills-setup
 
-# Run the setup script
-./.github/skills/claude-setup/scripts/setup.sh
+# If manually installed
+~/.claude/.github/skills/claude-setup/scripts/setup.sh
 ```
 
-### Step 4: Answer 4 questions
+### 3. Select Components
 
-The script will prompt you 4 times:
+Answer 4 interactive questions:
 
 ```
 Step 1/4: MCP Servers
-Which MCP servers would you like to enable?
-1) filesystem
-2) github
-3) postgres
-4) docker
+1) filesystem  2) github  3) postgres  4) docker
+Enter numbers (comma-separated): 1,2
 
+Step 2/4: Agents
+1) Bash  2) Explore  3) Plan  4) general-purpose
+Enter numbers (comma-separated): 1,2
+
+Step 3/4: Skills
+1) git-workflow  2) test-runner  3) cicd-helper  4) doc-generator
+Enter numbers (comma-separated): 1,2
+
+Step 4/4: Rules
+1) code-style  2) testing  3) security  4) documentation
 Enter numbers (comma-separated): 1,2
 ```
 
-Just type numbers separated by commas (e.g., `1,2`) and press Enter.
+### 4. Installation Complete! 🎉
 
-Repeat for Steps 2, 3, and 4.
-
-### Step 5: Done!
-
-The script creates **only 2 files** in your project:
-- `YOUR-PROJECT/.claude/settings.local.json`
-- `YOUR-PROJECT/CLAUDE.md`
-
-## What Gets Created
-
-After answering the 4 questions, these files are created:
-
-### `.claude/settings.local.json`
-Contains your selected configuration:
-```json
-{
-  "permissions": {
-    "allow": ["WebSearch"]
-  },
-  "mcpServers": {
-    "filesystem": {},
-    "github": {}
-  },
-  "agents": [
-    "Bash",
-    "Explore",
-    "Plan"
-  ],
-  "skills": [
-    "git-workflow",
-    "test-runner"
-  ],
-  "rules": [
-    "code-style",
-    "testing"
-  ]
-}
+Your project now contains:
+```
+your-project/
+├── .claude/
+│   ├── settings.local.json       # Configuration
+│   ├── installation.state.json   # Tracking
+│   └── [component configs]
+├── CLAUDE.md                      # Project guidance
+└── .github/
+    ├── skills/[selected]         # Only what you chose
+    ├── agents/[selected]         # Only what you chose
+    └── rules/[selected]          # Only what you chose
 ```
 
-### `CLAUDE.md`
-Project guidance file with your selections listed:
-```markdown
-# CLAUDE.md
+## Features
 
-## Configuration
+### ✅ Selective Installation
+Install only the components you need - no clutter, no bloat.
+
+### ✅ Automatic Dependencies
+Dependencies are resolved automatically:
+```
+You select: git-workflow
+System adds: github MCP + Bash agent
+```
+
+### ✅ Update Mode
+Re-run setup to add or remove components:
+```bash
+claude-skills-setup  # or run setup.sh again
+# Choose "Update (add/remove)" when prompted
+```
+
+### ✅ Customization Tracking
+Modify installed components freely. Updates preserve your changes:
+```bash
+vim .github/skills/git-workflow/SKILL.md
+# Your customizations are tracked and preserved
+```
+
+### ✅ Local Extensions
+Add project-specific components via local registry:
+```bash
+# Create .claude/registry.local.json
+# Add your custom skills, agents, or rules
+# They appear in setup alongside central components
+```
+
+### ✅ Self-Contained Projects
+After installation, projects work offline. All components are copied locally.
+
+## Available Components
 
 ### MCP Servers
-- filesystem
-- github
+| Name | Description |
+|------|-------------|
+| **filesystem** | Local file operations |
+| **github** | GitHub API integration |
+| **postgres** | PostgreSQL database |
+| **docker** | Container management |
 
 ### Agents
-- Bash
-- Explore
-- Plan
+| Name | Description | View |
+|------|-------------|------|
+| **Bash** | Command execution specialist | [📄](/.github/agents/Bash/AGENT.md) |
+| **Explore** | Codebase analysis | |
+| **Plan** | Implementation planning | |
+| **general-purpose** | Multi-purpose research | |
 
-...
+### Skills
+| Name | Description | View |
+|------|-------------|------|
+| **git-workflow** | Git automation with conventional commits | [📄](/.github/skills/git-workflow/SKILL.md) |
+| **test-runner** | Test execution and coverage | |
+| **cicd-helper** | CI/CD automation | |
+| **doc-generator** | Documentation generation | |
+
+### Rules
+| Name | Description | View |
+|------|-------------|------|
+| **code-style** | Formatting and style guidelines | [📄](/.github/rules/code-style/RULE.md) |
+| **testing** | Test requirements and coverage | |
+| **security** | Security best practices | |
+| **documentation** | Documentation standards | |
+
+## Common Setups
+
+### Frontend Developer
+```
+MCP: filesystem, github
+Agents: Bash, Explore
+Skills: git-workflow, test-runner
+Rules: code-style, testing
 ```
 
-**That's it!** No other files are created, copied, or removed.
-
-## Full Example with Explicit Paths
-
-Let's say your project is at `/Users/john/projects/my-web-app`
-
-```bash
-# Step 1: Clone the .claude repo (do this anywhere)
-cd ~
-git clone https://github.com/Latros-io/.claude
-
-# Step 2: Go to YOUR project
-cd /Users/john/projects/my-web-app
-
-# Step 3: Copy the skill to your project
-cp -r ~/.claude/.github/skills/claude-setup .github/skills/
-
-# Step 4: Verify you're in your project directory
-pwd
-# Output: /Users/john/projects/my-web-app
-
-# Step 5: Run the setup
-./.github/skills/claude-setup/scripts/setup.sh
-
-# Step 6: Answer the 4 prompts
-# When asked: "Enter numbers (comma-separated):"
-# Type something like: 1,2
-
-# Step 7: Check what was created
-ls -la .claude/settings.local.json
-ls -la CLAUDE.md
+### Backend Developer
+```
+MCP: filesystem, github, postgres
+Agents: Bash, Explore, Plan
+Skills: git-workflow, test-runner, cicd-helper
+Rules: code-style, testing, security
 ```
 
-## The 4 Questions Explained
-
-### Question 1: MCP Servers
+### Full Stack Team
 ```
-Which MCP servers would you like to enable?
-1) filesystem
-2) github
-3) postgres
-4) docker
-
-Enter numbers (comma-separated):
+MCP: filesystem, github, postgres, docker
+Agents: Bash, Explore, Plan, general-purpose
+Skills: git-workflow, test-runner, cicd-helper, doc-generator
+Rules: code-style, testing, security, documentation
 ```
-**Type**: `1,2` (or any combination) then press Enter
-
-**What it does**: Adds those servers to your `.claude/settings.local.json` file
-
----
-
-### Question 2: Agents
-```
-Which agents would you like to enable?
-1) Bash
-2) Explore
-3) Plan
-4) general-purpose
-
-Enter numbers (comma-separated):
-```
-**Type**: `1,2,3` (or any combination) then press Enter
-
-**What it does**: Adds those agents to your configuration file
-
----
-
-### Question 3: Skills
-```
-Which skills would you like to enable?
-1) git-workflow
-2) test-runner
-3) cicd-helper
-4) doc-generator
-
-Enter numbers (comma-separated):
-```
-**Type**: `1,2` (or any combination) then press Enter
-
-**What it does**: Lists those skills in your configuration file
-
-**Note**: This doesn't create skill folders - it just tells Claude which skills you plan to use.
-
----
-
-### Question 4: Rules
-```
-Which rules would you like to configure?
-1) code-style
-2) testing
-3) documentation
-4) security
-
-Enter numbers (comma-separated):
-```
-**Type**: `1,2,3` (or any combination) then press Enter
-
-**What it does**: Lists those rules in your configuration file
-
-## Common Confusion Clarified
-
-❌ **WRONG**: "The skill copies all skills/agents/servers and removes what I don't select"
-
-✅ **CORRECT**: "The skill creates a JSON config file with only what I selected"
-
-The skill **only creates 2 text files** with your selections. It doesn't copy, install, or remove anything else.
-
-## Example Configurations
 
 ### Minimal Setup
 ```
-MCP: 1 (filesystem)
-Agents: 1,2 (Bash, Explore)
-Skills: 1 (git-workflow)
-Rules: (press Enter to skip)
+MCP: filesystem
+Agents: Bash
+Skills: git-workflow
+Rules: code-style
 ```
 
-### Full-Stack Web App
+## How It Works
+
+### Registry-Driven Architecture
+
 ```
-MCP: 1,2,3 (filesystem, github, postgres)
-Agents: 1,2,3,4 (all)
-Skills: 1,2,3,4 (all)
-Rules: 1,2,3,4 (all)
+┌─────────────────────────────────────┐
+│  Central Repository                 │
+│  (Claude Plugin)                    │
+│                                     │
+│  ├── registry.json   ← Catalog     │
+│  ├── .github/                       │
+│  │   ├── skills/    ← All skills   │
+│  │   ├── agents/    ← All agents   │
+│  │   └── rules/     ← All rules    │
+│  └── setup script                   │
+└─────────────────────────────────────┘
+              ↓
+      User runs setup
+              ↓
+┌─────────────────────────────────────┐
+│  Your Project                       │
+│                                     │
+│  ├── .claude/                       │
+│  │   ├── settings.local.json       │
+│  │   ├── installation.state.json   │
+│  │   └── registry.local.json       │
+│  ├── CLAUDE.md                      │
+│  └── .github/                       │
+│      ├── skills/    ← Only selected│
+│      ├── agents/    ← Only selected│
+│      └── rules/     ← Only selected│
+└─────────────────────────────────────┘
 ```
 
-### Data Science Project
-```
-MCP: 1,3 (filesystem, postgres)
-Agents: 1,2,4 (Bash, Explore, general-purpose)
-Skills: 2,4 (test-runner, doc-generator)
-Rules: 2,3 (testing, documentation)
-```
+### Three-Registry System
 
-## Using with Claude Code
+1. **Central Registry** (`registry.json`)
+   - Maintained in plugin repository
+   - Defines all available components
+   - Single source of truth
 
-After setup, when you use Claude Code in your project, it will read:
-- `.claude/settings.local.json` - To know your preferences
-- `CLAUDE.md` - To understand your project
+2. **Local Registry** (`.claude/registry.local.json`)
+   - Optional, project-specific
+   - Custom components
+   - Merged with central (local overrides)
 
-You can manually edit these files anytime!
+3. **Installation State** (`.claude/installation.state.json`)
+   - Tracks installed components
+   - Records versions and timestamps
+   - Lists customizations
 
-## Re-running Setup
+## Usage Examples
 
-To change your configuration, just run the script again:
+### Example 1: Fresh Setup
 
 ```bash
-# Make sure you're in your project directory
-cd /path/to/YOUR-PROJECT
+cd ~/my-new-project
+claude-skills-setup
 
-# Run setup again
-./.github/skills/claude-setup/scripts/setup.sh
+# Select components
+# Installation completes
+# Start using Claude Code with selected components
 ```
 
-It will overwrite the previous configuration files.
+### Example 2: Add Components Later
 
-## Directory Structure After Setup
-
-```
-YOUR-PROJECT/
-├── .github/
-│   └── skills/
-│       └── claude-setup/        # The skill (copied from .claude repo)
-│           ├── SKILL.md
-│           ├── scripts/
-│           │   └── setup.sh
-│           └── assets/
-├── .claude/
-│   └── settings.local.json      # ← Created by setup script
-├── CLAUDE.md                    # ← Created by setup script
-└── [your other project files]
-```
-
-## Troubleshooting
-
-### "No such file or directory"
-
-**Problem**: You're not in your project directory
-
-**Solution**:
 ```bash
-cd /path/to/YOUR-PROJECT
-pwd  # Verify you're in the right place
+cd ~/my-project
+claude-skills-setup
+
+# Choose "Update (add/remove)"
+# Select additional components
+# Existing components preserved
 ```
 
-### "Permission denied"
+### Example 3: Customize and Update
 
-**Problem**: Script not executable
-
-**Solution**:
 ```bash
-chmod +x .github/skills/claude-setup/scripts/setup.sh
+# Customize installed skill
+vim .github/skills/git-workflow/SKILL.md
+
+# Run update
+claude-skills-setup
+
+# Your customizations are detected and preserved
+# "File has been customized: .github/skills/git-workflow/SKILL.md"
+# "Overwrite? [y/N]:" → Choose 'N' to keep changes
 ```
 
-### "Command not found: ./.github/..."
+### Example 4: Custom Project-Specific Skill
 
-**Problem**: You're in the wrong directory
-
-**Solution**: Make sure you're in YOUR PROJECT directory, not the .claude repo:
 ```bash
-# Wrong (you're in the .claude repo)
-pwd
-# /Users/john/.claude
+# Create local registry
+cat > .claude/registry.local.json << 'EOF'
+{
+  "version": "1.0.0",
+  "components": {
+    "skills": {
+      "custom-deploy": {
+        "id": "custom-deploy",
+        "type": "skill",
+        "name": "Custom Deploy",
+        "description": "Project-specific deployment automation",
+        "version": "1.0.0",
+        "dependencies": {},
+        "files": [...]
+      }
+    }
+  }
+}
+EOF
 
-# Right (you're in your project)
-pwd
-# /Users/john/projects/my-web-app
+# Create skill files
+mkdir -p .github/skills/custom-deploy
+vim .github/skills/custom-deploy/SKILL.md
+
+# Run setup - custom skill appears in list
+claude-skills-setup
+```
+
+## Requirements
+
+- **Bash**: 4.0 or higher
+- **jq**: 1.5 or higher (JSON processor)
+- **OS**: macOS, Linux, or WSL on Windows
+
+### Install jq
+
+```bash
+# macOS
+brew install jq
+
+# Ubuntu/Debian
+sudo apt-get install jq
+
+# Fedora
+sudo dnf install jq
 ```
 
 ## Documentation
 
-- [QUICKSTART.md](QUICKSTART.md) - Quick reference
-- [Usage Guide](.github/skills/claude-setup/references/usage.md) - Detailed usage
-- [SKILL Definition](.github/skills/claude-setup/SKILL.md) - Skill metadata
+- **Quick Start**: [QUICKSTART.md](QUICKSTART.md) - 5-minute setup
+- **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md) - Add components
+- **Registry Schema**: [registry.json](registry.json) - Technical reference
 
-## Requirements
+## Contributing
 
-- Bash 4.0 or higher
-- Unix-like OS (macOS, Linux, WSL)
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Adding new skills, agents, or rules
+- Improving existing components
+- Documentation improvements
+- Bug fixes
 
-## Version
+## Philosophy
 
-1.0.0 - POC Release
+**Why selective installation?**
 
-## License
+1. **Slim Context**: Claude Code reads project files. Fewer files = faster, more focused responses
+2. **No Clutter**: Only see components you use
+3. **Clear Intent**: Installed components document project patterns
+4. **Easy Customization**: Modify without affecting unused components
+5. **Version Control Friendly**: Commit only what's needed
 
-MIT
+**Design Principles**:
+- Self-contained projects (work offline)
+- Explicit dependencies (no surprises)
+- Customization-aware (preserve modifications)
+- Update-friendly (safe to re-run)
+- Registry-driven (single source of truth)
+
+## Troubleshooting
+
+### Setup script not found
+
+```bash
+# Verify plugin installation
+ls ~/.claude-plugins/skills-registry
+
+# Or check manual installation
+ls ~/.claude/.github/skills/claude-setup/scripts/setup.sh
+```
+
+### jq not installed
+
+```bash
+# Install jq (see Requirements section)
+brew install jq  # macOS
+```
+
+### Components not working
+
+```bash
+# Verify installation
+cat .claude/installation.state.json
+
+# Check configuration
+cat .claude/settings.local.json
+
+# Re-run setup if needed
+claude-skills-setup
+```
 
 ## Support
 
-- [GitHub Issues](https://github.com/Latros-io/.claude/issues)
-- [Documentation](.github/skills/claude-setup/)
+- **Issues**: [GitHub Issues](https://github.com/Latros-io/.claude/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/.claude/discussions)
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file
+
+---
+
+**Version**: 2.0.0 (Registry-based selective installation)
+**Status**: Active Development
+**Last Updated**: 2026-01-15

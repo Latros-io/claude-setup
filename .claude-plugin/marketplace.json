@@ -1,0 +1,30 @@
+{
+  "displayName": "Claude Skills Registry",
+  "shortDescription": "Selective installation for skills, agents, and rules",
+  "longDescription": "A centralized registry of reusable components for Claude Code. Select and install only the skills, agents, and rules your project needs. Includes git-workflow, test-runner, code-style rules, and more. Keep your Claude Code context slim and focused.",
+  "category": "productivity",
+  "tags": [
+    "skills",
+    "agents",
+    "configuration",
+    "workflow",
+    "productivity"
+  ],
+  "screenshots": [],
+  "features": [
+    "Selective component installation",
+    "Automatic dependency resolution",
+    "Update mode to add/remove components",
+    "Customization tracking and preservation",
+    "Local registry for custom components",
+    "Self-contained projects"
+  ],
+  "requirements": {
+    "bash": "4.0+",
+    "jq": "1.5+"
+  },
+  "compatibility": {
+    "os": ["macos", "linux", "wsl"],
+    "claudeCode": ">=1.0.0"
+  }
+}

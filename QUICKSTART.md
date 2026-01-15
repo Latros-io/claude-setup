@@ -1,203 +1,317 @@
 # Quick Start Guide
 
-## What This Does
+Get up and running with Claude Code in 5 minutes.
 
-Creates **2 configuration files** in your project:
-- `.claude/settings.local.json`
-- `CLAUDE.md`
+## Prerequisites
 
-**No files are removed or modified** - only these 2 are created!
+- Git installed
+- Bash shell (macOS, Linux, or WSL on Windows)
+- `jq` installed (JSON processor)
 
----
-
-## Installation (5 Steps)
-
-### Step 1: Clone (anywhere)
+### Install jq
 
 ```bash
-cd ~
-git clone https://github.com/Latros-io/.claude
+# macOS
+brew install jq
+
+# Ubuntu/Debian
+sudo apt-get install jq
+
+# Fedora
+sudo dnf install jq
 ```
 
-### Step 2: Go to YOUR project
+## 5-Step Setup
+
+### Step 1: Clone the Repository
 
 ```bash
-cd /path/to/YOUR-PROJECT
+git clone https://github.com/Latros-io/.claude ~/.claude
 ```
 
-Example:
-```bash
-cd ~/projects/my-app
-```
+This creates `~/.claude/` with all available components.
 
-### Step 3: Copy the skill
+### Step 2: Navigate to Your Project
 
 ```bash
-cp -r ~/.claude/.github/skills/claude-setup .github/skills/
+cd /path/to/your-project
 ```
 
-### Step 4: Run setup (from YOUR project)
+### Step 3: Run Setup
 
 ```bash
-# Make sure you're in YOUR project directory!
-pwd
-
-# Run the setup
-./.github/skills/claude-setup/scripts/setup.sh
+~/.claude/.github/skills/claude-setup/scripts/setup.sh
 ```
 
-### Step 5: Answer 4 questions
+### Step 4: Select Components
+
+Answer 4 questions to select what you need:
+
+#### Question 1: MCP Servers
+```
+Which MCP servers would you like to enable?
+1) filesystem
+2) github
+3) postgres
+4) docker
+
+Enter numbers (comma-separated): 1,2
+```
+
+#### Question 2: Agents
+```
+Which agents would you like to enable?
+1) Bash
+2) Explore
+3) Plan
+4) general-purpose
+
+Enter numbers (comma-separated): 1,2
+```
+
+#### Question 3: Skills
+```
+Which skills would you like to enable?
+1) git-workflow
+2) test-runner
+3) cicd-helper
+4) doc-generator
+
+Enter numbers (comma-separated): 1,2
+```
+
+#### Question 4: Rules
+```
+Which rules would you like to enable?
+1) code-style
+2) testing
+3) security
+4) documentation
+
+Enter numbers (comma-separated): 1,2
+```
+
+### Step 5: Confirm Installation
 
 ```
-Question 1: MCP Servers? → Type: 1,2
-Question 2: Agents? → Type: 1,2,3
-Question 3: Skills? → Type: 1,2
-Question 4: Rules? → Type: 1,2,3
+Components to install:
+  - Filesystem MCP (mcpServers)
+  - GitHub MCP (mcpServers)
+  - Bash Agent (agents)
+  - Explore Agent (agents)
+  - Git Workflow (skills)
+  - Test Runner (skills)
+  - Code Style Rules (rules)
+  - Testing Rules (rules)
+
+Continue with installation? [Y/n]: y
 ```
 
-**Done!** ✓ Files created:
-- `.claude/settings.local.json`
-- `CLAUDE.md`
+## What Gets Created
 
----
+After installation, your project has:
 
-## Full Example
+```
+your-project/
+├── .claude/
+│   ├── settings.local.json       # Configuration
+│   ├── installation.state.json   # Tracking
+│   └── agents/                    # Agent configs
+│       ├── Bash.config.json
+│       └── Explore.config.json
+├── CLAUDE.md                      # Project guidance
+└── .github/
+    ├── skills/
+    │   ├── git-workflow/         # Installed skill
+    │   └── test-runner/          # Installed skill
+    ├── agents/
+    │   ├── Bash/                 # Installed agent
+    │   └── Explore/              # Installed agent
+    └── rules/
+        ├── code-style/           # Installed rule
+        └── testing/              # Installed rule
+```
 
-Let's say your project is `/Users/sarah/code/my-app`:
+## Common Setups
+
+### Frontend Developer
+
+```
+MCP Servers: filesystem, github
+Agents: Bash, Explore
+Skills: git-workflow, test-runner
+Rules: code-style, testing
+```
+
+### Backend Developer
+
+```
+MCP Servers: filesystem, github, postgres
+Agents: Bash, Explore, Plan
+Skills: git-workflow, test-runner, cicd-helper
+Rules: code-style, testing, security
+```
+
+### Full Stack Team
+
+```
+MCP Servers: filesystem, github, postgres, docker
+Agents: Bash, Explore, Plan, general-purpose
+Skills: git-workflow, test-runner, cicd-helper, doc-generator
+Rules: code-style, testing, security, documentation
+```
+
+### Minimal Setup
+
+```
+MCP Servers: filesystem
+Agents: Bash
+Skills: git-workflow
+Rules: code-style
+```
+
+## Next Steps
+
+### Use Claude Code
+
+With components installed, Claude Code can now:
+- Execute bash commands (Bash agent)
+- Explore your codebase (Explore agent)
+- Follow git workflow patterns (git-workflow skill)
+- Run tests automatically (test-runner skill)
+- Enforce code style (code-style rule)
+
+### Update Installation
+
+Add or remove components later:
 
 ```bash
-# Step 1: Clone .claude repo
-cd ~
-git clone https://github.com/Latros-io/.claude
-
-# Step 2: Go to YOUR project
-cd /Users/sarah/code/my-app
-
-# Step 3: Copy skill
-cp -r ~/.claude/.github/skills/claude-setup .github/skills/
-
-# Step 4: Check you're in the right place
-pwd
-# Should show: /Users/sarah/code/my-app
-
-# Step 5: Run setup
-./.github/skills/claude-setup/scripts/setup.sh
-
-# Step 6: Answer prompts
-# Type: 1,2 (then Enter)
-# Type: 1,2,3 (then Enter)
-# Type: 1,2 (then Enter)
-# Type: 1,2,3 (then Enter)
-
-# Step 7: Verify
-ls -la .claude/settings.local.json
-ls -la CLAUDE.md
+~/.claude/.github/skills/claude-setup/scripts/setup.sh
 ```
 
----
+Choose "Update (add/remove)" when prompted.
 
-## What Each Question Does
+### Customize Components
 
-### Q1: MCP Servers → Adds to JSON
-```
-1) filesystem → "filesystem": {}
-2) github → "github": {}
-3) postgres → "postgres": {}
-4) docker → "docker": {}
-```
+Edit installed components:
 
-### Q2: Agents → Adds to JSON
-```
-1) Bash → "Bash"
-2) Explore → "Explore"
-3) Plan → "Plan"
-4) general-purpose → "general-purpose"
+```bash
+# Customize git commit style
+vim .github/skills/git-workflow/SKILL.md
+
+# Adjust code style rules
+vim .claude/rules/code-style.config.json
 ```
 
-### Q3: Skills → Adds to JSON
-```
-1) git-workflow → "git-workflow"
-2) test-runner → "test-runner"
-3) cicd-helper → "cicd-helper"
-4) doc-generator → "doc-generator"
+### Add Custom Components
+
+Create project-specific components:
+
+```bash
+# Create local registry
+vim .claude/registry.local.json
+
+# Add your custom skill
+mkdir -p .github/skills/my-custom-skill
+vim .github/skills/my-custom-skill/SKILL.md
+
+# Re-run setup to register it
+~/.claude/.github/skills/claude-setup/scripts/setup.sh
 ```
 
-### Q4: Rules → Adds to JSON
-```
-1) code-style → "code-style"
-2) testing → "testing"
-3) documentation → "documentation"
-4) security → "security"
+## Verification
+
+### Check Installation
+
+```bash
+# View installed components
+cat .claude/installation.state.json | jq '.components | keys'
+
+# View configuration
+cat .claude/settings.local.json | jq '.'
+
+# List installed skills
+ls -la .github/skills/
+
+# List installed agents
+ls -la .github/agents/
+
+# List installed rules
+ls -la .github/rules/
 ```
 
----
+### Test Components
 
-## Quick Configs
+```bash
+# Test Bash agent (should work if installed)
+# Ask Claude: "List all JavaScript files"
 
-**Minimal**
-```
-Q1: 1
-Q2: 1,2
-Q3: 1
-Q4: (press Enter to skip)
-```
+# Test git-workflow skill (should work if installed)
+# Ask Claude: "Commit these changes with a conventional commit message"
 
-**Full Stack**
+# Test Explore agent (should work if installed)
+# Ask Claude: "Explore the codebase and explain the architecture"
 ```
-Q1: 1,2,3
-Q2: 1,2,3,4
-Q3: 1,2,3,4
-Q4: 1,2,3,4
-```
-
-**Data Science**
-```
-Q1: 1,3
-Q2: 1,2,4
-Q3: 2,4
-Q4: 2,3
-```
-
----
 
 ## Troubleshooting
 
-**Error: "No such file or directory"**
-→ You're not in YOUR project directory
+### Setup script not found
+
 ```bash
-cd /path/to/YOUR-PROJECT
-pwd  # Check you're in the right place
+# Ensure you cloned to the right location
+ls ~/.claude/.github/skills/claude-setup/scripts/setup.sh
+
+# If not found, clone again
+git clone https://github.com/Latros-io/.claude ~/.claude
 ```
 
-**Error: "Permission denied"**
-→ Make script executable
+### jq command not found
+
 ```bash
-chmod +x .github/skills/claude-setup/scripts/setup.sh
+# Install jq (see Prerequisites section above)
+brew install jq  # macOS
 ```
 
-**Wrong directory?**
-```bash
-# ❌ Wrong (in .claude repo)
-pwd → /Users/you/.claude
+### Permission denied
 
-# ✅ Right (in your project)
-pwd → /Users/you/projects/my-app
+```bash
+# Make setup script executable
+chmod +x ~/.claude/.github/skills/claude-setup/scripts/setup.sh
+
+# Run again
+~/.claude/.github/skills/claude-setup/scripts/setup.sh
 ```
+
+### Components not working
+
+```bash
+# Verify installation state
+cat .claude/installation.state.json
+
+# Check configuration
+cat .claude/settings.local.json
+
+# Re-run setup if needed
+~/.claude/.github/skills/claude-setup/scripts/setup.sh
+```
+
+## More Information
+
+- **Detailed Guide**: See [README.md](README.md) for complete documentation
+- **Visual Walkthrough**: See [HOWTO.md](HOWTO.md) for step-by-step diagrams
+- **Contributing**: See [CONTRIBUTING.md](CONTRIBUTING.md) to add components
+
+## Quick Reference
+
+| Command | Purpose |
+|---------|---------|
+| `~/.claude/.github/skills/claude-setup/scripts/setup.sh` | Run setup wizard |
+| `cat .claude/installation.state.json` | View installed components |
+| `cat .claude/settings.local.json` | View configuration |
+| `ls .github/skills/` | List installed skills |
+| `ls .github/agents/` | List installed agents |
+| `ls .github/rules/` | List installed rules |
 
 ---
 
-## What's Created
-
-```
-YOUR-PROJECT/
-├── .github/skills/claude-setup/  # Skill (copied)
-├── .claude/
-│   └── settings.local.json       # ← NEW (created by setup)
-└── CLAUDE.md                     # ← NEW (created by setup)
-```
-
----
-
-## Need More Help?
-
-See [README.md](README.md) for detailed documentation.
+**Need Help?** Open an issue at [github.com/Latros-io/.claude/issues](https://github.com/Latros-io/.claude/issues)
