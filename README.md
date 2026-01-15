@@ -23,27 +23,53 @@ A **centralized registry** of reusable components for Claude Code projects:
 
 ## Installation
 
-Inside a Claude Code instance, run the following commands:
+You can install using either the Claude Code CLI or within a Claude Code session:
 
-### Step 1: Add the marketplace
+### Option 1: Using Claude Code CLI (Recommended)
 
+```bash
+# Add the marketplace
+claude plugin marketplace add Latros-io/claude-setup
+
+# Install the plugin
+claude plugin install claude-skills
+
+# Verify installation
+claude plugin marketplace list
 ```
-/plugin marketplace add Latros-io/claude-setup
-```
 
-### Step 2: Install the plugin
-
-```
-/plugin install claude-skills
-```
-
-### Step 3: Run setup
-
+Then in your Claude Code session, run:
 ```
 /claude-skills:setup
 ```
 
+### Option 2: Within Claude Code Session
+
+Inside a Claude Code instance, run:
+
+```
+/plugin marketplace add Latros-io/claude-setup
+/plugin install claude-skills
+/claude-skills:setup
+```
+
 Done! The setup wizard starts immediately — no restart needed.
+
+### Verification
+
+To verify the plugin was installed successfully:
+
+```bash
+# List installed plugins
+claude plugin list
+
+# Update the marketplace to get latest changes
+claude plugin marketplace update claude-skills-registry
+
+# The /claude-skills:setup command should now be available
+```
+
+**Note**: If you don't see the command, try restarting your Claude Code session.
 
 ## Quick Start
 
@@ -431,12 +457,29 @@ cat .claude/settings.local.json
 ### Setup command not found
 
 ```bash
-# Verify plugin is installed
-/plugin list
+# Verify plugin is installed - check both CLI and within Claude Code
+claude plugin install claude-skills  # Use CLI command format
 
-# Should show "claude-skills" in the list
-# If not, reinstall:
-/plugin install claude-skills
+# Verify marketplace is added
+claude plugin marketplace list
+
+# Update marketplace cache to get latest version
+claude plugin marketplace update claude-skills-registry
+
+# If command still not available, restart Claude Code session
+```
+
+### Installation validation error
+
+If you see "Invalid schema" or "commands: Invalid input" errors:
+
+```bash
+# This usually means you're trying to add an older version
+# Update the marketplace to get the latest fixes:
+claude plugin marketplace update claude-skills-registry
+
+# Then try installing again:
+claude plugin install claude-skills
 ```
 
 ## Support
