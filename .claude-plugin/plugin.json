@@ -18,14 +18,5 @@
     "selective-installation",
     "configuration",
     "claude-code"
-  ],
-  "commands": {
-    "install": {
-      "description": "Copy and merge skills, agents, and rules into the target repository",
-      "command": ".claude-plugin/install.sh"
-    }
-  },
-  "hooks": {
-    "postInstall": ".claude-plugin/install.sh --skip-existing"
-  }
+  ]
 }

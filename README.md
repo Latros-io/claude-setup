@@ -38,7 +38,16 @@ claude plugin install claude-skills
 claude plugin marketplace list
 ```
 
-Then in your Claude Code session, run:
+Then run the installation script to copy skills, agents, and rules:
+```bash
+# Navigate to your project directory
+cd /path/to/your/project
+
+# Run the install script
+~/.claude/plugins/claude-skills/.claude-plugin/install.sh --skip-existing
+```
+
+Finally, in your Claude Code session, run:
 ```
 /claude-skills:setup
 ```
@@ -52,8 +61,12 @@ Inside a Claude Code instance, run:
 /plugin install claude-skills
 ```
 
-Done! The plugin automatically copies all skills, agents, and rules to your repository during installation. Then run the setup wizard:
+Then ask Claude to run the installation:
+```
+Please run the installation script from ~/.claude/plugins/claude-skills/.claude-plugin/install.sh with --skip-existing flag to copy the skills to this repository.
+```
 
+Finally, run the setup wizard:
 ```
 /claude-skills:setup
 ```
@@ -78,23 +91,23 @@ claude plugin marketplace update claude-skills-registry
 
 ## How Installation Works
 
-When you install the plugin, it automatically:
+After installing the plugin, you run the installation script which:
 
 1. **Copies all components** from the plugin to your project's `.github` directory
-2. **Preserves existing files** - if a skill/agent/rule already exists, it's skipped
+2. **Preserves existing files** - if a skill/agent/rule already exists, it's skipped (with `--skip-existing`)
 3. **Merges intelligently** - new components are added without overwriting your customizations
 
-You can manually run the installation script with different options:
+The installation script is located at `~/.claude/plugins/claude-skills/.claude-plugin/install.sh` and supports different modes:
 
 ```bash
 # Interactive mode (prompts for each conflict)
-/claude-skills:install
+~/.claude/plugins/claude-skills/.claude-plugin/install.sh
 
-# Skip existing files (default during plugin install)
-/claude-skills:install --skip-existing
+# Skip existing files (recommended for first install)
+~/.claude/plugins/claude-skills/.claude-plugin/install.sh --skip-existing
 
 # Force overwrite all files
-/claude-skills:install --force
+~/.claude/plugins/claude-skills/.claude-plugin/install.sh --force
 ```
 
 ## Quick Start
