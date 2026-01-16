@@ -4,7 +4,7 @@
 
 **Keep your Claude Code context slim and focused** by installing only the components your project needs.
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/Latros-io/claude-setup)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/Latros-io/claude-setup)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/claude--code-plugin-purple.svg)](https://claude.ai/code)
 
@@ -50,10 +50,15 @@ Inside a Claude Code instance, run:
 ```
 /plugin marketplace add Latros-io/claude-setup
 /plugin install claude-skills
+```
+
+Done! The plugin automatically copies all skills, agents, and rules to your repository during installation. Then run the setup wizard:
+
+```
 /claude-skills:setup
 ```
 
-Done! The setup wizard starts immediately — no restart needed.
+No restart needed.
 
 ### Verification
 
@@ -70,6 +75,27 @@ claude plugin marketplace update claude-skills-registry
 ```
 
 **Note**: If you don't see the command, try restarting your Claude Code session.
+
+## How Installation Works
+
+When you install the plugin, it automatically:
+
+1. **Copies all components** from the plugin to your project's `.github` directory
+2. **Preserves existing files** - if a skill/agent/rule already exists, it's skipped
+3. **Merges intelligently** - new components are added without overwriting your customizations
+
+You can manually run the installation script with different options:
+
+```bash
+# Interactive mode (prompts for each conflict)
+/claude-skills:install
+
+# Skip existing files (default during plugin install)
+/claude-skills:install --skip-existing
+
+# Force overwrite all files
+/claude-skills:install --force
+```
 
 ## Quick Start
 
@@ -493,6 +519,6 @@ MIT License - see [LICENSE](LICENSE) file
 
 ---
 
-**Version**: 2.0.0 (Registry-based selective installation)
+**Version**: 2.1.0 (Auto-install with merge support)
 **Status**: Active Development
-**Last Updated**: 2026-01-15
+**Last Updated**: 2026-01-16

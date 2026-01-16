@@ -1,7 +1,7 @@
 {
   "name": "claude-skills",
   "description": "Selective installation system for Claude Code skills, agents, and rules - install only what you need to keep context slim and focused",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "Latros.io",
     "url": "https://github.com/Latros-io"
@@ -18,5 +18,14 @@
     "selective-installation",
     "configuration",
     "claude-code"
-  ]
+  ],
+  "commands": {
+    "install": {
+      "description": "Copy and merge skills, agents, and rules into the target repository",
+      "command": ".claude-plugin/install.sh"
+    }
+  },
+  "hooks": {
+    "postInstall": ".claude-plugin/install.sh --skip-existing"
+  }
 }
