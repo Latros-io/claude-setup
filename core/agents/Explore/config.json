@@ -1,0 +1,70 @@
+{
+  "name": "Explore",
+  "type": "agent",
+  "version": "1.0.0",
+  "description": "Fast agent specialized for exploring codebases, finding files by patterns, searching for keywords, and answering questions about code structure.",
+  "category": "core",
+  "tags": ["codebase", "exploration", "search", "analysis"],
+  "dependencies": {
+    "tools": ["Glob", "Grep", "Read"],
+    "agents": []
+  },
+  "config": {
+    "defaultThoroughness": "medium",
+    "thoroughnessLevels": {
+      "quick": {
+        "maxFilesToRead": 10,
+        "maxSearchDepth": 3,
+        "description": "Basic searches, good for finding specific files or patterns"
+      },
+      "medium": {
+        "maxFilesToRead": 30,
+        "maxSearchDepth": 5,
+        "description": "Moderate exploration, good for understanding component structure"
+      },
+      "thorough": {
+        "maxFilesToRead": 100,
+        "maxSearchDepth": null,
+        "description": "Comprehensive analysis across multiple locations and naming conventions"
+      }
+    },
+    "defaultIgnorePatterns": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.git/**",
+      "**/coverage/**",
+      "**/*.min.js",
+      "**/*.map"
+    ]
+  },
+  "usage": {
+    "whenToUse": [
+      "Finding files by pattern (e.g., 'src/components/**/*.tsx')",
+      "Searching for keywords across codebase",
+      "Understanding code structure and organization",
+      "Locating specific functions, classes, or modules",
+      "Answering questions about codebase architecture"
+    ],
+    "whenNotToUse": [
+      "Reading a specific known file path (use Read tool)",
+      "Searching within 2-3 specific files (use Read tool)",
+      "Finding a specific class definition (use Glob tool)",
+      "Tasks requiring code modification"
+    ]
+  },
+  "examples": [
+    {
+      "query": "Where are errors from the client handled?",
+      "approach": "Search for error handling patterns, examine client-related files"
+    },
+    {
+      "query": "Find all React components that use hooks",
+      "approach": "Search for files with .tsx/.jsx extension, grep for useState/useEffect"
+    },
+    {
+      "query": "What is the codebase structure?",
+      "approach": "Examine directory layout, key configuration files, main entry points"
+    }
+  ]
+}

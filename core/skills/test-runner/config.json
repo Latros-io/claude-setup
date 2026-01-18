@@ -1,0 +1,59 @@
+{
+  "auto_detect_framework": true,
+  "watch_mode": false,
+  "coverage": false,
+  "parallel": true,
+  "frameworks": {
+    "jest": {
+      "command": "npm test",
+      "watch": "npm test -- --watch",
+      "coverage": "npm test -- --coverage",
+      "single": "npm test -- {path}"
+    },
+    "vitest": {
+      "command": "npx vitest run",
+      "watch": "npx vitest",
+      "coverage": "npx vitest run --coverage",
+      "single": "npx vitest {path}"
+    },
+    "pytest": {
+      "command": "pytest",
+      "watch": "pytest-watch",
+      "coverage": "pytest --cov",
+      "single": "pytest {path}"
+    },
+    "mocha": {
+      "command": "npm test",
+      "watch": "npm test -- --watch",
+      "coverage": "nyc npm test",
+      "single": "npm test -- {path}"
+    },
+    "go": {
+      "command": "go test ./...",
+      "watch": "gotestsum --watch",
+      "coverage": "go test -cover ./...",
+      "single": "go test {path}"
+    },
+    "cargo": {
+      "command": "cargo test",
+      "watch": "cargo watch -x test",
+      "coverage": "cargo tarpaulin",
+      "single": "cargo test {name}"
+    }
+  },
+  "run_after_changes": false,
+  "fail_fast": false,
+  "verbose": false,
+  "timeout": 300,
+  "retry_failed": false,
+  "max_retries": 2,
+  "coverage_threshold": 80,
+  "test_patterns": [
+    "**/*.test.js",
+    "**/*.test.ts",
+    "**/*.spec.js",
+    "**/*.spec.ts",
+    "**/test_*.py",
+    "**/*_test.go"
+  ]
+}

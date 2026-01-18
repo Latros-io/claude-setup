@@ -1,0 +1,22 @@
+{
+  "name": "minimal",
+  "description": "Barebones setup for simple scripts and small projects",
+  "version": "3.0.0",
+  "mcpServers": [
+    "filesystem"
+  ],
+  "agents": [
+    "Bash"
+  ],
+  "skills": [
+    "git-workflow"
+  ],
+  "rules": [
+    "code-style"
+  ],
+  "settings": {
+    "autoSave": true,
+    "suggestionMode": "manual",
+    "verbosity": "normal"
+  }
+}

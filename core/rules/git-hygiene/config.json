@@ -1,0 +1,87 @@
+{
+  "name": "git-hygiene",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "Git workflow and repository hygiene best practices",
+  "category": "workflow",
+  "tags": ["git", "version-control", "commits", "branches", "workflow"],
+  "enforcement": "warning",
+  "severity_levels": {
+    "commit_message_quality": "warning",
+    "large_files": "error",
+    "force_push_main": "critical",
+    "gitignore_completeness": "info",
+    "branch_naming": "info"
+  },
+  "rules": {
+    "meaningful_commit_messages": {
+      "enabled": true,
+      "min_length": 10,
+      "format": "conventional_commits",
+      "require_body_for_large_changes": true
+    },
+    "no_large_files": {
+      "enabled": true,
+      "max_size_mb": 50,
+      "exceptions": ["*.zip", "*.tar.gz"],
+      "use_lfs_for_large_assets": true
+    },
+    "proper_gitignore": {
+      "enabled": true,
+      "check_common_patterns": true,
+      "no_committed_secrets": true,
+      "no_build_artifacts": true
+    },
+    "branch_naming_conventions": {
+      "enabled": true,
+      "patterns": [
+        "feature/<description>",
+        "fix/<description>",
+        "hotfix/<description>",
+        "release/<version>"
+      ],
+      "allow_custom": true
+    },
+    "no_force_push_protected": {
+      "enabled": true,
+      "protected_branches": ["main", "master", "production"],
+      "warn_on_force_push": true
+    },
+    "atomic_commits": {
+      "enabled": true,
+      "one_logical_change": true,
+      "group_related_changes": true
+    },
+    "clean_history": {
+      "enabled": true,
+      "squash_before_merge": "optional",
+      "no_merge_commits_in_main": false
+    }
+  },
+  "integration": {
+    "works_with": ["git-workflow skill", "code-review", "ci-cd"],
+    "pre_commit_hooks": true,
+    "branch_protection": true
+  },
+  "when_to_apply": [
+    "Every commit",
+    "Before pushing",
+    "Pull request creation",
+    "Branch merges",
+    "Repository setup"
+  ],
+  "examples": {
+    "good": [
+      "Descriptive commit messages with context",
+      "Properly configured .gitignore",
+      "Feature branches with clear names",
+      "Atomic commits with single purpose"
+    ],
+    "bad": [
+      "Commit messages like 'fix', 'update', 'wip'",
+      "Committed node_modules or build artifacts",
+      "Force pushing to main branch",
+      "Binary files without Git LFS"
+    ]
+  }
+}

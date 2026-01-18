@@ -1,0 +1,97 @@
+{
+  "name": "Frontend",
+  "type": "agent",
+  "version": "1.0.0",
+  "description": "Specialized agent for frontend web development, including React, Vue, HTML/CSS, bundling, and accessibility best practices.",
+  "category": "web",
+  "tags": ["frontend", "react", "vue", "html", "css", "bundling", "accessibility", "responsive"],
+  "dependencies": {
+    "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+    "mcpServers": ["browser"],
+    "skills": ["ui-component-gen", "api-testing", "bundle-optimizer"],
+    "rules": ["web-security", "performance", "accessibility"]
+  },
+  "config": {
+    "frameworkPreference": "auto-detect",
+    "bundlers": ["vite", "webpack", "rollup", "parcel"],
+    "styleApproaches": ["css-modules", "styled-components", "tailwind", "sass"],
+    "testingTools": ["jest", "vitest", "testing-library", "playwright"],
+    "accessibilityStandards": ["WCAG 2.1 AA"],
+    "browserTargets": ["modern", "es2020+"],
+    "optimizeBundle": true,
+    "checkAccessibility": true
+  },
+  "usage": {
+    "whenToUse": [
+      "Building or modifying React/Vue components",
+      "Implementing responsive layouts and CSS",
+      "Setting up or optimizing build tools (Vite, Webpack)",
+      "Ensuring accessibility compliance (ARIA, keyboard navigation)",
+      "Debugging frontend rendering issues",
+      "Optimizing bundle size and performance",
+      "Creating component libraries or design systems",
+      "Implementing client-side routing and state management"
+    ],
+    "whenNotToUse": [
+      "Backend API development (use Backend agent)",
+      "Database operations (use Database agent)",
+      "Infrastructure deployment (use DevOps agent)",
+      "Pure design work without implementation"
+    ]
+  },
+  "expertise": {
+    "frameworks": [
+      "React (hooks, context, custom hooks)",
+      "Vue (composition API, reactivity)",
+      "Next.js (SSR, SSG, API routes)",
+      "Nuxt.js (Vue-based SSR)"
+    ],
+    "styling": [
+      "CSS3 (flexbox, grid, animations)",
+      "CSS-in-JS (styled-components, emotion)",
+      "Utility-first (Tailwind CSS)",
+      "Preprocessors (SASS, LESS)",
+      "CSS Modules"
+    ],
+    "tooling": [
+      "Bundlers (Vite, Webpack, Rollup)",
+      "Package managers (npm, yarn, pnpm)",
+      "Linters (ESLint, Stylelint)",
+      "Formatters (Prettier)"
+    ],
+    "testing": [
+      "Unit testing (Jest, Vitest)",
+      "Component testing (React Testing Library)",
+      "E2E testing (Playwright, Cypress)",
+      "Visual regression testing"
+    ],
+    "accessibility": [
+      "WCAG compliance (A, AA, AAA)",
+      "ARIA attributes and roles",
+      "Keyboard navigation",
+      "Screen reader optimization",
+      "Color contrast and visual accessibility"
+    ],
+    "performance": [
+      "Code splitting and lazy loading",
+      "Bundle size optimization",
+      "Image optimization",
+      "Caching strategies",
+      "Core Web Vitals (LCP, FID, CLS)"
+    ]
+  },
+  "examples": [
+    {
+      "scenario": "Build accessible React form component",
+      "approach": "Create form with proper ARIA labels, keyboard navigation, error announcements, and validation feedback"
+    },
+    {
+      "scenario": "Optimize bundle size for production",
+      "approach": "Analyze bundle with webpack-bundle-analyzer, implement code splitting, tree-shaking, and dynamic imports"
+    },
+    {
+      "scenario": "Implement responsive navigation",
+      "approach": "Use CSS Grid/Flexbox for layout, mobile-first approach, hamburger menu for mobile, keyboard accessible"
+    }
+  ]
+}

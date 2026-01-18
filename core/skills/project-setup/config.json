@@ -1,0 +1,74 @@
+{
+  "claude_directory": ".claude",
+  "create_directories": true,
+  "auto_detect_project_type": true,
+  "structure": {
+    "agents": true,
+    "skills": true,
+    "rules": true,
+    "mcp_servers": true,
+    "templates": true
+  },
+  "default_agents": [
+    "Bash",
+    "Explore",
+    "GeneralPurpose"
+  ],
+  "default_skills": [
+    "git-workflow"
+  ],
+  "default_rules": [
+    "code-style"
+  ],
+  "mcp_servers": {
+    "auto_configure": false,
+    "recommended": [
+      "github",
+      "filesystem"
+    ]
+  },
+  "templates": {
+    "readme": true,
+    "gitignore": true,
+    "editorconfig": true,
+    "eslintrc": false,
+    "prettierrc": false,
+    "tsconfig": false
+  },
+  "project_types": {
+    "javascript": {
+      "detect": ["package.json"],
+      "templates": ["eslintrc", "prettierrc"],
+      "skills": ["test-runner", "doc-generator"],
+      "rules": ["code-style"]
+    },
+    "typescript": {
+      "detect": ["tsconfig.json", "package.json"],
+      "templates": ["eslintrc", "prettierrc", "tsconfig"],
+      "skills": ["test-runner", "doc-generator"],
+      "rules": ["code-style"]
+    },
+    "python": {
+      "detect": ["setup.py", "pyproject.toml", "requirements.txt"],
+      "templates": ["pyproject.toml"],
+      "skills": ["test-runner", "doc-generator"],
+      "rules": ["code-style"]
+    },
+    "go": {
+      "detect": ["go.mod"],
+      "templates": [],
+      "skills": ["test-runner", "doc-generator"],
+      "rules": ["code-style"]
+    },
+    "rust": {
+      "detect": ["Cargo.toml"],
+      "templates": [],
+      "skills": ["test-runner", "doc-generator"],
+      "rules": ["code-style"]
+    }
+  },
+  "interactive_setup": true,
+  "backup_existing": true,
+  "git_integration": true,
+  "create_gitignore_entry": true
+}

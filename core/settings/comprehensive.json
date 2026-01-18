@@ -1,0 +1,40 @@
+{
+  "name": "comprehensive",
+  "description": "Maximum assistance for large projects and enterprise applications",
+  "version": "3.0.0",
+  "mcpServers": [
+    "filesystem",
+    "github",
+    "postgres",
+    "docker"
+  ],
+  "agents": [
+    "Bash",
+    "Explore",
+    "Plan",
+    "GeneralPurpose"
+  ],
+  "skills": [
+    "git-workflow",
+    "test-runner",
+    "doc-generator",
+    "project-setup",
+    "refactor-helper"
+  ],
+  "rules": [
+    "code-style",
+    "testing",
+    "documentation",
+    "security",
+    "git-hygiene"
+  ],
+  "settings": {
+    "autoSave": true,
+    "suggestionMode": "auto",
+    "verbosity": "detailed",
+    "testOnSave": true,
+    "lintOnSave": true,
+    "securityScanning": true,
+    "performanceMonitoring": true
+  }
+}

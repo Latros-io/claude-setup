@@ -1,0 +1,29 @@
+{
+  "commit_style": "conventional",
+  "auto_pr_template": true,
+  "branch_naming": "feature/{description}",
+  "branch_types": [
+    "feature",
+    "fix",
+    "hotfix",
+    "refactor",
+    "docs",
+    "test"
+  ],
+  "commit_types": [
+    "feat",
+    "fix",
+    "docs",
+    "style",
+    "refactor",
+    "perf",
+    "test",
+    "chore"
+  ],
+  "max_subject_length": 50,
+  "max_body_line_length": 72,
+  "require_scope": false,
+  "require_body": false,
+  "auto_close_issues": true,
+  "enforce_conventional_commits": true
+}

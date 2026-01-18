@@ -1,0 +1,87 @@
+{
+  "name": "security",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "Security best practices to prevent common vulnerabilities",
+  "category": "security",
+  "tags": ["security", "vulnerabilities", "owasp", "secrets", "encryption"],
+  "enforcement": "error",
+  "severity_levels": {
+    "hardcoded_secrets": "critical",
+    "sql_injection": "critical",
+    "xss_prevention": "critical",
+    "insecure_dependencies": "error",
+    "missing_csrf": "warning"
+  },
+  "rules": {
+    "no_hardcoded_secrets": {
+      "enabled": true,
+      "check_for": ["passwords", "api_keys", "tokens", "private_keys"],
+      "use_environment_variables": true,
+      "use_secret_management": true
+    },
+    "sql_injection_prevention": {
+      "enabled": true,
+      "require_parameterized_queries": true,
+      "avoid_string_concatenation": true,
+      "use_orm_safely": true
+    },
+    "xss_prevention": {
+      "enabled": true,
+      "sanitize_user_input": true,
+      "escape_output": true,
+      "content_security_policy": true
+    },
+    "csrf_protection": {
+      "enabled": true,
+      "require_tokens": true,
+      "same_site_cookies": true
+    },
+    "secure_dependencies": {
+      "enabled": true,
+      "check_vulnerabilities": true,
+      "keep_updated": true,
+      "audit_regularly": true
+    },
+    "authentication_security": {
+      "enabled": true,
+      "hash_passwords": true,
+      "use_strong_algorithms": true,
+      "implement_rate_limiting": true
+    },
+    "data_encryption": {
+      "enabled": true,
+      "encrypt_sensitive_data": true,
+      "use_https": true,
+      "secure_data_at_rest": true
+    }
+  },
+  "standards": [
+    "OWASP Top 10",
+    "CWE Top 25",
+    "NIST Cybersecurity Framework"
+  ],
+  "when_to_apply": [
+    "All code changes",
+    "User input handling",
+    "Database queries",
+    "API endpoints",
+    "Authentication/Authorization",
+    "Data storage",
+    "Dependency updates"
+  ],
+  "examples": {
+    "good": [
+      "Environment variables for secrets",
+      "Parameterized database queries",
+      "Input validation and sanitization",
+      "HTTPS for all communications"
+    ],
+    "bad": [
+      "Hardcoded passwords in code",
+      "String concatenation in SQL queries",
+      "Unescaped user input in HTML",
+      "Outdated dependencies with known CVEs"
+    ]
+  }
+}

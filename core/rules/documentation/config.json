@@ -1,0 +1,79 @@
+{
+  "name": "documentation",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "Documentation standards for code and project maintainability",
+  "category": "quality",
+  "tags": ["documentation", "comments", "readme", "api-docs", "maintainability"],
+  "enforcement": "warning",
+  "severity_levels": {
+    "public_api_docs": "error",
+    "readme_required": "warning",
+    "complex_logic_comments": "info",
+    "changelog_updates": "warning"
+  },
+  "rules": {
+    "public_api_documentation": {
+      "enabled": true,
+      "require_for": ["functions", "classes", "methods", "exports"],
+      "include": ["description", "parameters", "return_value", "examples"]
+    },
+    "readme_requirements": {
+      "enabled": true,
+      "sections": [
+        "overview",
+        "installation",
+        "usage",
+        "api",
+        "contributing",
+        "license"
+      ],
+      "minimum_sections": ["overview", "installation", "usage"]
+    },
+    "inline_comments": {
+      "enabled": true,
+      "required_for": "complex_logic",
+      "explain_why": true,
+      "avoid_obvious": true
+    },
+    "changelog_updates": {
+      "enabled": true,
+      "format": "keep_a_changelog",
+      "update_on": ["features", "fixes", "breaking_changes"]
+    },
+    "code_examples": {
+      "enabled": true,
+      "require_for_public_api": true,
+      "include_edge_cases": true
+    }
+  },
+  "formats": {
+    "javascript": "jsdoc",
+    "typescript": "tsdoc",
+    "python": "docstring",
+    "java": "javadoc",
+    "rust": "rustdoc",
+    "go": "godoc"
+  },
+  "when_to_apply": [
+    "New public APIs",
+    "Complex algorithms",
+    "Project setup",
+    "Breaking changes",
+    "Feature releases"
+  ],
+  "examples": {
+    "good": [
+      "Clear function documentation with examples",
+      "README with quick start guide",
+      "Comments explaining non-obvious decisions",
+      "Updated CHANGELOG for releases"
+    ],
+    "bad": [
+      "No documentation for public functions",
+      "Comments that just repeat code",
+      "Missing or outdated README",
+      "No changelog entries for breaking changes"
+    ]
+  }
+}

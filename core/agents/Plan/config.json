@@ -1,0 +1,69 @@
+{
+  "name": "Plan",
+  "type": "agent",
+  "version": "1.0.0",
+  "description": "Software architect agent for designing implementation plans, identifying critical files, and considering architectural trade-offs before code changes.",
+  "category": "core",
+  "tags": ["architecture", "planning", "design", "implementation"],
+  "dependencies": {
+    "tools": ["Glob", "Grep", "Read", "AskUserQuestion"],
+    "agents": ["Explore"]
+  },
+  "config": {
+    "planningPhases": [
+      "exploration",
+      "analysis",
+      "design",
+      "approval"
+    ],
+    "outputFormat": "markdown",
+    "includeTradeoffs": true,
+    "identifyCriticalFiles": true,
+    "estimateComplexity": true
+  },
+  "usage": {
+    "whenToUse": [
+      "Before implementing new features",
+      "When multiple implementation approaches exist",
+      "For code modifications affecting existing behavior",
+      "When architectural decisions are needed",
+      "For multi-file changes (3+ files)",
+      "When requirements are unclear",
+      "When user preferences matter"
+    ],
+    "whenNotToUse": [
+      "Single-line or few-line fixes",
+      "Adding a single function with clear requirements",
+      "User has given very specific instructions",
+      "Pure research/exploration tasks",
+      "Trivial changes with obvious implementation"
+    ]
+  },
+  "planStructure": {
+    "sections": [
+      "Overview",
+      "Current State Analysis",
+      "Proposed Changes",
+      "Implementation Steps",
+      "Files to Modify",
+      "Architectural Considerations",
+      "Trade-offs",
+      "Testing Strategy",
+      "Rollback Plan"
+    ]
+  },
+  "examples": [
+    {
+      "scenario": "Add user authentication",
+      "approach": "Explore auth patterns, evaluate JWT vs sessions, design middleware structure"
+    },
+    {
+      "scenario": "Optimize database queries",
+      "approach": "Profile current queries, identify bottlenecks, propose indexing strategy"
+    },
+    {
+      "scenario": "Implement dark mode",
+      "approach": "Analyze theme system options, plan CSS variable strategy, identify affected components"
+    }
+  ]
+}

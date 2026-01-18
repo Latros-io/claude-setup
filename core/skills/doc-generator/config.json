@@ -1,0 +1,67 @@
+{
+  "auto_extract_comments": true,
+  "output_format": "markdown",
+  "include_private": false,
+  "include_examples": true,
+  "include_type_definitions": true,
+  "formats": {
+    "markdown": {
+      "enabled": true,
+      "template": "default",
+      "toc": true,
+      "badges": true
+    },
+    "html": {
+      "enabled": false,
+      "template": "default",
+      "theme": "clean",
+      "syntax_highlighting": true
+    },
+    "json": {
+      "enabled": false,
+      "pretty": true
+    }
+  },
+  "documentation_types": {
+    "api": {
+      "include_endpoints": true,
+      "include_parameters": true,
+      "include_responses": true,
+      "include_examples": true
+    },
+    "readme": {
+      "sections": [
+        "overview",
+        "installation",
+        "usage",
+        "api",
+        "examples",
+        "contributing",
+        "license"
+      ],
+      "auto_badges": true,
+      "auto_toc": true
+    },
+    "component": {
+      "include_props": true,
+      "include_events": true,
+      "include_slots": true,
+      "include_examples": true
+    }
+  },
+  "extraction_patterns": {
+    "jsdoc": true,
+    "tsdoc": true,
+    "docstring": true,
+    "javadoc": true,
+    "rustdoc": true,
+    "godoc": true
+  },
+  "output_directory": "./docs",
+  "file_naming": "{name}.md",
+  "update_existing": false,
+  "generate_index": true,
+  "link_related": true,
+  "include_source_links": true,
+  "include_changelog": false
+}

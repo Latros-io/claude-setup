@@ -1,0 +1,70 @@
+{
+  "name": "testing",
+  "type": "rule",
+  "version": "1.0.0",
+  "description": "Testing best practices and requirements for code quality",
+  "category": "quality",
+  "tags": ["testing", "quality", "coverage", "unit-tests", "integration-tests"],
+  "enforcement": "warning",
+  "severity_levels": {
+    "no_skipped_tests": "error",
+    "minimum_coverage": "warning",
+    "test_naming": "info",
+    "test_organization": "info"
+  },
+  "rules": {
+    "minimum_coverage": {
+      "enabled": true,
+      "threshold": 80,
+      "enforce_on_new_code": true
+    },
+    "test_naming_convention": {
+      "enabled": true,
+      "pattern": "descriptive",
+      "format": "should_describe_behavior"
+    },
+    "no_skipped_tests": {
+      "enabled": true,
+      "allow_with_issue": true,
+      "branches": ["main", "master", "production"]
+    },
+    "test_organization": {
+      "enabled": true,
+      "structure": "mirrors_source",
+      "group_by": "feature"
+    },
+    "required_test_types": {
+      "unit_tests": true,
+      "integration_tests": true,
+      "e2e_tests": false
+    }
+  },
+  "frameworks": {
+    "javascript": ["jest", "vitest", "mocha"],
+    "python": ["pytest", "unittest"],
+    "go": ["testing"],
+    "rust": ["cargo test"],
+    "java": ["junit", "testng"]
+  },
+  "when_to_apply": [
+    "All production code changes",
+    "New feature implementation",
+    "Bug fixes",
+    "Refactoring",
+    "Pull request reviews"
+  ],
+  "examples": {
+    "good": [
+      "Tests cover edge cases and error scenarios",
+      "Test names clearly describe expected behavior",
+      "Tests are isolated and don't depend on each other",
+      "Coverage meets minimum threshold"
+    ],
+    "bad": [
+      "Skipped tests without explanation",
+      "Generic test names like 'test1', 'test2'",
+      "Tests with external dependencies without mocks",
+      "Low or no test coverage"
+    ]
+  }
+}

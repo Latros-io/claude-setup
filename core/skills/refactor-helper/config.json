@@ -1,0 +1,67 @@
+{
+  "auto_run_tests": true,
+  "create_backup": true,
+  "validate_before_commit": true,
+  "operations": {
+    "rename_symbol": {
+      "enabled": true,
+      "update_imports": true,
+      "update_references": true,
+      "case_sensitive": true
+    },
+    "extract_function": {
+      "enabled": true,
+      "auto_parameters": true,
+      "preserve_comments": true,
+      "add_documentation": true
+    },
+    "extract_variable": {
+      "enabled": true,
+      "auto_name": false,
+      "const_by_default": true
+    },
+    "move_file": {
+      "enabled": true,
+      "update_imports": true,
+      "update_references": true,
+      "preserve_git_history": true
+    },
+    "inline_function": {
+      "enabled": true,
+      "remove_unused": true
+    },
+    "extract_interface": {
+      "enabled": true,
+      "export_by_default": true
+    }
+  },
+  "safety_checks": {
+    "check_dependencies": true,
+    "check_type_errors": true,
+    "check_lint_errors": true,
+    "run_tests": true,
+    "require_confirmation": false
+  },
+  "scope": {
+    "include_patterns": ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.go", "**/*.rs"],
+    "exclude_patterns": ["**/node_modules/**", "**/dist/**", "**/build/**", "**/.git/**"],
+    "follow_symlinks": false
+  },
+  "formatting": {
+    "auto_format": true,
+    "preserve_style": true,
+    "fix_imports": true,
+    "sort_imports": false
+  },
+  "rollback": {
+    "enabled": true,
+    "auto_rollback_on_failure": true,
+    "keep_backup_count": 5
+  },
+  "analysis": {
+    "show_impact": true,
+    "show_affected_files": true,
+    "estimate_complexity": true,
+    "suggest_improvements": true
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "name": "react",
+  "description": "Optimized setup for React development with testing, bundling, and accessibility support",
+  "version": "1.0.0",
+  "extends": "core/settings/standard.json",
+  "mcpServers": [
+    "filesystem",
+    "github",
+    "browser"
+  ],
+  "agents": [
+    "Bash",
+    "Explore",
+    "Plan",
+    "domains/web/agents/Frontend"
+  ],
+  "skills": [
+    "git-workflow",
+    "test-runner",
+    "doc-generator",
+    "domains/web/skills/api-testing",
+    "domains/web/skills/ui-component-gen",
+    "domains/web/skills/bundle-optimizer"
+  ],
+  "rules": [
+    "code-style",
+    "testing",
+    "documentation",
+    "domains/web/rules/web-security",
+    "domains/web/rules/performance",
+    "domains/web/rules/accessibility"
+  ],
+  "settings": {
+    "autoSave": true,
+    "suggestionMode": "auto",
+    "verbosity": "normal",
+    "testOnSave": true,
+    "lintOnSave": true,
+    "formatOnSave": true,
+    "bundleAnalysis": true,
+    "a11yChecks": true
+  },
+  "react": {
+    "version": "18+",
+    "typescript": true,
+    "strictMode": true,
+    "hooks": {
+      "preferHooks": true,
+      "enforceRulesOfHooks": true
+    },
+    "testing": {
+      "framework": "vitest",
+      "componentTesting": "@testing-library/react",
+      "e2e": "playwright",
+      "coverage": {
+        "enabled": true,
+        "threshold": 80
+      }
+    },
+    "bundler": {
+      "tool": "vite",
+      "optimization": {
+        "splitChunks": true,
+        "treeshake": true,
+        "minify": true
+      },
+      "devServer": {
+        "hmr": true,
+        "port": 5173
+      }
+    },
+    "styling": {
+      "approach": "css-modules",
+      "alternatives": ["styled-components", "tailwind"],
+      "cssPreprocessor": "none"
+    },
+    "linting": {
+      "eslint": {
+        "extends": [
+          "eslint:recommended",
+          "plugin:react/recommended",
+          "plugin:react-hooks/recommended",
+          "plugin:jsx-a11y/recommended"
+        ],
+        "plugins": ["react", "react-hooks", "jsx-a11y"]
+      },
+      "prettier": {
+        "enabled": true,
+        "singleQuote": true,
+        "semi": true,
+        "tabWidth": 2
+      }
+    },
+    "accessibility": {
+      "standard": "WCAG 2.1 AA",
+      "checkOnBuild": true,
+      "axeCore": true,
+      "eslintPlugin": "jsx-a11y"
+    },
+    "performance": {
+      "budgets": {
+        "maxBundleSize": "250kb",
+        "maxChunkSize": "100kb"
+      },
+      "lazyLoading": true,
+      "codesplitting": true,
+      "metrics": ["LCP", "FID", "CLS"]
+    },
+    "stateManagement": {
+      "preferred": "context",
+      "alternatives": ["redux", "zustand", "jotai"],
+      "serverState": "react-query"
+    }
+  },
+  "browserTargets": {
+    "development": ["last 1 chrome version", "last 1 firefox version"],
+    "production": ["> 0.5%", "last 2 versions", "not dead", "not ie 11"]
+  },
+  "recommendations": {
+    "dependencies": [
+      "react@^18.0.0",
+      "react-dom@^18.0.0",
+      "react-router-dom@^6.0.0"
+    ],
+    "devDependencies": [
+      "vite@^5.0.0",
+      "vitest@^1.0.0",
+      "@testing-library/react@^14.0.0",
+      "@testing-library/jest-dom@^6.0.0",
+      "playwright@^1.40.0",
+      "eslint@^8.0.0",
+      "eslint-plugin-react@^7.33.0",
+      "eslint-plugin-react-hooks@^4.6.0",
+      "eslint-plugin-jsx-a11y@^6.8.0",
+      "prettier@^3.0.0",
+      "@axe-core/react@^4.8.0"
+    ]
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
+    "analyze": "vite-bundle-visualizer"
+  }
+}

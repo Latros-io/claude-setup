@@ -1,0 +1,57 @@
+{
+  "name": "GeneralPurpose",
+  "type": "agent",
+  "version": "1.0.0",
+  "description": "Multi-purpose agent for researching complex questions, searching for code, and executing multi-step tasks that don't fit specialized agents.",
+  "category": "core",
+  "tags": ["research", "multi-step", "general", "flexible"],
+  "dependencies": {
+    "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+    "agents": []
+  },
+  "config": {
+    "maxToolCalls": 50,
+    "allowFileModification": true,
+    "allowCommandExecution": true,
+    "autoIterative": true
+  },
+  "usage": {
+    "whenToUse": [
+      "Complex multi-step tasks requiring iteration",
+      "Tasks combining research and implementation",
+      "When you need multiple tool types (read + write + execute)",
+      "Open-ended problems requiring exploration",
+      "Tasks that don't fit other specialized agents"
+    ],
+    "whenNotToUse": [
+      "Simple file reads (use Read tool)",
+      "Pure codebase exploration (use Explore agent)",
+      "Implementation planning (use Plan agent)",
+      "Simple command execution (use Bash tool)",
+      "Tasks that match a specialized agent"
+    ]
+  },
+  "capabilities": [
+    "Multi-step research and analysis",
+    "File reading, writing, and editing",
+    "Command execution",
+    "Iterative problem-solving",
+    "Complex code searches",
+    "Cross-file refactoring",
+    "Data extraction and transformation"
+  ],
+  "examples": [
+    {
+      "task": "Find all TODO comments and create a summary report",
+      "approach": "Search for TODOs, categorize by file/priority, generate markdown report"
+    },
+    {
+      "task": "Update import paths after directory restructure",
+      "approach": "Find all import statements, identify old paths, update to new structure"
+    },
+    {
+      "task": "Analyze test coverage and suggest missing tests",
+      "approach": "Read test files, map to source files, identify untested modules"
+    }
+  ]
+}
