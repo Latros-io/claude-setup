@@ -1,0 +1,72 @@
+{
+  "name": "filesystem",
+  "description": "Provides secure filesystem access with read/write capabilities",
+  "version": "1.0.0",
+  "type": "stdio",
+  "command": "npx",
+  "args": [
+    "-y",
+    "@modelcontextprotocol/server-filesystem",
+    "/path/to/allowed/directory"
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "settings": {
+    "allowedDirectories": [
+      "/Users/yourusername/Documents",
+      "/Users/yourusername/Projects"
+    ],
+    "readOnly": false,
+    "maxFileSize": "10MB",
+    "excludePatterns": [
+      "node_modules/**",
+      ".git/**",
+      "*.log"
+    ]
+  },
+  "capabilities": [
+    "read_file",
+    "write_file",
+    "list_directory",
+    "create_directory",
+    "delete_file",
+    "search_files"
+  ],
+  "security": {
+    "notes": [
+      "Only grant access to specific directories you trust",
+      "Use readOnly mode for sensitive directories",
+      "Exclude sensitive files using excludePatterns",
+      "Never expose system directories like /etc or /usr",
+      "Review file operations in logs regularly"
+    ],
+    "recommendations": [
+      "Start with readOnly: true and enable write access as needed",
+      "Use absolute paths for allowedDirectories",
+      "Set maxFileSize to prevent memory issues",
+      "Monitor filesystem operations for unexpected behavior"
+    ]
+  },
+  "examples": [
+    {
+      "description": "Read-only access to project directory",
+      "config": {
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/yourusername/Projects"],
+        "settings": {
+          "readOnly": true
+        }
+      }
+    },
+    {
+      "description": "Full access with exclusions",
+      "config": {
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/yourusername/workspace"],
+        "settings": {
+          "readOnly": false,
+          "excludePatterns": ["node_modules/**", ".env*", "secrets/**"]
+        }
+      }
+    }
+  ]
+}

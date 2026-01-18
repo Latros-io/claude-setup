@@ -1,0 +1,801 @@
+{
+  "metadata": {
+    "schema_version": "3.0",
+    "last_updated": "2026-01-19",
+    "registry_version": "3.0.0",
+    "description": "Individual component version tracking with changelog summaries"
+  },
+  "core": {
+    "agents": {
+      "Bash": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-15",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-15",
+            "type": "initial",
+            "changes": [
+              "Migrated from v2.x plugin architecture",
+              "Enhanced command execution capabilities",
+              "Added timeout and output limit configurations",
+              "Improved error handling and logging"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "Migrated from plugin v2.x with same functionality"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Bash"]
+          }
+        }
+      },
+      "Explore": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Initial release as part of v3.0",
+              "Fast codebase exploration and analysis",
+              "Pattern-based file searching",
+              "Configurable depth and ignore patterns",
+              "Integration with filesystem MCP"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Glob", "Grep", "Read"],
+            "mcpServers": ["filesystem"]
+          }
+        }
+      },
+      "Plan": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Initial release as software architect agent",
+              "Implementation planning and design",
+              "Trade-off analysis",
+              "Configurable thoroughness levels",
+              "Integration with Explore agent"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Read", "Glob", "Grep"],
+            "mcpServers": ["filesystem"]
+          }
+        }
+      },
+      "GeneralPurpose": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Multi-purpose research and task execution",
+              "Flexible tool usage across all domains",
+              "Iterative problem-solving capabilities",
+              "High tool call limit for complex tasks",
+              "File modification and command execution"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"]
+          }
+        }
+      }
+    },
+    "skills": {
+      "git-workflow": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-15",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-15",
+            "type": "initial",
+            "changes": [
+              "Migrated from v2.x plugin architecture",
+              "Automated commit message generation",
+              "PR template support",
+              "Branch naming conventions",
+              "Conventional commits format"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "Migrated from plugin v2.x with same functionality"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Bash"],
+            "mcpServers": ["github"],
+            "agents": ["Bash"]
+          }
+        }
+      },
+      "test-runner": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Automated test execution across frameworks",
+              "Coverage analysis and reporting",
+              "Auto-detect test framework",
+              "Configurable coverage thresholds",
+              "Test template generation"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Bash"],
+            "agents": ["Bash"]
+          }
+        }
+      },
+      "doc-generator": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Automated documentation generation",
+              "Markdown format support",
+              "Table of contents generation",
+              "README template support",
+              "Code example inclusion"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Write", "Read", "Edit"],
+            "mcpServers": ["filesystem"]
+          }
+        }
+      },
+      "project-setup": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Automated project scaffolding",
+              "Multi-language support (JS, TS, Python, Go, Rust)",
+              "Auto-detect project type",
+              "Interactive setup mode",
+              "Default component selection",
+              "Git integration"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Write", "Bash"],
+            "mcpServers": ["filesystem"]
+          }
+        }
+      },
+      "refactor-helper": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Safe refactoring with validation",
+              "Multiple refactoring operations (rename, extract, inline)",
+              "Automatic backup creation",
+              "Test execution before commit",
+              "Rollback support on failure",
+              "Impact analysis and affected files report"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {
+            "tools": ["Read", "Edit", "Grep", "Bash"]
+          }
+        }
+      }
+    },
+    "rules": {
+      "code-style": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-15",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-15",
+            "type": "initial",
+            "changes": [
+              "Migrated from v2.x plugin architecture",
+              "Code formatting guidelines",
+              "Style guide templates",
+              "Good vs bad examples",
+              "Configurable indent and line length"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "Migrated from plugin v2.x with same functionality"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {}
+        }
+      },
+      "testing": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Test coverage requirements",
+              "Unit and integration test standards",
+              "Configurable coverage thresholds",
+              "Test requirement templates",
+              "Integration with test-runner skill"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {}
+        }
+      },
+      "documentation": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Documentation standards and requirements",
+              "Function documentation requirements",
+              "README requirements",
+              "Code example standards",
+              "Integration with doc-generator skill"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {}
+        }
+      },
+      "security": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "OWASP Top 10 security practices",
+              "Input validation enforcement",
+              "Dependency vulnerability checking",
+              "Secrets scanning",
+              "Security checklist templates",
+              "SQL injection prevention",
+              "XSS and CSRF protection guidelines"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {}
+        }
+      },
+      "git-hygiene": {
+        "version": "1.0.0",
+        "status": "stable",
+        "last_updated": "2026-01-19",
+        "changelog": {
+          "1.0.0": {
+            "date": "2026-01-19",
+            "type": "new",
+            "changes": [
+              "Git workflow best practices",
+              "Commit message standards (conventional commits)",
+              "Branch naming conventions",
+              "No large files enforcement",
+              "Protected branch safeguards",
+              "Atomic commits guidelines",
+              "Secrets detection in commits"
+            ],
+            "breaking_changes": [],
+            "migration_notes": "New component in v3.0"
+          }
+        },
+        "compatibility": {
+          "min_claude_code_version": "1.0.0",
+          "dependencies": {}
+        }
+      }
+    }
+  },
+  "domains": {
+    "web": {
+      "agents": {
+        "Frontend": {
+          "version": "1.0.0",
+          "status": "stable",
+          "last_updated": "2026-01-19",
+          "changelog": {
+            "1.0.0": {
+              "date": "2026-01-19",
+              "type": "new",
+              "changes": [
+                "Frontend development specialist agent",
+                "React and Vue framework support",
+                "HTML/CSS expertise",
+                "Bundler configuration (Vite, Webpack, Rollup)",
+                "Accessibility (WCAG 2.1 AA) compliance",
+                "Performance optimization (Core Web Vitals)",
+                "Component testing integration"
+              ],
+              "breaking_changes": [],
+              "migration_notes": "New component in v3.0"
+            }
+          },
+          "compatibility": {
+            "min_claude_code_version": "1.0.0",
+            "dependencies": {
+              "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+              "mcpServers": ["browser"]
+            }
+          }
+        }
+      },
+      "skills": {
+        "ui-component-gen": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.1.0",
+          "changelog": {},
+          "roadmap": [
+            "React component generation with TypeScript",
+            "Vue component generation",
+            "Accessibility-first templates",
+            "Storybook integration",
+            "Unit test generation"
+          ]
+        },
+        "api-testing": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.1.0",
+          "changelog": {},
+          "roadmap": [
+            "REST API endpoint testing",
+            "GraphQL query testing",
+            "Mock server setup",
+            "Response validation",
+            "Integration with test-runner"
+          ]
+        },
+        "bundle-optimizer": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.1.0",
+          "changelog": {},
+          "roadmap": [
+            "Bundle size analysis",
+            "Code splitting recommendations",
+            "Tree-shaking optimization",
+            "Lazy loading suggestions",
+            "Performance budget enforcement"
+          ]
+        }
+      },
+      "rules": {
+        "web-security": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.1.0",
+          "changelog": {},
+          "roadmap": [
+            "XSS prevention guidelines",
+            "CSRF protection",
+            "Content Security Policy",
+            "Secure cookie handling",
+            "Input sanitization"
+          ]
+        },
+        "performance": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.1.0",
+          "changelog": {},
+          "roadmap": [
+            "Core Web Vitals (LCP, FID, CLS)",
+            "Bundle size budgets",
+            "Image optimization",
+            "Caching strategies",
+            "Render performance"
+          ]
+        },
+        "accessibility": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.1.0",
+          "changelog": {},
+          "roadmap": [
+            "WCAG 2.1 AA compliance",
+            "ARIA best practices",
+            "Keyboard navigation",
+            "Screen reader support",
+            "Color contrast validation"
+          ]
+        }
+      },
+      "settings": {
+        "react": {
+          "version": "1.0.0",
+          "status": "stable",
+          "last_updated": "2026-01-19",
+          "changelog": {
+            "1.0.0": {
+              "date": "2026-01-19",
+              "type": "new",
+              "changes": [
+                "React 18+ optimized profile",
+                "Vite bundler configuration",
+                "Vitest + Playwright testing setup",
+                "ESLint + Prettier integration",
+                "Accessibility plugin (jsx-a11y)",
+                "TypeScript support",
+                "Performance budgets"
+              ],
+              "breaking_changes": [],
+              "migration_notes": "New settings profile in v3.0"
+            }
+          }
+        }
+      }
+    },
+    "data-science": {
+      "agents": {
+        "DataAnalyst": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.2.0",
+          "changelog": {},
+          "roadmap": [
+            "Pandas/NumPy expertise",
+            "Data visualization (matplotlib, seaborn)",
+            "Statistical analysis",
+            "Data cleaning and preprocessing",
+            "Jupyter notebook integration"
+          ]
+        },
+        "MLEngineer": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.2.0",
+          "changelog": {},
+          "roadmap": [
+            "PyTorch/TensorFlow model development",
+            "Hyperparameter tuning",
+            "Model evaluation and metrics",
+            "MLOps best practices",
+            "Experiment tracking integration"
+          ]
+        }
+      },
+      "skills": {
+        "jupyter-workflow": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Notebook management", "Cell execution", "Kernel control"]
+        },
+        "data-viz": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Chart generation", "Interactive plots", "Dashboard creation"]
+        },
+        "model-training": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Training automation", "Hyperparameter tuning", "Model versioning"]
+        },
+        "experiment-tracking": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Metrics logging", "Model registry", "Experiment comparison"]
+        }
+      },
+      "rules": {
+        "reproducibility": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Seed management", "Environment tracking", "Pipeline versioning"]
+        },
+        "data-validation": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Schema validation", "Data quality checks", "Outlier detection"]
+        },
+        "notebook-quality": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.2.0",
+          "roadmap": ["Cell organization", "Documentation standards", "Output management"]
+        }
+      }
+    },
+    "devops": {
+      "agents": {
+        "Infrastructure": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.3.0",
+          "changelog": {},
+          "roadmap": [
+            "Terraform configuration",
+            "Cloud provider expertise (AWS, Azure, GCP)",
+            "Infrastructure as Code",
+            "Network configuration",
+            "Security groups and IAM"
+          ]
+        },
+        "CICD": {
+          "version": "1.0.0",
+          "status": "planned",
+          "last_updated": "2026-01-19",
+          "planned_release": "v3.3.0",
+          "changelog": {},
+          "roadmap": [
+            "GitHub Actions configuration",
+            "GitLab CI/CD",
+            "Jenkins pipelines",
+            "Deployment automation",
+            "Release management"
+          ]
+        }
+      },
+      "skills": {
+        "container-mgmt": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["Docker management", "Multi-stage builds", "Registry operations"]
+        },
+        "k8s-helper": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["Kubernetes manifests", "Helm charts", "Deployment strategies"]
+        },
+        "terraform-gen": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["Terraform modules", "State management", "Provider configuration"]
+        },
+        "monitoring-setup": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["Prometheus setup", "Grafana dashboards", "Alert configuration"]
+        }
+      },
+      "rules": {
+        "infrastructure-as-code": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["IaC best practices", "State file management", "Module organization"]
+        },
+        "deployment-safety": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["Blue-green deployment", "Canary releases", "Rollback procedures"]
+        },
+        "secrets-management": {
+          "version": "1.0.0",
+          "status": "planned",
+          "planned_release": "v3.3.0",
+          "roadmap": ["Vault integration", "Secret rotation", "Environment variables"]
+        }
+      }
+    }
+  },
+  "mcpServers": {
+    "filesystem": {
+      "version": "1.0.0",
+      "status": "stable",
+      "last_updated": "2026-01-15",
+      "provider": "Anthropic",
+      "changelog": {
+        "1.0.0": {
+          "date": "2026-01-15",
+          "type": "initial",
+          "changes": ["Core filesystem operations", "File read/write/delete", "Directory navigation"]
+        }
+      }
+    },
+    "github": {
+      "version": "1.0.0",
+      "status": "stable",
+      "last_updated": "2026-01-15",
+      "provider": "Anthropic",
+      "changelog": {
+        "1.0.0": {
+          "date": "2026-01-15",
+          "type": "initial",
+          "changes": ["GitHub API integration", "Issues and PRs", "Repository operations"]
+        }
+      }
+    },
+    "browser": {
+      "version": "1.0.0",
+      "status": "stable",
+      "last_updated": "2026-01-15",
+      "provider": "Anthropic",
+      "changelog": {
+        "1.0.0": {
+          "date": "2026-01-15",
+          "type": "initial",
+          "changes": ["Browser automation", "Web interaction", "Screenshot capture"]
+        }
+      }
+    },
+    "postgres": {
+      "version": "1.0.0",
+      "status": "stable",
+      "last_updated": "2026-01-15",
+      "provider": "Anthropic",
+      "changelog": {
+        "1.0.0": {
+          "date": "2026-01-15",
+          "type": "initial",
+          "changes": ["PostgreSQL operations", "Query execution", "Schema management"]
+        }
+      }
+    },
+    "docker": {
+      "version": "1.0.0",
+      "status": "stable",
+      "last_updated": "2026-01-15",
+      "provider": "Anthropic",
+      "changelog": {
+        "1.0.0": {
+          "date": "2026-01-15",
+          "type": "initial",
+          "changes": ["Docker container management", "Image operations", "Network configuration"]
+        }
+      }
+    }
+  },
+  "release_schedule": {
+    "v3.0.0": {
+      "date": "2026-01-19",
+      "status": "released",
+      "components": {
+        "new": 10,
+        "migrated": 3,
+        "total": 15
+      }
+    },
+    "v3.1.0": {
+      "planned_date": "2026-02-15",
+      "status": "planned",
+      "focus": "Web domain expansion",
+      "components": {
+        "new_skills": ["ui-component-gen", "api-testing", "bundle-optimizer"],
+        "new_rules": ["web-security", "performance", "accessibility"],
+        "new_agents": ["Backend"]
+      }
+    },
+    "v3.2.0": {
+      "planned_date": "2026-03-15",
+      "status": "planned",
+      "focus": "Data science domain",
+      "components": {
+        "new_agents": ["DataAnalyst", "MLEngineer"],
+        "new_skills": ["jupyter-workflow", "data-viz", "model-training", "experiment-tracking"],
+        "new_rules": ["reproducibility", "data-validation", "notebook-quality"]
+      }
+    },
+    "v3.3.0": {
+      "planned_date": "2026-04-15",
+      "status": "planned",
+      "focus": "DevOps domain",
+      "components": {
+        "new_agents": ["Infrastructure", "CICD"],
+        "new_skills": ["container-mgmt", "k8s-helper", "terraform-gen", "monitoring-setup"],
+        "new_rules": ["infrastructure-as-code", "deployment-safety", "secrets-management"]
+      }
+    }
+  },
+  "deprecations": {
+    "v2.x_plugin": {
+      "deprecated_date": "2026-01-19",
+      "end_of_life": "2026-07-19",
+      "replacement": "v3.0.0 submodule architecture",
+      "migration_path": "scripts/migrate-from-plugin.sh"
+    }
+  }
+}

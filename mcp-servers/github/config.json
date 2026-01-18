@@ -1,0 +1,81 @@
+{
+  "name": "github",
+  "description": "GitHub API integration for repository management, issues, PRs, and code search",
+  "version": "1.0.0",
+  "type": "stdio",
+  "command": "npx",
+  "args": [
+    "-y",
+    "@modelcontextprotocol/server-github"
+  ],
+  "env": {
+    "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+    "GITHUB_API_URL": "https://api.github.com"
+  },
+  "settings": {
+    "defaultOwner": "yourusername",
+    "defaultRepo": "your-repo",
+    "enableGraphQL": true,
+    "rateLimit": {
+      "maxRequestsPerHour": 5000,
+      "enableRetry": true,
+      "retryDelay": 1000
+    }
+  },
+  "capabilities": [
+    "list_repositories",
+    "create_repository",
+    "get_file_contents",
+    "create_or_update_file",
+    "search_code",
+    "search_issues",
+    "create_issue",
+    "create_pull_request",
+    "list_branches",
+    "create_branch"
+  ],
+  "requiredEnv": [
+    {
+      "name": "GITHUB_TOKEN",
+      "description": "Personal access token with repo scope",
+      "required": true,
+      "howToGet": "Generate at https://github.com/settings/tokens/new with 'repo' scope"
+    }
+  ],
+  "security": {
+    "notes": [
+      "Never commit GITHUB_TOKEN to version control",
+      "Use fine-grained personal access tokens when possible",
+      "Grant minimum required scopes (repo, read:org, etc.)",
+      "Rotate tokens regularly (every 90 days recommended)",
+      "Use separate tokens for different environments"
+    ],
+    "scopes": {
+      "minimum": ["repo"],
+      "recommended": ["repo", "read:org", "read:user"],
+      "optional": ["workflow", "write:packages"]
+    }
+  },
+  "examples": [
+    {
+      "description": "Basic repository access",
+      "usage": "Clone, read, and search code in your repositories",
+      "requiredScopes": ["repo"]
+    },
+    {
+      "description": "Full project management",
+      "usage": "Create issues, PRs, manage branches and workflows",
+      "requiredScopes": ["repo", "workflow"]
+    },
+    {
+      "description": "Organization management",
+      "usage": "Access organization repositories and members",
+      "requiredScopes": ["repo", "read:org", "admin:org"]
+    }
+  ],
+  "troubleshooting": {
+    "tokenNotSet": "Set GITHUB_TOKEN in your environment: export GITHUB_TOKEN=ghp_your_token",
+    "rateLimitExceeded": "Wait for rate limit reset or use authenticated requests",
+    "insufficientPermissions": "Ensure token has required scopes in GitHub settings"
+  }
+}

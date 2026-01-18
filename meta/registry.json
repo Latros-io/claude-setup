@@ -1,0 +1,1052 @@
+{
+  "version": "3.0.0",
+  "schema_version": "3.0",
+  "registry_type": "claude-code-best-practices",
+  "last_updated": "2026-01-19",
+  "description": "Comprehensive registry of Claude Code components organized by domain",
+  "repository": {
+    "name": "claude-code-best-practices",
+    "url": "https://github.com/Latros-io/claude-code-best-practices",
+    "type": "git-submodule",
+    "license": "MIT"
+  },
+  "architecture": {
+    "type": "modular-submodule",
+    "organization": "domain-based",
+    "override_support": true,
+    "profile_composition": true
+  },
+  "components": {
+    "core": {
+      "agents": {
+        "Bash": {
+          "id": "Bash",
+          "type": "agent",
+          "name": "Bash Agent",
+          "description": "Specialized command execution and shell scripting agent",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "execution",
+          "path": "core/agents/Bash",
+          "tags": ["bash", "shell", "commands", "execution"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Bash"],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "skills": ["git-workflow"],
+            "rules": ["git-hygiene"]
+          },
+          "conflicts": [],
+          "files": [
+            "AGENT.md",
+            "config.json",
+            "prompts/system.md",
+            "prompts/examples.md"
+          ],
+          "settings": {
+            "timeout": 300,
+            "shell": "/bin/bash",
+            "max_output_lines": 10000
+          }
+        },
+        "Explore": {
+          "id": "Explore",
+          "type": "agent",
+          "name": "Explore Agent",
+          "description": "Codebase exploration and analysis specialist",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "analysis",
+          "path": "core/agents/Explore",
+          "tags": ["explore", "analysis", "codebase", "search"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Glob", "Grep", "Read"],
+            "mcpServers": ["filesystem"],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "agents": ["Plan"],
+            "skills": ["doc-generator"]
+          },
+          "conflicts": [],
+          "files": [
+            "AGENT.md",
+            "config.json",
+            "prompts/system.md"
+          ],
+          "settings": {
+            "max_depth": 5,
+            "ignore_patterns": ["node_modules", ".git", "dist", "build"]
+          }
+        },
+        "Plan": {
+          "id": "Plan",
+          "type": "agent",
+          "name": "Plan Agent",
+          "description": "Software architect agent for designing implementation plans",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "planning",
+          "path": "core/agents/Plan",
+          "tags": ["planning", "architecture", "design", "strategy"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Read", "Glob", "Grep"],
+            "mcpServers": ["filesystem"],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "agents": ["Explore"],
+            "skills": ["doc-generator"]
+          },
+          "conflicts": [],
+          "files": [
+            "AGENT.md",
+            "config.json",
+            "prompts/system.md"
+          ],
+          "settings": {
+            "thoroughness": "medium",
+            "include_tradeoffs": true
+          }
+        },
+        "GeneralPurpose": {
+          "id": "GeneralPurpose",
+          "type": "agent",
+          "name": "General Purpose Agent",
+          "description": "Multi-purpose agent for researching complex questions and multi-step tasks",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "general",
+          "path": "core/agents/GeneralPurpose",
+          "tags": ["general", "research", "multi-purpose", "flexible"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {},
+          "conflicts": [],
+          "files": [
+            "AGENT.md",
+            "config.json"
+          ],
+          "settings": {
+            "maxToolCalls": 50,
+            "allowFileModification": true,
+            "allowCommandExecution": true
+          }
+        }
+      },
+      "skills": {
+        "git-workflow": {
+          "id": "git-workflow",
+          "type": "skill",
+          "name": "Git Workflow",
+          "description": "Automated git operations including commits, branching, and PR creation",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "version-control",
+          "path": "core/skills/git-workflow",
+          "tags": ["git", "workflow", "automation", "version-control"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Bash"],
+            "mcpServers": ["github"],
+            "agents": ["Bash"],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "rules": ["code-style", "git-hygiene"]
+          },
+          "conflicts": [],
+          "files": [
+            "SKILL.md",
+            "config.json",
+            "templates/commit-message.md",
+            "templates/pr-template.md"
+          ],
+          "settings": {
+            "commit_style": "conventional",
+            "auto_pr_template": true,
+            "branch_naming": "feature/{description}"
+          }
+        },
+        "test-runner": {
+          "id": "test-runner",
+          "type": "skill",
+          "name": "Test Runner",
+          "description": "Automated test execution, coverage analysis, and test generation",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "testing",
+          "path": "core/skills/test-runner",
+          "tags": ["testing", "automation", "quality", "coverage"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Bash"],
+            "mcpServers": [],
+            "agents": ["Bash"],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "mcpServers": ["filesystem"],
+            "rules": ["testing"]
+          },
+          "conflicts": [],
+          "files": [
+            "SKILL.md",
+            "config.json",
+            "templates/test-template.js"
+          ],
+          "settings": {
+            "test_framework": "auto-detect",
+            "coverage_threshold": 80,
+            "run_on_save": false
+          }
+        },
+        "doc-generator": {
+          "id": "doc-generator",
+          "type": "skill",
+          "name": "Documentation Generator",
+          "description": "Automated documentation generation and maintenance",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "documentation",
+          "path": "core/skills/doc-generator",
+          "tags": ["documentation", "markdown", "automation"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Write", "Read", "Edit"],
+            "mcpServers": ["filesystem"],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "rules": ["documentation"]
+          },
+          "conflicts": [],
+          "files": [
+            "SKILL.md",
+            "config.json",
+            "templates/readme-template.md"
+          ],
+          "settings": {
+            "format": "markdown",
+            "auto_toc": true,
+            "include_examples": true
+          }
+        },
+        "project-setup": {
+          "id": "project-setup",
+          "type": "skill",
+          "name": "Project Setup",
+          "description": "Initial scaffolding and project configuration automation",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "initialization",
+          "path": "core/skills/project-setup",
+          "tags": ["setup", "scaffolding", "initialization", "configuration"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Write", "Bash"],
+            "mcpServers": ["filesystem"],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "agents": ["Bash", "Explore"],
+            "skills": ["git-workflow", "doc-generator"]
+          },
+          "conflicts": [],
+          "files": [
+            "SKILL.md",
+            "config.json"
+          ],
+          "settings": {
+            "create_directories": true,
+            "auto_detect_project_type": true,
+            "interactive_setup": true
+          }
+        },
+        "refactor-helper": {
+          "id": "refactor-helper",
+          "type": "skill",
+          "name": "Refactor Helper",
+          "description": "Safe refactoring assistance with automated validation and rollback",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "refactoring",
+          "path": "core/skills/refactor-helper",
+          "tags": ["refactoring", "code-quality", "automation", "safety"],
+          "status": "stable",
+          "dependencies": {
+            "tools": ["Read", "Edit", "Grep", "Bash"],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "skills": ["test-runner"],
+            "rules": ["code-style", "testing"]
+          },
+          "conflicts": [],
+          "files": [
+            "SKILL.md",
+            "config.json"
+          ],
+          "settings": {
+            "auto_run_tests": true,
+            "create_backup": true,
+            "validate_before_commit": true
+          }
+        }
+      },
+      "rules": {
+        "code-style": {
+          "id": "code-style",
+          "type": "rule",
+          "name": "Code Style Rules",
+          "description": "Code formatting and style guidelines",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "quality",
+          "path": "core/rules/code-style",
+          "tags": ["style", "formatting", "standards", "quality"],
+          "status": "stable",
+          "dependencies": {
+            "tools": [],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "skills": ["refactor-helper"]
+          },
+          "conflicts": [],
+          "files": [
+            "RULE.md",
+            "config.json",
+            "templates/style-guide.md",
+            "examples/good-vs-bad.md"
+          ],
+          "settings": {
+            "indent": "2spaces",
+            "max_line_length": 100,
+            "naming_convention": "camelCase"
+          }
+        },
+        "testing": {
+          "id": "testing",
+          "type": "rule",
+          "name": "Testing Rules",
+          "description": "Testing requirements and coverage standards",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "quality",
+          "path": "core/rules/testing",
+          "tags": ["testing", "quality", "coverage", "standards"],
+          "status": "stable",
+          "dependencies": {
+            "tools": [],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "skills": ["test-runner"]
+          },
+          "conflicts": [],
+          "files": [
+            "RULE.md",
+            "config.json",
+            "templates/test-requirements.md"
+          ],
+          "settings": {
+            "min_coverage": 80,
+            "require_unit_tests": true,
+            "require_integration_tests": false
+          }
+        },
+        "documentation": {
+          "id": "documentation",
+          "type": "rule",
+          "name": "Documentation Rules",
+          "description": "Documentation standards and requirements",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "quality",
+          "path": "core/rules/documentation",
+          "tags": ["documentation", "standards", "quality"],
+          "status": "stable",
+          "dependencies": {
+            "tools": [],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "skills": ["doc-generator"]
+          },
+          "conflicts": [],
+          "files": [
+            "RULE.md",
+            "config.json",
+            "templates/doc-standards.md"
+          ],
+          "settings": {
+            "require_function_docs": true,
+            "require_readme": true,
+            "require_examples": false
+          }
+        },
+        "security": {
+          "id": "security",
+          "type": "rule",
+          "name": "Security Rules",
+          "description": "Security best practices and vulnerability prevention (OWASP Top 10)",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "security",
+          "path": "core/rules/security",
+          "tags": ["security", "safety", "best-practices", "owasp"],
+          "status": "stable",
+          "dependencies": {
+            "tools": [],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {},
+          "conflicts": [],
+          "files": [
+            "RULE.md",
+            "config.json",
+            "templates/security-checklist.md"
+          ],
+          "settings": {
+            "enforce_input_validation": true,
+            "check_dependencies": true,
+            "scan_secrets": true
+          }
+        },
+        "git-hygiene": {
+          "id": "git-hygiene",
+          "type": "rule",
+          "name": "Git Hygiene Rules",
+          "description": "Git workflow and repository hygiene best practices",
+          "version": "1.0.0",
+          "author": "Latros.io",
+          "category": "workflow",
+          "path": "core/rules/git-hygiene",
+          "tags": ["git", "version-control", "commits", "branches", "workflow"],
+          "status": "stable",
+          "dependencies": {
+            "tools": [],
+            "mcpServers": [],
+            "agents": [],
+            "skills": [],
+            "rules": []
+          },
+          "optionalDependencies": {
+            "skills": ["git-workflow"]
+          },
+          "conflicts": [],
+          "files": [
+            "RULE.md",
+            "config.json"
+          ],
+          "settings": {
+            "min_commit_message_length": 10,
+            "format": "conventional_commits",
+            "no_force_push_protected": true
+          }
+        }
+      },
+      "settings": {
+        "minimal": {
+          "id": "minimal",
+          "name": "Minimal Profile",
+          "description": "Barebones setup (1 agent, 1 skill, 1 rule)",
+          "path": "core/settings/minimal.json",
+          "components": {
+            "agents": ["Bash"],
+            "skills": ["git-workflow"],
+            "rules": ["code-style"]
+          }
+        },
+        "standard": {
+          "id": "standard",
+          "name": "Standard Profile",
+          "description": "Recommended setup (3 agents, 3 skills, 3 rules)",
+          "path": "core/settings/standard.json",
+          "components": {
+            "agents": ["Bash", "Explore", "GeneralPurpose"],
+            "skills": ["git-workflow", "test-runner", "doc-generator"],
+            "rules": ["code-style", "testing", "documentation"]
+          }
+        },
+        "comprehensive": {
+          "id": "comprehensive",
+          "name": "Comprehensive Profile",
+          "description": "Full power setup (4 agents, 5 skills, 5 rules)",
+          "path": "core/settings/comprehensive.json",
+          "components": {
+            "agents": ["Bash", "Explore", "Plan", "GeneralPurpose"],
+            "skills": ["git-workflow", "test-runner", "doc-generator", "project-setup", "refactor-helper"],
+            "rules": ["code-style", "testing", "documentation", "security", "git-hygiene"]
+          }
+        }
+      }
+    },
+    "domains": {
+      "web": {
+        "agents": {
+          "Frontend": {
+            "id": "Frontend",
+            "type": "agent",
+            "name": "Frontend Agent",
+            "description": "Specialized agent for frontend web development, including React, Vue, HTML/CSS, bundling, and accessibility",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "web",
+            "path": "domains/web/agents/Frontend",
+            "tags": ["frontend", "react", "vue", "html", "css", "bundling", "accessibility"],
+            "status": "stable",
+            "dependencies": {
+              "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+              "mcpServers": ["browser"],
+              "agents": [],
+              "skills": ["ui-component-gen", "api-testing", "bundle-optimizer"],
+              "rules": ["web-security", "performance", "accessibility"]
+            },
+            "optionalDependencies": {
+              "skills": ["test-runner"],
+              "rules": ["testing"]
+            },
+            "conflicts": [],
+            "files": [
+              "AGENT.md",
+              "config.json"
+            ],
+            "settings": {
+              "frameworkPreference": "auto-detect",
+              "bundlers": ["vite", "webpack", "rollup", "parcel"],
+              "accessibilityStandards": ["WCAG 2.1 AA"]
+            }
+          }
+        },
+        "skills": {
+          "ui-component-gen": {
+            "id": "ui-component-gen",
+            "type": "skill",
+            "name": "UI Component Generator",
+            "description": "Generate accessible, reusable UI components with proper TypeScript types",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "web",
+            "path": "domains/web/skills/ui-component-gen",
+            "tags": ["ui", "components", "react", "vue", "accessibility"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Write", "Edit"],
+              "agents": ["Frontend"],
+              "skills": [],
+              "rules": ["accessibility"]
+            }
+          },
+          "api-testing": {
+            "id": "api-testing",
+            "type": "skill",
+            "name": "API Testing",
+            "description": "Automated API endpoint testing and validation",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "web",
+            "path": "domains/web/skills/api-testing",
+            "tags": ["api", "testing", "http", "rest"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Bash"],
+              "agents": [],
+              "skills": ["test-runner"],
+              "rules": ["testing"]
+            }
+          },
+          "bundle-optimizer": {
+            "id": "bundle-optimizer",
+            "type": "skill",
+            "name": "Bundle Optimizer",
+            "description": "Analyze and optimize frontend bundle size and performance",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "web",
+            "path": "domains/web/skills/bundle-optimizer",
+            "tags": ["bundling", "performance", "optimization"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Bash", "Read"],
+              "agents": ["Frontend"],
+              "skills": [],
+              "rules": ["performance"]
+            }
+          }
+        },
+        "rules": {
+          "web-security": {
+            "id": "web-security",
+            "type": "rule",
+            "name": "Web Security Rules",
+            "description": "XSS, CSRF, and other web-specific security practices",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "security",
+            "path": "domains/web/rules/web-security",
+            "tags": ["security", "xss", "csrf", "web"],
+            "status": "planned",
+            "dependencies": {
+              "rules": ["security"]
+            }
+          },
+          "performance": {
+            "id": "performance",
+            "type": "rule",
+            "name": "Performance Rules",
+            "description": "Core Web Vitals and frontend performance optimization guidelines",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "quality",
+            "path": "domains/web/rules/performance",
+            "tags": ["performance", "optimization", "web-vitals"],
+            "status": "planned",
+            "dependencies": {
+              "rules": []
+            }
+          },
+          "accessibility": {
+            "id": "accessibility",
+            "type": "rule",
+            "name": "Accessibility Rules",
+            "description": "WCAG compliance and accessibility best practices",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "quality",
+            "path": "domains/web/rules/accessibility",
+            "tags": ["accessibility", "wcag", "a11y"],
+            "status": "planned",
+            "dependencies": {
+              "rules": []
+            }
+          }
+        },
+        "settings": {
+          "react": {
+            "id": "react",
+            "name": "React Development Profile",
+            "description": "Optimized setup for React development with testing, bundling, and accessibility",
+            "path": "domains/web/settings/react.json",
+            "extends": "core/settings/standard.json",
+            "components": {
+              "agents": ["Bash", "Explore", "Plan", "Frontend"],
+              "skills": ["git-workflow", "test-runner", "doc-generator", "ui-component-gen", "api-testing", "bundle-optimizer"],
+              "rules": ["code-style", "testing", "documentation", "web-security", "performance", "accessibility"]
+            }
+          }
+        }
+      },
+      "data-science": {
+        "agents": {
+          "DataAnalyst": {
+            "id": "DataAnalyst",
+            "type": "agent",
+            "name": "Data Analyst Agent",
+            "description": "Specialized in data exploration, visualization, and statistical analysis",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "data-science",
+            "path": "domains/data-science/agents/DataAnalyst",
+            "tags": ["data", "analysis", "visualization", "pandas"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Read", "Write", "Bash"],
+              "mcpServers": [],
+              "agents": [],
+              "skills": ["jupyter-workflow", "data-viz"],
+              "rules": ["data-validation"]
+            }
+          },
+          "MLEngineer": {
+            "id": "MLEngineer",
+            "type": "agent",
+            "name": "ML Engineer Agent",
+            "description": "Machine learning model development, training, and evaluation",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "data-science",
+            "path": "domains/data-science/agents/MLEngineer",
+            "tags": ["ml", "machine-learning", "models", "training"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Read", "Write", "Bash"],
+              "agents": [],
+              "skills": ["model-training", "experiment-tracking"],
+              "rules": ["reproducibility"]
+            }
+          }
+        },
+        "skills": {
+          "jupyter-workflow": {
+            "id": "jupyter-workflow",
+            "type": "skill",
+            "name": "Jupyter Workflow",
+            "description": "Automated Jupyter notebook management and execution",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "data-science",
+            "path": "domains/data-science/skills/jupyter-workflow",
+            "tags": ["jupyter", "notebooks", "automation"],
+            "status": "planned"
+          },
+          "data-viz": {
+            "id": "data-viz",
+            "type": "skill",
+            "name": "Data Visualization",
+            "description": "Generate charts and visualizations from data",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "data-science",
+            "path": "domains/data-science/skills/data-viz",
+            "tags": ["visualization", "charts", "plots"],
+            "status": "planned"
+          },
+          "model-training": {
+            "id": "model-training",
+            "type": "skill",
+            "name": "Model Training",
+            "description": "Automated ML model training and hyperparameter tuning",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "data-science",
+            "path": "domains/data-science/skills/model-training",
+            "tags": ["ml", "training", "models"],
+            "status": "planned"
+          },
+          "experiment-tracking": {
+            "id": "experiment-tracking",
+            "type": "skill",
+            "name": "Experiment Tracking",
+            "description": "Track ML experiments, metrics, and model versions",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "data-science",
+            "path": "domains/data-science/skills/experiment-tracking",
+            "tags": ["mlops", "tracking", "experiments"],
+            "status": "planned"
+          }
+        },
+        "rules": {
+          "reproducibility": {
+            "id": "reproducibility",
+            "type": "rule",
+            "name": "Reproducibility Rules",
+            "description": "Ensure reproducible data science workflows",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "quality",
+            "path": "domains/data-science/rules/reproducibility",
+            "tags": ["reproducibility", "data-science"],
+            "status": "planned"
+          },
+          "data-validation": {
+            "id": "data-validation",
+            "type": "rule",
+            "name": "Data Validation Rules",
+            "description": "Data quality and validation standards",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "quality",
+            "path": "domains/data-science/rules/data-validation",
+            "tags": ["validation", "data-quality"],
+            "status": "planned"
+          },
+          "notebook-quality": {
+            "id": "notebook-quality",
+            "type": "rule",
+            "name": "Notebook Quality Rules",
+            "description": "Jupyter notebook organization and documentation standards",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "quality",
+            "path": "domains/data-science/rules/notebook-quality",
+            "tags": ["jupyter", "notebooks", "quality"],
+            "status": "planned"
+          }
+        }
+      },
+      "devops": {
+        "agents": {
+          "Infrastructure": {
+            "id": "Infrastructure",
+            "type": "agent",
+            "name": "Infrastructure Agent",
+            "description": "Cloud infrastructure and IaC specialist",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/agents/Infrastructure",
+            "tags": ["infrastructure", "cloud", "iac", "terraform"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Bash", "Read", "Write"],
+              "agents": [],
+              "skills": ["terraform-gen", "k8s-helper"],
+              "rules": ["infrastructure-as-code"]
+            }
+          },
+          "CICD": {
+            "id": "CICD",
+            "type": "agent",
+            "name": "CI/CD Agent",
+            "description": "Continuous integration and deployment automation specialist",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/agents/CICD",
+            "tags": ["ci", "cd", "automation", "deployment"],
+            "status": "planned",
+            "dependencies": {
+              "tools": ["Bash", "Write"],
+              "mcpServers": ["docker", "github"],
+              "agents": [],
+              "skills": ["container-mgmt"],
+              "rules": ["deployment-safety"]
+            }
+          }
+        },
+        "skills": {
+          "container-mgmt": {
+            "id": "container-mgmt",
+            "type": "skill",
+            "name": "Container Management",
+            "description": "Docker and containerization workflows",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/skills/container-mgmt",
+            "tags": ["docker", "containers"],
+            "status": "planned"
+          },
+          "k8s-helper": {
+            "id": "k8s-helper",
+            "type": "skill",
+            "name": "Kubernetes Helper",
+            "description": "Kubernetes configuration and deployment assistance",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/skills/k8s-helper",
+            "tags": ["kubernetes", "k8s", "orchestration"],
+            "status": "planned"
+          },
+          "terraform-gen": {
+            "id": "terraform-gen",
+            "type": "skill",
+            "name": "Terraform Generator",
+            "description": "Generate and validate Terraform configurations",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/skills/terraform-gen",
+            "tags": ["terraform", "iac", "infrastructure"],
+            "status": "planned"
+          },
+          "monitoring-setup": {
+            "id": "monitoring-setup",
+            "type": "skill",
+            "name": "Monitoring Setup",
+            "description": "Set up monitoring, logging, and alerting",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/skills/monitoring-setup",
+            "tags": ["monitoring", "logging", "observability"],
+            "status": "planned"
+          }
+        },
+        "rules": {
+          "infrastructure-as-code": {
+            "id": "infrastructure-as-code",
+            "type": "rule",
+            "name": "Infrastructure as Code Rules",
+            "description": "IaC best practices and standards",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/rules/infrastructure-as-code",
+            "tags": ["iac", "terraform", "infrastructure"],
+            "status": "planned"
+          },
+          "deployment-safety": {
+            "id": "deployment-safety",
+            "type": "rule",
+            "name": "Deployment Safety Rules",
+            "description": "Safe deployment practices and rollback procedures",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "devops",
+            "path": "domains/devops/rules/deployment-safety",
+            "tags": ["deployment", "safety", "rollback"],
+            "status": "planned"
+          },
+          "secrets-management": {
+            "id": "secrets-management",
+            "type": "rule",
+            "name": "Secrets Management Rules",
+            "description": "Secure handling of secrets and credentials",
+            "version": "1.0.0",
+            "author": "Latros.io",
+            "category": "security",
+            "path": "domains/devops/rules/secrets-management",
+            "tags": ["secrets", "security", "credentials"],
+            "status": "planned"
+          }
+        }
+      }
+    },
+    "mcpServers": {
+      "filesystem": {
+        "id": "filesystem",
+        "type": "mcpServer",
+        "name": "Filesystem MCP",
+        "description": "File system operations and navigation",
+        "version": "1.0.0",
+        "author": "Anthropic",
+        "category": "core",
+        "tags": ["filesystem", "files", "core"],
+        "status": "stable",
+        "path": "mcp-servers/filesystem"
+      },
+      "github": {
+        "id": "github",
+        "type": "mcpServer",
+        "name": "GitHub MCP",
+        "description": "GitHub API integration for issues, PRs, and repositories",
+        "version": "1.0.0",
+        "author": "Anthropic",
+        "category": "integration",
+        "tags": ["github", "vcs", "api"],
+        "status": "stable",
+        "path": "mcp-servers/github"
+      },
+      "browser": {
+        "id": "browser",
+        "type": "mcpServer",
+        "name": "Browser MCP",
+        "description": "Browser automation and web interaction",
+        "version": "1.0.0",
+        "author": "Anthropic",
+        "category": "integration",
+        "tags": ["browser", "web", "automation"],
+        "status": "stable",
+        "path": "mcp-servers/browser"
+      },
+      "postgres": {
+        "id": "postgres",
+        "type": "mcpServer",
+        "name": "PostgreSQL MCP",
+        "description": "PostgreSQL database operations and queries",
+        "version": "1.0.0",
+        "author": "Anthropic",
+        "category": "data",
+        "tags": ["database", "postgres", "sql"],
+        "status": "stable",
+        "path": "mcp-servers/postgres"
+      },
+      "docker": {
+        "id": "docker",
+        "type": "mcpServer",
+        "name": "Docker MCP",
+        "description": "Docker container management and operations",
+        "version": "1.0.0",
+        "author": "Anthropic",
+        "category": "infrastructure",
+        "tags": ["docker", "containers", "devops"],
+        "status": "stable",
+        "path": "mcp-servers/docker"
+      }
+    }
+  },
+  "categories": {
+    "agents": {
+      "core": ["execution", "analysis", "planning", "general"],
+      "web": ["frontend", "backend"],
+      "data-science": ["analysis", "ml"],
+      "devops": ["infrastructure", "ci-cd"]
+    },
+    "skills": {
+      "core": ["version-control", "testing", "documentation", "initialization", "refactoring"],
+      "web": ["ui", "api", "optimization"],
+      "data-science": ["notebooks", "visualization", "training"],
+      "devops": ["containers", "orchestration", "iac", "monitoring"]
+    },
+    "rules": {
+      "core": ["quality", "security", "workflow"],
+      "web": ["performance", "accessibility", "web-security"],
+      "data-science": ["reproducibility", "data-quality"],
+      "devops": ["iac", "deployment", "secrets"]
+    },
+    "mcpServers": ["core", "integration", "data", "infrastructure"]
+  },
+  "statistics": {
+    "total_components": 57,
+    "by_type": {
+      "agents": 10,
+      "skills": 17,
+      "rules": 16,
+      "mcpServers": 5,
+      "settings": 4
+    },
+    "by_status": {
+      "stable": 15,
+      "planned": 42
+    },
+    "by_domain": {
+      "core": 15,
+      "web": 10,
+      "data-science": 9,
+      "devops": 9,
+      "infrastructure": 5
+    }
+  },
+  "metadata": {
+    "created": "2026-01-15",
+    "last_modified": "2026-01-19",
+    "schema_format": "modular-domain-registry",
+    "compatibility": {
+      "claude_code_version": ">=1.0.0",
+      "schema_migrations": ["1.0 -> 3.0"]
+    }
+  }
+}

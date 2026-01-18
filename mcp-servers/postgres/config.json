@@ -1,0 +1,163 @@
+{
+  "name": "postgres",
+  "description": "PostgreSQL database access for queries, schema inspection, and data management",
+  "version": "1.0.0",
+  "type": "stdio",
+  "command": "npx",
+  "args": [
+    "-y",
+    "@modelcontextprotocol/server-postgres"
+  ],
+  "env": {
+    "POSTGRES_CONNECTION_STRING": "${POSTGRES_CONNECTION_STRING}",
+    "POSTGRES_HOST": "localhost",
+    "POSTGRES_PORT": "5432",
+    "POSTGRES_DATABASE": "${POSTGRES_DATABASE}",
+    "POSTGRES_USER": "${POSTGRES_USER}",
+    "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}",
+    "POSTGRES_SSL": "false"
+  },
+  "settings": {
+    "connectionPool": {
+      "min": 2,
+      "max": 10,
+      "idleTimeoutMillis": 30000,
+      "connectionTimeoutMillis": 5000
+    },
+    "queryTimeout": 30000,
+    "statementTimeout": 60000,
+    "readOnly": false,
+    "schema": "public"
+  },
+  "capabilities": [
+    "execute_query",
+    "list_tables",
+    "describe_table",
+    "list_schemas",
+    "execute_transaction",
+    "get_table_data",
+    "create_table",
+    "insert_data",
+    "update_data",
+    "delete_data"
+  ],
+  "requiredEnv": [
+    {
+      "name": "POSTGRES_CONNECTION_STRING",
+      "description": "Full PostgreSQL connection string",
+      "required": false,
+      "format": "postgresql://username:password@host:port/database",
+      "example": "postgresql://myuser:mypass@localhost:5432/mydb"
+    },
+    {
+      "name": "POSTGRES_HOST",
+      "description": "Database host",
+      "required": true,
+      "default": "localhost"
+    },
+    {
+      "name": "POSTGRES_PORT",
+      "description": "Database port",
+      "required": false,
+      "default": "5432"
+    },
+    {
+      "name": "POSTGRES_DATABASE",
+      "description": "Database name",
+      "required": true
+    },
+    {
+      "name": "POSTGRES_USER",
+      "description": "Database user",
+      "required": true
+    },
+    {
+      "name": "POSTGRES_PASSWORD",
+      "description": "Database password",
+      "required": true
+    }
+  ],
+  "security": {
+    "notes": [
+      "Never commit database credentials to version control",
+      "Use environment variables or secret management systems",
+      "Enable SSL/TLS for remote connections (POSTGRES_SSL=true)",
+      "Create dedicated database users with limited privileges",
+      "Use readOnly mode for analytics and reporting queries",
+      "Implement query timeouts to prevent long-running queries",
+      "Audit database access and query patterns regularly"
+    ],
+    "recommendations": [
+      "Use connection pooling to manage resources efficiently",
+      "Grant minimum required permissions (SELECT only if possible)",
+      "Enable row-level security (RLS) for multi-tenant applications",
+      "Use prepared statements to prevent SQL injection",
+      "Rotate database passwords regularly",
+      "Monitor connection pool usage and adjust limits"
+    ],
+    "privilegeLevels": {
+      "readOnly": {
+        "description": "Safe for analytics and reporting",
+        "grants": ["SELECT", "USAGE"]
+      },
+      "readWrite": {
+        "description": "Standard application access",
+        "grants": ["SELECT", "INSERT", "UPDATE", "DELETE"]
+      },
+      "admin": {
+        "description": "Full database management",
+        "grants": ["ALL PRIVILEGES"]
+      }
+    }
+  },
+  "examples": [
+    {
+      "description": "Read-only analytics access",
+      "config": {
+        "env": {
+          "POSTGRES_CONNECTION_STRING": "postgresql://readonly:password@localhost:5432/analytics"
+        },
+        "settings": {
+          "readOnly": true,
+          "queryTimeout": 60000
+        }
+      }
+    },
+    {
+      "description": "Production application access with SSL",
+      "config": {
+        "env": {
+          "POSTGRES_HOST": "prod-db.example.com",
+          "POSTGRES_PORT": "5432",
+          "POSTGRES_DATABASE": "myapp",
+          "POSTGRES_USER": "app_user",
+          "POSTGRES_PASSWORD": "${SECRET_POSTGRES_PASSWORD}",
+          "POSTGRES_SSL": "true"
+        },
+        "settings": {
+          "connectionPool": {
+            "max": 20
+          }
+        }
+      }
+    },
+    {
+      "description": "Local development",
+      "config": {
+        "env": {
+          "POSTGRES_CONNECTION_STRING": "postgresql://dev:dev@localhost:5432/myapp_dev"
+        },
+        "settings": {
+          "readOnly": false
+        }
+      }
+    }
+  ],
+  "troubleshooting": {
+    "connectionRefused": "Check if PostgreSQL is running and accessible on the specified host/port",
+    "authenticationFailed": "Verify username and password are correct",
+    "sslRequired": "Set POSTGRES_SSL=true or configure pg_hba.conf to allow non-SSL connections",
+    "databaseNotFound": "Ensure the database exists: CREATE DATABASE mydb;",
+    "permissionDenied": "Grant necessary privileges: GRANT SELECT ON ALL TABLES IN SCHEMA public TO myuser;"
+  }
+}

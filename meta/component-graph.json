@@ -1,0 +1,1099 @@
+{
+  "metadata": {
+    "schema_version": "3.0",
+    "last_updated": "2026-01-19",
+    "description": "Visual dependency graph showing component relationships and dependencies",
+    "graph_type": "directed_acyclic_graph"
+  },
+  "nodes": {
+    "tools": {
+      "Bash": {
+        "id": "tool:Bash",
+        "type": "tool",
+        "category": "core",
+        "description": "Command execution tool",
+        "dependents": ["agent:Bash", "agent:GeneralPurpose", "skill:git-workflow", "skill:test-runner", "agent:Frontend"]
+      },
+      "Read": {
+        "id": "tool:Read",
+        "type": "tool",
+        "category": "core",
+        "description": "File reading tool",
+        "dependents": ["agent:Explore", "agent:Plan", "agent:GeneralPurpose", "skill:doc-generator", "skill:refactor-helper", "agent:Frontend"]
+      },
+      "Write": {
+        "id": "tool:Write",
+        "type": "tool",
+        "category": "core",
+        "description": "File writing tool",
+        "dependents": ["agent:GeneralPurpose", "skill:doc-generator", "skill:project-setup", "agent:Frontend"]
+      },
+      "Edit": {
+        "id": "tool:Edit",
+        "type": "tool",
+        "category": "core",
+        "description": "File editing tool",
+        "dependents": ["agent:GeneralPurpose", "skill:doc-generator", "skill:refactor-helper", "agent:Frontend"]
+      },
+      "Glob": {
+        "id": "tool:Glob",
+        "type": "tool",
+        "category": "core",
+        "description": "File pattern matching tool",
+        "dependents": ["agent:Explore", "agent:Plan", "agent:GeneralPurpose", "agent:Frontend"]
+      },
+      "Grep": {
+        "id": "tool:Grep",
+        "type": "tool",
+        "category": "core",
+        "description": "Content search tool",
+        "dependents": ["agent:Explore", "agent:Plan", "agent:GeneralPurpose", "skill:refactor-helper", "agent:Frontend"]
+      }
+    },
+    "mcpServers": {
+      "filesystem": {
+        "id": "mcp:filesystem",
+        "type": "mcpServer",
+        "category": "core",
+        "description": "Filesystem operations MCP server",
+        "dependents": ["agent:Explore", "agent:Plan", "skill:doc-generator", "skill:project-setup"]
+      },
+      "github": {
+        "id": "mcp:github",
+        "type": "mcpServer",
+        "category": "integration",
+        "description": "GitHub API MCP server",
+        "dependents": ["skill:git-workflow"]
+      },
+      "browser": {
+        "id": "mcp:browser",
+        "type": "mcpServer",
+        "category": "integration",
+        "description": "Browser automation MCP server",
+        "dependents": ["agent:Frontend"]
+      },
+      "postgres": {
+        "id": "mcp:postgres",
+        "type": "mcpServer",
+        "category": "data",
+        "description": "PostgreSQL operations MCP server",
+        "dependents": []
+      },
+      "docker": {
+        "id": "mcp:docker",
+        "type": "mcpServer",
+        "category": "infrastructure",
+        "description": "Docker management MCP server",
+        "dependents": []
+      }
+    },
+    "agents": {
+      "Bash": {
+        "id": "agent:Bash",
+        "type": "agent",
+        "category": "core",
+        "domain": "core",
+        "description": "Command execution specialist",
+        "dependencies": {
+          "tools": ["Bash"],
+          "mcpServers": [],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "skills": ["git-workflow"],
+          "rules": ["git-hygiene"]
+        },
+        "dependents": ["skill:git-workflow", "skill:test-runner"]
+      },
+      "Explore": {
+        "id": "agent:Explore",
+        "type": "agent",
+        "category": "core",
+        "domain": "core",
+        "description": "Codebase exploration specialist",
+        "dependencies": {
+          "tools": ["Glob", "Grep", "Read"],
+          "mcpServers": ["filesystem"],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "agents": ["Plan"],
+          "skills": ["doc-generator"]
+        },
+        "dependents": []
+      },
+      "Plan": {
+        "id": "agent:Plan",
+        "type": "agent",
+        "category": "core",
+        "domain": "core",
+        "description": "Software architect agent",
+        "dependencies": {
+          "tools": ["Read", "Glob", "Grep"],
+          "mcpServers": ["filesystem"],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "agents": ["Explore"],
+          "skills": ["doc-generator"]
+        },
+        "dependents": []
+      },
+      "GeneralPurpose": {
+        "id": "agent:GeneralPurpose",
+        "type": "agent",
+        "category": "core",
+        "domain": "core",
+        "description": "Multi-purpose research agent",
+        "dependencies": {
+          "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+          "mcpServers": [],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {},
+        "dependents": []
+      },
+      "Frontend": {
+        "id": "agent:Frontend",
+        "type": "agent",
+        "category": "web",
+        "domain": "web",
+        "description": "Frontend development specialist",
+        "dependencies": {
+          "tools": ["Glob", "Grep", "Read", "Write", "Edit", "Bash"],
+          "mcpServers": ["browser"],
+          "agents": [],
+          "skills": ["ui-component-gen", "api-testing", "bundle-optimizer"],
+          "rules": ["web-security", "performance", "accessibility"]
+        },
+        "optional_dependencies": {
+          "skills": ["test-runner"],
+          "rules": ["testing"]
+        },
+        "dependents": []
+      }
+    },
+    "skills": {
+      "git-workflow": {
+        "id": "skill:git-workflow",
+        "type": "skill",
+        "category": "core",
+        "domain": "core",
+        "description": "Git automation skill",
+        "dependencies": {
+          "tools": ["Bash"],
+          "mcpServers": ["github"],
+          "agents": ["Bash"],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "rules": ["code-style", "git-hygiene"]
+        },
+        "dependents": []
+      },
+      "test-runner": {
+        "id": "skill:test-runner",
+        "type": "skill",
+        "category": "core",
+        "domain": "core",
+        "description": "Test execution skill",
+        "dependencies": {
+          "tools": ["Bash"],
+          "mcpServers": [],
+          "agents": ["Bash"],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "mcpServers": ["filesystem"],
+          "rules": ["testing"]
+        },
+        "dependents": ["skill:refactor-helper", "agent:Frontend"]
+      },
+      "doc-generator": {
+        "id": "skill:doc-generator",
+        "type": "skill",
+        "category": "core",
+        "domain": "core",
+        "description": "Documentation generation skill",
+        "dependencies": {
+          "tools": ["Write", "Read", "Edit"],
+          "mcpServers": ["filesystem"],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "rules": ["documentation"]
+        },
+        "dependents": []
+      },
+      "project-setup": {
+        "id": "skill:project-setup",
+        "type": "skill",
+        "category": "core",
+        "domain": "core",
+        "description": "Project scaffolding skill",
+        "dependencies": {
+          "tools": ["Write", "Bash"],
+          "mcpServers": ["filesystem"],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "agents": ["Bash", "Explore"],
+          "skills": ["git-workflow", "doc-generator"]
+        },
+        "dependents": []
+      },
+      "refactor-helper": {
+        "id": "skill:refactor-helper",
+        "type": "skill",
+        "category": "core",
+        "domain": "core",
+        "description": "Safe refactoring skill",
+        "dependencies": {
+          "tools": ["Read", "Edit", "Grep", "Bash"],
+          "mcpServers": [],
+          "agents": [],
+          "skills": [],
+          "rules": []
+        },
+        "optional_dependencies": {
+          "skills": ["test-runner"],
+          "rules": ["code-style", "testing"]
+        },
+        "dependents": []
+      },
+      "ui-component-gen": {
+        "id": "skill:ui-component-gen",
+        "type": "skill",
+        "category": "web",
+        "domain": "web",
+        "description": "UI component generator",
+        "status": "planned",
+        "dependencies": {
+          "tools": ["Write", "Edit"],
+          "agents": ["Frontend"],
+          "skills": [],
+          "rules": ["accessibility"]
+        },
+        "dependents": ["agent:Frontend"]
+      },
+      "api-testing": {
+        "id": "skill:api-testing",
+        "type": "skill",
+        "category": "web",
+        "domain": "web",
+        "description": "API testing skill",
+        "status": "planned",
+        "dependencies": {
+          "tools": ["Bash"],
+          "agents": [],
+          "skills": ["test-runner"],
+          "rules": ["testing"]
+        },
+        "dependents": ["agent:Frontend"]
+      },
+      "bundle-optimizer": {
+        "id": "skill:bundle-optimizer",
+        "type": "skill",
+        "category": "web",
+        "domain": "web",
+        "description": "Bundle optimization skill",
+        "status": "planned",
+        "dependencies": {
+          "tools": ["Bash", "Read"],
+          "agents": ["Frontend"],
+          "skills": [],
+          "rules": ["performance"]
+        },
+        "dependents": ["agent:Frontend"]
+      }
+    },
+    "rules": {
+      "code-style": {
+        "id": "rule:code-style",
+        "type": "rule",
+        "category": "quality",
+        "domain": "core",
+        "description": "Code formatting standards",
+        "dependencies": {},
+        "optional_dependencies": {
+          "skills": ["refactor-helper"]
+        },
+        "dependents": ["skill:git-workflow", "skill:refactor-helper"]
+      },
+      "testing": {
+        "id": "rule:testing",
+        "type": "rule",
+        "category": "quality",
+        "domain": "core",
+        "description": "Testing standards",
+        "dependencies": {},
+        "optional_dependencies": {
+          "skills": ["test-runner"]
+        },
+        "dependents": ["skill:test-runner", "skill:refactor-helper", "skill:api-testing", "agent:Frontend"]
+      },
+      "documentation": {
+        "id": "rule:documentation",
+        "type": "rule",
+        "category": "quality",
+        "domain": "core",
+        "description": "Documentation standards",
+        "dependencies": {},
+        "optional_dependencies": {
+          "skills": ["doc-generator"]
+        },
+        "dependents": ["skill:doc-generator"]
+      },
+      "security": {
+        "id": "rule:security",
+        "type": "rule",
+        "category": "security",
+        "domain": "core",
+        "description": "Security best practices",
+        "dependencies": {},
+        "optional_dependencies": {},
+        "dependents": []
+      },
+      "git-hygiene": {
+        "id": "rule:git-hygiene",
+        "type": "rule",
+        "category": "workflow",
+        "domain": "core",
+        "description": "Git workflow standards",
+        "dependencies": {},
+        "optional_dependencies": {
+          "skills": ["git-workflow"]
+        },
+        "dependents": ["skill:git-workflow", "agent:Bash"]
+      },
+      "web-security": {
+        "id": "rule:web-security",
+        "type": "rule",
+        "category": "security",
+        "domain": "web",
+        "description": "Web security practices",
+        "status": "planned",
+        "dependencies": {
+          "rules": ["security"]
+        },
+        "dependents": ["agent:Frontend"]
+      },
+      "performance": {
+        "id": "rule:performance",
+        "type": "rule",
+        "category": "quality",
+        "domain": "web",
+        "description": "Performance optimization guidelines",
+        "status": "planned",
+        "dependencies": {},
+        "dependents": ["agent:Frontend", "skill:bundle-optimizer"]
+      },
+      "accessibility": {
+        "id": "rule:accessibility",
+        "type": "rule",
+        "category": "quality",
+        "domain": "web",
+        "description": "Accessibility standards",
+        "status": "planned",
+        "dependencies": {},
+        "dependents": ["agent:Frontend", "skill:ui-component-gen"]
+      }
+    }
+  },
+  "edges": [
+    {
+      "from": "tool:Bash",
+      "to": "agent:Bash",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Bash",
+      "to": "agent:GeneralPurpose",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Bash",
+      "to": "skill:git-workflow",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Bash",
+      "to": "skill:test-runner",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Bash",
+      "to": "skill:project-setup",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Bash",
+      "to": "skill:refactor-helper",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Bash",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Read",
+      "to": "agent:Explore",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Read",
+      "to": "agent:Plan",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Read",
+      "to": "agent:GeneralPurpose",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Read",
+      "to": "skill:doc-generator",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Read",
+      "to": "skill:refactor-helper",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Read",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Write",
+      "to": "agent:GeneralPurpose",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Write",
+      "to": "skill:doc-generator",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Write",
+      "to": "skill:project-setup",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Write",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Edit",
+      "to": "agent:GeneralPurpose",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Edit",
+      "to": "skill:doc-generator",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Edit",
+      "to": "skill:refactor-helper",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Edit",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Glob",
+      "to": "agent:Explore",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Glob",
+      "to": "agent:Plan",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Glob",
+      "to": "agent:GeneralPurpose",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Glob",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Grep",
+      "to": "agent:Explore",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Grep",
+      "to": "agent:Plan",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Grep",
+      "to": "agent:GeneralPurpose",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Grep",
+      "to": "skill:refactor-helper",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "tool:Grep",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:filesystem",
+      "to": "agent:Explore",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:filesystem",
+      "to": "agent:Plan",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:filesystem",
+      "to": "skill:doc-generator",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:filesystem",
+      "to": "skill:project-setup",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:filesystem",
+      "to": "skill:test-runner",
+      "type": "optional",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:github",
+      "to": "skill:git-workflow",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "mcp:browser",
+      "to": "agent:Frontend",
+      "type": "required",
+      "relationship": "provides_capability"
+    },
+    {
+      "from": "agent:Bash",
+      "to": "skill:git-workflow",
+      "type": "required",
+      "relationship": "executes_skill"
+    },
+    {
+      "from": "agent:Bash",
+      "to": "skill:test-runner",
+      "type": "required",
+      "relationship": "executes_skill"
+    },
+    {
+      "from": "agent:Bash",
+      "to": "skill:git-workflow",
+      "type": "optional",
+      "relationship": "enhanced_by"
+    },
+    {
+      "from": "agent:Bash",
+      "to": "rule:git-hygiene",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "agent:Explore",
+      "to": "agent:Plan",
+      "type": "optional",
+      "relationship": "collaborates_with"
+    },
+    {
+      "from": "agent:Explore",
+      "to": "skill:doc-generator",
+      "type": "optional",
+      "relationship": "enhanced_by"
+    },
+    {
+      "from": "agent:Plan",
+      "to": "agent:Explore",
+      "type": "optional",
+      "relationship": "collaborates_with"
+    },
+    {
+      "from": "agent:Plan",
+      "to": "skill:doc-generator",
+      "type": "optional",
+      "relationship": "enhanced_by"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "skill:ui-component-gen",
+      "type": "required",
+      "relationship": "uses_skill"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "skill:api-testing",
+      "type": "required",
+      "relationship": "uses_skill"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "skill:bundle-optimizer",
+      "type": "required",
+      "relationship": "uses_skill"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "rule:web-security",
+      "type": "required",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "rule:performance",
+      "type": "required",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "rule:accessibility",
+      "type": "required",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "skill:test-runner",
+      "type": "optional",
+      "relationship": "enhanced_by"
+    },
+    {
+      "from": "agent:Frontend",
+      "to": "rule:testing",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:git-workflow",
+      "to": "rule:code-style",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:git-workflow",
+      "to": "rule:git-hygiene",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:test-runner",
+      "to": "rule:testing",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:doc-generator",
+      "to": "rule:documentation",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:project-setup",
+      "to": "agent:Bash",
+      "type": "optional",
+      "relationship": "uses_agent"
+    },
+    {
+      "from": "skill:project-setup",
+      "to": "agent:Explore",
+      "type": "optional",
+      "relationship": "uses_agent"
+    },
+    {
+      "from": "skill:project-setup",
+      "to": "skill:git-workflow",
+      "type": "optional",
+      "relationship": "uses_skill"
+    },
+    {
+      "from": "skill:project-setup",
+      "to": "skill:doc-generator",
+      "type": "optional",
+      "relationship": "uses_skill"
+    },
+    {
+      "from": "skill:refactor-helper",
+      "to": "skill:test-runner",
+      "type": "optional",
+      "relationship": "uses_skill"
+    },
+    {
+      "from": "skill:refactor-helper",
+      "to": "rule:code-style",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:refactor-helper",
+      "to": "rule:testing",
+      "type": "optional",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:ui-component-gen",
+      "to": "rule:accessibility",
+      "type": "required",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:api-testing",
+      "to": "skill:test-runner",
+      "type": "required",
+      "relationship": "extends_skill"
+    },
+    {
+      "from": "skill:api-testing",
+      "to": "rule:testing",
+      "type": "required",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "skill:bundle-optimizer",
+      "to": "rule:performance",
+      "type": "required",
+      "relationship": "guided_by"
+    },
+    {
+      "from": "rule:web-security",
+      "to": "rule:security",
+      "type": "required",
+      "relationship": "extends_rule"
+    }
+  ],
+  "dependency_layers": {
+    "layer_0_foundation": {
+      "description": "Core tools and MCP servers that provide foundational capabilities",
+      "components": [
+        "tool:Bash",
+        "tool:Read",
+        "tool:Write",
+        "tool:Edit",
+        "tool:Glob",
+        "tool:Grep",
+        "mcp:filesystem",
+        "mcp:github",
+        "mcp:browser",
+        "mcp:postgres",
+        "mcp:docker"
+      ]
+    },
+    "layer_1_core_rules": {
+      "description": "Basic rules that don't depend on other components",
+      "components": [
+        "rule:code-style",
+        "rule:testing",
+        "rule:documentation",
+        "rule:security",
+        "rule:git-hygiene"
+      ]
+    },
+    "layer_2_core_agents": {
+      "description": "Core agents that depend on tools and MCP servers",
+      "components": [
+        "agent:Bash",
+        "agent:Explore",
+        "agent:Plan",
+        "agent:GeneralPurpose"
+      ]
+    },
+    "layer_3_core_skills": {
+      "description": "Core skills that depend on agents and rules",
+      "components": [
+        "skill:git-workflow",
+        "skill:test-runner",
+        "skill:doc-generator"
+      ]
+    },
+    "layer_4_advanced_skills": {
+      "description": "Advanced skills that may depend on other skills",
+      "components": [
+        "skill:project-setup",
+        "skill:refactor-helper"
+      ]
+    },
+    "layer_5_domain_rules": {
+      "description": "Domain-specific rules",
+      "components": [
+        "rule:web-security",
+        "rule:performance",
+        "rule:accessibility"
+      ]
+    },
+    "layer_6_domain_skills": {
+      "description": "Domain-specific skills",
+      "components": [
+        "skill:ui-component-gen",
+        "skill:api-testing",
+        "skill:bundle-optimizer"
+      ]
+    },
+    "layer_7_domain_agents": {
+      "description": "Domain-specific agents that orchestrate everything",
+      "components": [
+        "agent:Frontend"
+      ]
+    }
+  },
+  "dependency_chains": {
+    "frontend_development": {
+      "description": "Complete dependency chain for frontend development",
+      "chain": [
+        "tool:Bash",
+        "tool:Read",
+        "tool:Write",
+        "tool:Edit",
+        "tool:Glob",
+        "tool:Grep",
+        "mcp:browser",
+        "rule:accessibility",
+        "rule:performance",
+        "rule:web-security",
+        "rule:security",
+        "skill:test-runner",
+        "skill:ui-component-gen",
+        "skill:api-testing",
+        "skill:bundle-optimizer",
+        "agent:Bash",
+        "agent:Frontend"
+      ]
+    },
+    "git_workflow": {
+      "description": "Git automation dependency chain",
+      "chain": [
+        "tool:Bash",
+        "mcp:github",
+        "rule:code-style",
+        "rule:git-hygiene",
+        "agent:Bash",
+        "skill:git-workflow"
+      ]
+    },
+    "safe_refactoring": {
+      "description": "Safe refactoring with testing",
+      "chain": [
+        "tool:Bash",
+        "tool:Read",
+        "tool:Edit",
+        "tool:Grep",
+        "rule:code-style",
+        "rule:testing",
+        "agent:Bash",
+        "skill:test-runner",
+        "skill:refactor-helper"
+      ]
+    },
+    "project_initialization": {
+      "description": "New project setup chain",
+      "chain": [
+        "tool:Bash",
+        "tool:Write",
+        "tool:Read",
+        "tool:Glob",
+        "mcp:filesystem",
+        "mcp:github",
+        "agent:Bash",
+        "agent:Explore",
+        "skill:git-workflow",
+        "skill:doc-generator",
+        "skill:project-setup"
+      ]
+    }
+  },
+  "circular_dependency_checks": {
+    "status": "validated",
+    "circular_dependencies_found": false,
+    "validation_date": "2026-01-19",
+    "notes": "All dependencies form a valid DAG with no circular references"
+  },
+  "component_impact_analysis": {
+    "highest_impact": [
+      {
+        "component": "tool:Bash",
+        "dependents_count": 7,
+        "impact_score": 10,
+        "reason": "Most widely used tool across all component types"
+      },
+      {
+        "component": "tool:Read",
+        "dependents_count": 7,
+        "impact_score": 9,
+        "reason": "Critical for file operations across multiple agents"
+      },
+      {
+        "component": "agent:Bash",
+        "dependents_count": 4,
+        "impact_score": 8,
+        "reason": "Essential for skills requiring command execution"
+      },
+      {
+        "component": "skill:test-runner",
+        "dependents_count": 3,
+        "impact_score": 7,
+        "reason": "Used by multiple skills for validation"
+      }
+    ],
+    "independent_components": [
+      {
+        "component": "agent:GeneralPurpose",
+        "reason": "Self-contained with no dependents"
+      },
+      {
+        "component": "rule:security",
+        "dependents_count": 1,
+        "reason": "Only extended by web-security rule"
+      }
+    ]
+  },
+  "visualization_hints": {
+    "suggested_layout": "hierarchical",
+    "color_scheme": {
+      "tools": "#4A90E2",
+      "mcpServers": "#7ED321",
+      "agents": "#F5A623",
+      "skills": "#BD10E0",
+      "rules": "#50E3C2"
+    },
+    "edge_types": {
+      "required": {
+        "style": "solid",
+        "weight": 3
+      },
+      "optional": {
+        "style": "dashed",
+        "weight": 1
+      }
+    },
+    "grouping": "by_layer"
+  },
+  "usage_patterns": {
+    "minimal_setup": {
+      "components": ["tool:Bash", "mcp:github", "agent:Bash", "skill:git-workflow", "rule:code-style"],
+      "total_dependencies": 5,
+      "use_case": "Basic git workflow automation"
+    },
+    "standard_setup": {
+      "components": [
+        "tool:Bash",
+        "tool:Read",
+        "tool:Write",
+        "tool:Edit",
+        "tool:Glob",
+        "tool:Grep",
+        "mcp:filesystem",
+        "mcp:github",
+        "agent:Bash",
+        "agent:Explore",
+        "agent:GeneralPurpose",
+        "skill:git-workflow",
+        "skill:test-runner",
+        "skill:doc-generator",
+        "rule:code-style",
+        "rule:testing",
+        "rule:documentation"
+      ],
+      "total_dependencies": 17,
+      "use_case": "Full-featured development workflow"
+    },
+    "web_development": {
+      "components": [
+        "tool:Bash",
+        "tool:Read",
+        "tool:Write",
+        "tool:Edit",
+        "tool:Glob",
+        "tool:Grep",
+        "mcp:filesystem",
+        "mcp:github",
+        "mcp:browser",
+        "agent:Bash",
+        "agent:Explore",
+        "agent:Plan",
+        "agent:Frontend",
+        "skill:git-workflow",
+        "skill:test-runner",
+        "skill:doc-generator",
+        "skill:ui-component-gen",
+        "skill:api-testing",
+        "skill:bundle-optimizer",
+        "rule:code-style",
+        "rule:testing",
+        "rule:documentation",
+        "rule:web-security",
+        "rule:performance",
+        "rule:accessibility"
+      ],
+      "total_dependencies": 25,
+      "use_case": "Complete web development stack"
+    }
+  }
+}

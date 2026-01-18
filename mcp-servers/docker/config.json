@@ -1,0 +1,164 @@
+{
+  "name": "docker",
+  "description": "Docker container and image management for development and deployment automation",
+  "version": "1.0.0",
+  "type": "stdio",
+  "command": "npx",
+  "args": [
+    "-y",
+    "@modelcontextprotocol/server-docker"
+  ],
+  "env": {
+    "DOCKER_HOST": "unix:///var/run/docker.sock",
+    "DOCKER_API_VERSION": "1.43",
+    "DOCKER_CERT_PATH": "",
+    "DOCKER_TLS_VERIFY": "0"
+  },
+  "settings": {
+    "socketPath": "/var/run/docker.sock",
+    "timeout": 30000,
+    "defaultRegistry": "docker.io",
+    "enableBuildKit": true,
+    "pruneOnExit": false
+  },
+  "capabilities": [
+    "list_containers",
+    "list_images",
+    "start_container",
+    "stop_container",
+    "create_container",
+    "remove_container",
+    "build_image",
+    "pull_image",
+    "push_image",
+    "execute_command",
+    "get_logs",
+    "inspect_container",
+    "list_volumes",
+    "list_networks"
+  ],
+  "requiredEnv": [
+    {
+      "name": "DOCKER_HOST",
+      "description": "Docker daemon socket or host URL",
+      "required": false,
+      "default": "unix:///var/run/docker.sock",
+      "examples": [
+        "unix:///var/run/docker.sock",
+        "tcp://localhost:2375",
+        "ssh://user@remote-host"
+      ]
+    },
+    {
+      "name": "DOCKER_API_VERSION",
+      "description": "Docker API version to use",
+      "required": false,
+      "default": "1.43"
+    }
+  ],
+  "security": {
+    "notes": [
+      "Docker socket access grants root-level system access",
+      "Never expose Docker socket to untrusted networks",
+      "Use TLS when connecting to remote Docker daemons",
+      "Limit container capabilities with --cap-drop and --cap-add",
+      "Run containers as non-root users when possible",
+      "Scan images for vulnerabilities before deployment",
+      "Use read-only filesystems where applicable",
+      "Implement resource limits (CPU, memory, disk I/O)"
+    ],
+    "recommendations": [
+      "Enable Docker Content Trust for image verification",
+      "Use official images from trusted registries",
+      "Regularly update base images and dependencies",
+      "Implement network segmentation with Docker networks",
+      "Use secrets management for sensitive data",
+      "Enable audit logging for container operations",
+      "Scan running containers for runtime threats",
+      "Use AppArmor or SELinux for additional isolation"
+    ],
+    "permissions": {
+      "socketAccess": {
+        "risk": "HIGH",
+        "description": "Access to Docker socket is equivalent to root access",
+        "mitigation": "Use Docker contexts or rootless Docker when possible"
+      },
+      "privilegedContainers": {
+        "risk": "CRITICAL",
+        "description": "Privileged containers can escape to host system",
+        "mitigation": "Avoid --privileged flag unless absolutely necessary"
+      }
+    }
+  },
+  "examples": [
+    {
+      "description": "Local development environment",
+      "config": {
+        "env": {
+          "DOCKER_HOST": "unix:///var/run/docker.sock"
+        },
+        "settings": {
+          "enableBuildKit": true,
+          "pruneOnExit": true
+        }
+      },
+      "usage": "Build and run containers for local development"
+    },
+    {
+      "description": "Remote Docker daemon with TLS",
+      "config": {
+        "env": {
+          "DOCKER_HOST": "tcp://remote-docker.example.com:2376",
+          "DOCKER_TLS_VERIFY": "1",
+          "DOCKER_CERT_PATH": "/path/to/certs"
+        }
+      },
+      "usage": "Manage containers on remote Docker host securely"
+    },
+    {
+      "description": "CI/CD pipeline integration",
+      "config": {
+        "settings": {
+          "enableBuildKit": true,
+          "defaultRegistry": "registry.gitlab.com/mycompany",
+          "timeout": 300000
+        }
+      },
+      "usage": "Build, test, and deploy containerized applications"
+    }
+  ],
+  "commonTasks": {
+    "listRunningContainers": {
+      "description": "View all running containers",
+      "command": "list_containers",
+      "params": {
+        "all": false
+      }
+    },
+    "buildImage": {
+      "description": "Build Docker image from Dockerfile",
+      "command": "build_image",
+      "params": {
+        "path": ".",
+        "tag": "myapp:latest",
+        "buildArgs": {}
+      }
+    },
+    "runContainer": {
+      "description": "Create and start a new container",
+      "command": "create_container",
+      "params": {
+        "image": "nginx:latest",
+        "name": "my-nginx",
+        "ports": {
+          "80/tcp": 8080
+        }
+      }
+    }
+  },
+  "prerequisites": {
+    "docker": "Docker Engine 20.10 or later must be installed",
+    "permissions": "User must be in 'docker' group or have sudo access",
+    "verification": "Run 'docker ps' to verify Docker is accessible"
+  }
+}

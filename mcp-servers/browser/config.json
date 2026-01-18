@@ -1,0 +1,115 @@
+{
+  "name": "browser",
+  "description": "Playwright-powered browser automation for web scraping, testing, and interaction",
+  "version": "1.0.0",
+  "type": "stdio",
+  "command": "npx",
+  "args": [
+    "-y",
+    "@modelcontextprotocol/server-playwright"
+  ],
+  "env": {
+    "PLAYWRIGHT_BROWSERS_PATH": "${HOME}/.cache/ms-playwright",
+    "NODE_ENV": "production"
+  },
+  "settings": {
+    "browser": "chromium",
+    "headless": true,
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "timeout": 30000,
+    "userAgent": "Mozilla/5.0 (compatible; MCPBot/1.0)",
+    "locale": "en-US",
+    "timezone": "America/New_York"
+  },
+  "capabilities": [
+    "navigate",
+    "click",
+    "fill_form",
+    "screenshot",
+    "get_content",
+    "evaluate_javascript",
+    "wait_for_selector",
+    "handle_dialogs",
+    "download_files",
+    "upload_files"
+  ],
+  "browserOptions": {
+    "chromium": {
+      "description": "Fast, modern browser with good debugging tools",
+      "recommended": true
+    },
+    "firefox": {
+      "description": "Good for testing cross-browser compatibility",
+      "recommended": false
+    },
+    "webkit": {
+      "description": "Safari engine for macOS/iOS testing",
+      "recommended": false
+    }
+  },
+  "security": {
+    "notes": [
+      "Run in headless mode in production environments",
+      "Be cautious when visiting untrusted websites",
+      "Disable JavaScript execution for simple scraping tasks",
+      "Use incognito/private mode to avoid cookie tracking",
+      "Set proper user agent to identify your bot",
+      "Respect robots.txt and site terms of service"
+    ],
+    "recommendations": [
+      "Enable sandboxing in containerized environments",
+      "Limit concurrent browser instances to prevent resource exhaustion",
+      "Set timeouts to prevent hanging operations",
+      "Clear browser data between sessions for privacy",
+      "Use proxy servers for IP rotation if needed"
+    ]
+  },
+  "examples": [
+    {
+      "description": "Web scraping configuration",
+      "config": {
+        "settings": {
+          "headless": true,
+          "timeout": 10000,
+          "userAgent": "MyBot/1.0 (+https://mysite.com/bot)"
+        }
+      },
+      "usage": "Navigate to pages and extract structured data"
+    },
+    {
+      "description": "Interactive testing",
+      "config": {
+        "settings": {
+          "headless": false,
+          "slowMo": 100,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      },
+      "usage": "Visual debugging with visible browser and slow motion"
+    },
+    {
+      "description": "Screenshot capture",
+      "config": {
+        "settings": {
+          "headless": true,
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 2
+        }
+      },
+      "usage": "Capture high-quality screenshots of web pages"
+    }
+  ],
+  "installation": {
+    "command": "npx playwright install chromium",
+    "note": "Playwright browsers must be installed separately"
+  }
+}
