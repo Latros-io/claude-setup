@@ -1,22 +1,30 @@
 {
   "name": "claude-skills",
-  "description": "Selective installation system for Claude Code skills, agents, and rules - install only what you need to keep context slim and focused",
+  "description": "⚠️ DEPRECATED - This plugin (v2.x) is deprecated. Please migrate to v3.0 (git submodule). See: https://github.com/Latros-io/claude-code-best-practices",
   "version": "2.1.0",
+  "deprecated": true,
+  "deprecationNotice": {
+    "message": "This v2.x plugin-based installation is deprecated and will receive security fixes only until 2026-07-19. Please migrate to v3.x git submodule architecture for continued support and new features.",
+    "migrationGuide": "https://github.com/Latros-io/claude-code-best-practices/blob/main/meta/migration-guide.md",
+    "newRepository": "https://github.com/Latros-io/claude-code-best-practices",
+    "endOfLife": "2026-07-19",
+    "migrationScript": "https://raw.githubusercontent.com/Latros-io/claude-code-best-practices/main/scripts/migrate-from-plugin.sh"
+  },
   "author": {
     "name": "Latros.io",
     "url": "https://github.com/Latros-io"
   },
-  "homepage": "https://github.com/Latros-io/claude-setup",
-  "repository": "https://github.com/Latros-io/claude-setup",
+  "homepage": "https://github.com/Latros-io/claude-code-best-practices",
+  "repository": "https://github.com/Latros-io/claude-code-best-practices",
   "license": "MIT",
   "keywords": [
+    "deprecated",
+    "legacy",
     "skills",
     "agents",
     "rules",
     "registry",
     "components",
-    "selective-installation",
-    "configuration",
     "claude-code"
   ]
 }
