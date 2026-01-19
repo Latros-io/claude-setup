@@ -1,0 +1,233 @@
+{
+  "name": "Project-Specific Settings Override",
+  "description": "Example of how to override settings from base profiles",
+  "extends": ".claude/best-practices/core/settings/standard.json",
+
+  "comment": "This file shows how to customize settings for your project while still inheriting from base profiles",
+
+  "agents": [
+    "comment: Inherit all agents from standard.json, or override here",
+    "Bash",
+    "Explore",
+    "Plan",
+    "comment: Add domain-specific agents",
+    "Frontend"
+  ],
+
+  "skills": [
+    "comment: Inherit all skills from standard.json, or override here",
+    "git-workflow",
+    "test-runner",
+    "doc-generator",
+    "comment: Add project-specific skills",
+    "ui-component-gen"
+  ],
+
+  "rules": [
+    "comment: Inherit all rules from standard.json, or override here",
+    "code-style",
+    "testing",
+    "documentation",
+    "security",
+    "comment: Add project-specific rules",
+    "web-security",
+    "performance"
+  ],
+
+  "mcpServers": [
+    "comment: Add or override MCP servers",
+    "filesystem",
+    "github",
+    "browser",
+    "comment: Add project-specific MCP servers",
+    "postgres",
+    "docker"
+  ],
+
+  "settings": {
+    "comment": "Project-specific Claude Code settings",
+
+    "editor": {
+      "autoSave": true,
+      "formatOnSave": true,
+      "tabSize": 2,
+      "insertSpaces": true
+    },
+
+    "linting": {
+      "enabled": true,
+      "onSave": true,
+      "providers": ["eslint", "prettier"]
+    },
+
+    "testing": {
+      "autoRun": false,
+      "coverage": {
+        "enabled": true,
+        "threshold": 80
+      }
+    },
+
+    "git": {
+      "autoFetch": true,
+      "autoPull": false,
+      "showInlineChanges": true
+    },
+
+    "ai": {
+      "suggestions": {
+        "enabled": true,
+        "aggressive": false
+      },
+      "autoComplete": {
+        "enabled": true,
+        "delay": 100
+      }
+    },
+
+    "project": {
+      "name": "My Project",
+      "type": "web-app",
+      "framework": "react",
+      "language": "typescript"
+    },
+
+    "customCommands": [
+      {
+        "name": "Run Dev Server",
+        "command": "npm run dev",
+        "description": "Start development server"
+      },
+      {
+        "name": "Run Tests",
+        "command": "npm test",
+        "description": "Run test suite"
+      },
+      {
+        "name": "Build",
+        "command": "npm run build",
+        "description": "Build for production"
+      }
+    ],
+
+    "fileAssociations": {
+      "*.config.js": "javascript",
+      "*.spec.ts": "typescript"
+    },
+
+    "excludePatterns": [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      ".cache/**"
+    ]
+  },
+
+  "overrides": {
+    "comment": "Component-specific overrides",
+
+    "agents": {
+      "Bash": {
+        "timeout": 30000,
+        "maxRetries": 3
+      },
+      "Explore": {
+        "defaultThoroughness": "medium",
+        "maxFilesToRead": 50
+      }
+    },
+
+    "skills": {
+      "test-runner": {
+        "autoDetect": true,
+        "framework": "vitest",
+        "watchMode": true
+      },
+      "git-workflow": {
+        "commitMessageTemplate": "feat: {{message}}\n\n{{body}}\n\nCo-Authored-By: {{author}}",
+        "branchNamingPattern": "feature/{{ticket}}-{{description}}"
+      }
+    },
+
+    "rules": {
+      "code-style": {
+        "severity": "warning",
+        "indentation": "spaces",
+        "indentSize": 2,
+        "maxLineLength": 100
+      },
+      "testing": {
+        "minCoverage": 80,
+        "requiredForPR": true
+      },
+      "security": {
+        "scanOnSave": true,
+        "blockOnCritical": true
+      }
+    }
+  },
+
+  "profiles": {
+    "comment": "Define multiple profiles for different scenarios",
+
+    "development": {
+      "extends": "this",
+      "settings": {
+        "ai": {
+          "suggestions": {
+            "aggressive": true
+          }
+        }
+      }
+    },
+
+    "production": {
+      "extends": "this",
+      "settings": {
+        "ai": {
+          "suggestions": {
+            "enabled": false
+          }
+        },
+        "linting": {
+          "strict": true
+        }
+      }
+    }
+  },
+
+  "examples": {
+    "comment": "These are example patterns - remove this section in actual use",
+
+    "minimalOverride": {
+      "extends": ".claude/best-practices/core/settings/standard.json",
+      "settings": {
+        "project": {
+          "name": "My Project"
+        }
+      }
+    },
+
+    "composedProfile": {
+      "extends": [
+        ".claude/best-practices/core/settings/standard.json",
+        ".claude/best-practices/domains/web/settings/react.json"
+      ],
+      "agents": ["add domain agents here"],
+      "settings": {
+        "project": {
+          "name": "My React App"
+        }
+      }
+    },
+
+    "fullyCustom": {
+      "comment": "Don't extend any base profile",
+      "agents": ["Bash", "Explore"],
+      "skills": ["git-workflow"],
+      "rules": ["code-style"],
+      "mcpServers": ["filesystem"],
+      "settings": {}
+    }
+  }
+}

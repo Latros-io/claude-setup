@@ -1,537 +1,444 @@
-# Claude Skills Registry
+# Claude Code Best Practices
 
-> A Claude Code plugin for selective installation of skills, agents, and rules
+> A comprehensive library of agents, skills, and rules for Claude Code projects, distributed as a git submodule.
 
-**Keep your Claude Code context slim and focused** by installing only the components your project needs.
+**Build better software with battle-tested components** that integrate seamlessly into your development workflow.
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/Latros-io/claude-setup)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/Latros-io/claude-code-best-practices)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Claude Code](https://img.shields.io/badge/claude--code-plugin-purple.svg)](https://claude.ai/code)
+[![Claude Code](https://img.shields.io/badge/claude--code-v3.0-purple.svg)](https://claude.ai/code)
 
 ---
 
-## What is This?
+## 🎯 What is This?
 
-A **centralized registry** of reusable components for Claude Code projects:
+A **git submodule-based library** of reusable components for Claude Code:
 
-- 🎯 **Skills**: Specialized capabilities (git workflows, test running, documentation)
-- 🤖 **Agents**: Focused AI assistants (Bash execution, code exploration, planning)
-- 📋 **Rules**: Guidelines and best practices (code style, security, testing)
-- 🔌 **MCP Servers**: External integrations (GitHub, filesystem, databases)
+- **🤖 Agents** (4 core + domains): Specialized AI assistants for different tasks
+- **🎯 Skills** (5 core + domains): Automated workflows and capabilities
+- **📋 Rules** (5 core + domains): Best practices and coding standards
+- **⚙️ Settings Profiles**: Pre-configured setups for different project types
+- **🔌 MCP Servers**: Integration configurations for external services
 
-**Selective installation** means your project only contains what you actually use.
+**Why git submodule?** Standard git workflow, version pinning, clean updates, and clear separation between upstream and your customizations.
 
-## Installation
+---
 
-You can install using either the Claude Code CLI or within a Claude Code session:
+## ✨ Features
 
-### Option 1: Using Claude Code CLI (Recommended)
-
+### ✅ Standard Git Workflow
+No special plugin system - just git:
 ```bash
-# Add the marketplace
-claude plugin marketplace add Latros-io/claude-setup
-
-# Install the plugin
-claude plugin install claude-skills
-
-# Verify installation
-claude plugin marketplace list
+git submodule add <url>    # Install
+git pull                    # Update
+git checkout v3.0.0         # Pin version
 ```
 
-Then run the installation script to copy skills, agents, and rules:
+### ✅ Rich Component Library
+- **Core**: Universal components for all projects
+- **Web**: Frontend (React, Vue) & Backend (Node, Express)
+- **Data Science**: Python, Jupyter, ML workflows
+- **DevOps**: Docker, Kubernetes, Terraform
+
+### ✅ Clean Customization
+- Override system keeps your changes separate
+- Updates never conflict with customizations
+- Clear distinction: upstream vs local
+
+### ✅ Settings Profiles
+- **Minimal**: Barebones (perfect for scripts)
+- **Standard**: Recommended for most projects
+- **Comprehensive**: Full power for large codebases
+- **Domain-Specific**: React, Python, Docker, etc.
+
+### ✅ Integrated Tools
+- **link.sh**: Set up symlinks from submodule to project
+- **sync.sh**: Pull updates safely
+- **customize.sh**: Manage overrides
+- **validate.sh**: Check configurations
+- **merge-settings.sh**: Compose profiles
+
+---
+
+## 🚀 Quick Start
+
+### Installation (3 steps)
+
+**1. Add Submodule**
 ```bash
-# Navigate to your project directory
-cd /path/to/your/project
-
-# Run the install script
-~/.claude/plugins/claude-skills/.claude-plugin/install.sh --skip-existing
+cd your-project
+git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule update --init --recursive
 ```
 
-Finally, in your Claude Code session, run:
-```
-/claude-skills:setup
-```
-
-### Option 2: Within Claude Code Session
-
-Inside a Claude Code instance, run:
-
-```
-/plugin marketplace add Latros-io/claude-setup
-/plugin install claude-skills
-```
-
-Then ask Claude to run the installation:
-```
-Please run the installation script from ~/.claude/plugins/claude-skills/.claude-plugin/install.sh with --skip-existing flag to copy the skills to this repository.
-```
-
-Finally, run the setup wizard:
-```
-/claude-skills:setup
-```
-
-No restart needed.
-
-### Verification
-
-To verify the plugin was installed successfully:
-
+**2. Link Components**
 ```bash
-# List installed plugins
-claude plugin list
-
-# Update the marketplace to get latest changes
-claude plugin marketplace update claude-skills-registry
-
-# The /claude-skills:setup command should now be available
+# Choose a profile based on your project type
+.claude/best-practices/scripts/link.sh --profile=core              # General
+.claude/best-practices/scripts/link.sh --profile=web-frontend     # React, Vue
+.claude/best-practices/scripts/link.sh --profile=web-backend      # Node, Express
+.claude/best-practices/scripts/link.sh --profile=data-science     # Python, ML
+.claude/best-practices/scripts/link.sh --profile=devops           # Docker, K8s
 ```
 
-**Note**: If you don't see the command, try restarting your Claude Code session.
-
-## How Installation Works
-
-After installing the plugin, you run the installation script which:
-
-1. **Copies all components** from the plugin to your project's `.github` directory
-2. **Preserves existing files** - if a skill/agent/rule already exists, it's skipped (with `--skip-existing`)
-3. **Merges intelligently** - new components are added without overwriting your customizations
-
-The installation script is located at `~/.claude/plugins/claude-skills/.claude-plugin/install.sh` and supports different modes:
-
+**3. Apply Settings**
 ```bash
-# Interactive mode (prompts for each conflict)
-~/.claude/plugins/claude-skills/.claude-plugin/install.sh
+# Standard profile (recommended)
+cp .claude/best-practices/core/settings/standard.json .claude/settings.json
 
-# Skip existing files (recommended for first install)
-~/.claude/plugins/claude-skills/.claude-plugin/install.sh --skip-existing
-
-# Force overwrite all files
-~/.claude/plugins/claude-skills/.claude-plugin/install.sh --force
+# Or compose with domain profile
+.claude/best-practices/scripts/merge-settings.sh \
+    .claude/best-practices/core/settings/standard.json \
+    .claude/best-practices/domains/web/settings/react.json \
+    .claude/settings.json
 ```
 
-## Quick Start
-
-### 1. Run Setup
-
-In your Claude Code instance:
-
-```
-/claude-skills:setup
+**4. Commit**
+```bash
+git add .claude .github
+git commit -m "Integrate Claude Code best practices v3.0.0"
 ```
 
-### 2. Select Components
+✅ **Done!** Claude Code now has access to your selected components.
 
-Answer 4 interactive questions:
+---
 
-**Step 1/4: MCP Servers**
+## 📦 What's Included
+
+### Core Components (Universal)
+
+#### Agents (4)
+| Agent | Purpose |
+|-------|---------|
+| **Bash** | Command execution specialist for git, npm, docker, etc. |
+| **Explore** | Fast codebase exploration and keyword search |
+| **Plan** | Software architect for designing implementations |
+| **GeneralPurpose** | Multi-step research and complex tasks |
+
+#### Skills (5)
+| Skill | Purpose |
+|-------|---------|
+| **git-workflow** | Git automation with conventional commits |
+| **test-runner** | Auto-detect and run tests (Jest, Vitest, pytest, etc.) |
+| **doc-generator** | Generate documentation from code |
+| **project-setup** | Initialize Claude Code configuration |
+| **refactor-helper** | Safe refactoring with validation |
+
+#### Rules (5)
+| Rule | Purpose |
+|------|---------|
+| **code-style** | Formatting and style standards |
+| **testing** | Test coverage and requirements |
+| **documentation** | Documentation standards |
+| **security** | Security best practices (OWASP Top 10) |
+| **git-hygiene** | Commit message and PR standards |
+
+### Domain Components
+
+#### Web (`domains/web/`)
+- **Agents**: Frontend (React/Vue expert), Backend (Node/Express)
+- **Skills**: API testing, UI component generation, bundle optimization
+- **Rules**: Web security, performance, accessibility
+- **Settings**: react.json, vue.json, node-express.json, next.json
+
+#### Data Science (`domains/data-science/`)
+- **Agents**: DataAnalyst, MLEngineer
+- **Skills**: Jupyter workflow, data visualization, model training
+- **Rules**: Reproducibility, data validation, notebook quality
+- **Settings**: pandas-numpy.json, pytorch.json, tensorflow.json
+
+#### DevOps (`domains/devops/`)
+- **Agents**: Infrastructure, CICD
+- **Skills**: Container management, K8s helper, Terraform generation
+- **Rules**: Infrastructure-as-code, deployment safety, secrets management
+- **Settings**: docker.json, kubernetes.json, aws.json
+
+### Settings Profiles
+
+| Profile | Components | Use Case |
+|---------|-----------|----------|
+| **minimal.json** | 1 agent, 1 skill, 1 rule | Scripts, small projects |
+| **standard.json** | 3 agents, 3 skills, 3 rules | Most projects (recommended) |
+| **comprehensive.json** | 4 agents, 5 skills, 5 rules | Large codebases, enterprise |
+
+### MCP Servers (5 configs)
+- **filesystem**: Secure filesystem access
+- **github**: GitHub API integration
+- **browser**: Playwright automation
+- **postgres**: PostgreSQL access
+- **docker**: Container management
+
+---
+
+## 📖 Usage
+
+### Basic Workflow
+
+**Check for updates:**
+```bash
+.claude/best-practices/scripts/sync.sh
 ```
-Which MCP servers would you like to enable?
-1) filesystem
-2) github
-3) postgres
-4) docker
 
-Enter numbers (comma-separated): 1,2
+**Apply updates:**
+```bash
+.claude/best-practices/scripts/sync.sh --apply
+git add .claude/best-practices
+git commit -m "Update best-practices to v3.1.0"
 ```
 
-**Step 2/4: Agents**
-```
-Which agents would you like to enable?
-1) Bash
-2) Explore
-3) Plan
-4) general-purpose
+### Customization
 
-Enter numbers (comma-separated): 1,2
+**Create override:**
+```bash
+.claude/best-practices/scripts/customize.sh create-override \
+    --component=core/skills/git-workflow \
+    --file=config.json
 ```
 
-**Step 3/4: Skills**
-```
-Which skills would you like to enable?
-1) git-workflow
-2) test-runner
-3) cicd-helper
-4) doc-generator
-
-Enter numbers (comma-separated): 1,2
+**Edit override:**
+```bash
+vim .github/overrides/skills/git-workflow/config.json
 ```
 
-**Step 4/4: Rules**
-```
-Which rules would you like to enable?
-1) code-style
-2) testing
-3) security
-4) documentation
-
-Enter numbers (comma-separated): 1,2
+**Validate:**
+```bash
+.claude/best-practices/scripts/customize.sh validate
 ```
 
-### 3. Installation Complete! 🎉
+### Project Structure
 
-Your project now contains:
+After installation:
 ```
 your-project/
 ├── .claude/
-│   ├── settings.local.json       # Configuration
-│   ├── installation.state.json   # Tracking
-│   └── [component configs]
-├── CLAUDE.md                      # Project guidance
-└── .github/
-    ├── skills/[selected]         # Only what you chose
-    ├── agents/[selected]         # Only what you chose
-    └── rules/[selected]          # Only what you chose
+│   ├── best-practices/          # Submodule (upstream)
+│   │   ├── core/                # Universal components
+│   │   ├── domains/             # Domain-specific
+│   │   ├── scripts/             # Integration tools
+│   │   └── ...
+│   └── settings.json            # Your settings
+│
+├── .github/
+│   ├── agents/                  # Symlinks to submodule
+│   │   ├── Bash -> ../.claude/best-practices/core/agents/Bash
+│   │   ├── Explore -> ...
+│   │   └── ...
+│   ├── skills/                  # Symlinks to submodule
+│   │   ├── git-workflow -> ...
+│   │   └── ...
+│   ├── rules/                   # Symlinks to submodule
+│   │   ├── code-style -> ...
+│   │   └── ...
+│   └── overrides/               # Your customizations
+│       ├── agents/
+│       ├── skills/
+│       └── rules/
+│
+└── CLAUDE.md                    # Project context (optional)
 ```
 
-## Features
+---
 
-### ✅ Selective Installation
-Install only the components you need - no clutter, no bloat.
+## 🔄 Migrating from v2.x?
 
-### ✅ Automatic Dependencies
-Dependencies are resolved automatically:
-```
-You select: git-workflow
-System adds: github MCP + Bash agent
-```
-
-### ✅ Update Mode
-Re-run setup to add or remove components:
-```
-/claude-skills:setup
-# Choose "Update (add/remove)" when prompted
-```
-
-### ✅ Customization Tracking
-Modify installed components freely. Updates preserve your changes:
-```bash
-# Edit any installed component
-vim .github/skills/git-workflow/SKILL.md
-# Your customizations are tracked and preserved on update
-```
-
-### ✅ Local Extensions
-Add project-specific components via local registry:
-```bash
-# Create .claude/registry.local.json
-# Add your custom skills, agents, or rules
-# They appear in setup alongside central components
-```
-
-### ✅ Self-Contained Projects
-After installation, projects work offline. All components are copied locally.
-
-## Available Components
-
-### MCP Servers
-| Name | Description |
-|------|-------------|
-| **filesystem** | Local file operations |
-| **github** | GitHub API integration |
-| **postgres** | PostgreSQL database |
-| **docker** | Container management |
-
-### Agents
-| Name | Description | View |
-|------|-------------|------|
-| **Bash** | Command execution specialist | [📄](/.github/agents/Bash/AGENT.md) |
-| **Explore** | Codebase analysis | |
-| **Plan** | Implementation planning | |
-| **general-purpose** | Multi-purpose research | |
-
-### Skills
-| Name | Description | View |
-|------|-------------|------|
-| **git-workflow** | Git automation with conventional commits | [📄](/.github/skills/git-workflow/SKILL.md) |
-| **test-runner** | Test execution and coverage | |
-| **cicd-helper** | CI/CD automation | |
-| **doc-generator** | Documentation generation | |
-
-### Rules
-| Name | Description | View |
-|------|-------------|------|
-| **code-style** | Formatting and style guidelines | [📄](/.github/rules/code-style/RULE.md) |
-| **testing** | Test requirements and coverage | |
-| **security** | Security best practices | |
-| **documentation** | Documentation standards | |
-
-## Common Setups
-
-### Frontend Developer
-```
-MCP: filesystem, github
-Agents: Bash, Explore
-Skills: git-workflow, test-runner
-Rules: code-style, testing
-```
-
-### Backend Developer
-```
-MCP: filesystem, github, postgres
-Agents: Bash, Explore, Plan
-Skills: git-workflow, test-runner, cicd-helper
-Rules: code-style, testing, security
-```
-
-### Full Stack Team
-```
-MCP: filesystem, github, postgres, docker
-Agents: Bash, Explore, Plan, general-purpose
-Skills: git-workflow, test-runner, cicd-helper, doc-generator
-Rules: code-style, testing, security, documentation
-```
-
-### Minimal Setup
-```
-MCP: filesystem
-Agents: Bash
-Skills: git-workflow
-Rules: code-style
-```
-
-## How It Works
-
-### Registry-Driven Architecture
-
-```
-┌─────────────────────────────────────┐
-│  Claude Plugin                      │
-│  (Installed via /plugin install)    │
-│                                     │
-│  ├── registry.json   ← Catalog     │
-│  ├── .github/                       │
-│  │   ├── skills/    ← All skills   │
-│  │   ├── agents/    ← All agents   │
-│  │   └── rules/     ← All rules    │
-│  └── setup command                  │
-└─────────────────────────────────────┘
-              ↓
-    User runs /claude-skills:setup
-              ↓
-┌─────────────────────────────────────┐
-│  Your Project                       │
-│                                     │
-│  ├── .claude/                       │
-│  │   ├── settings.local.json       │
-│  │   ├── installation.state.json   │
-│  │   └── registry.local.json       │
-│  ├── CLAUDE.md                      │
-│  └── .github/                       │
-│      ├── skills/    ← Only selected│
-│      ├── agents/    ← Only selected│
-│      └── rules/     ← Only selected│
-└─────────────────────────────────────┘
-```
-
-### Three-Registry System
-
-1. **Central Registry** (`registry.json`)
-   - Maintained in plugin repository
-   - Defines all available components
-   - Single source of truth
-
-2. **Local Registry** (`.claude/registry.local.json`)
-   - Optional, project-specific
-   - Custom components
-   - Merged with central (local overrides)
-
-3. **Installation State** (`.claude/installation.state.json`)
-   - Tracks installed components
-   - Records versions and timestamps
-   - Lists customizations
-
-## Usage Examples
-
-### Example 1: Fresh Setup
-
-```
-/claude-skills:setup
-
-# Select components
-# Installation completes
-# Start using Claude Code with selected components
-```
-
-### Example 2: Add Components Later
-
-```
-/claude-skills:setup
-
-# Choose "Update (add/remove)"
-# Select additional components
-# Existing components preserved
-```
-
-### Example 3: Customize and Update
+If you're using the old plugin-based system:
 
 ```bash
-# Customize installed skill
-vim .github/skills/git-workflow/SKILL.md
+# Automated migration (recommended)
+.claude/best-practices/scripts/migrate-from-plugin.sh
 
-# Run update
-/claude-skills:setup
-
-# Your customizations are detected and preserved
-# "File has been customized: .github/skills/git-workflow/SKILL.md"
-# "Overwrite? [y/N]:" → Choose 'N' to keep changes
+# Or see detailed guide
+.claude/best-practices/meta/migration-guide.md
 ```
 
-### Example 4: Custom Project-Specific Skill
+The migration script:
+- ✅ Backs up your current configuration
+- ✅ Extracts customizations
+- ✅ Removes old plugin components
+- ✅ Adds v3.x submodule
+- ✅ Links components with profile selection
+- ✅ Restores customizations to overrides/
+- ✅ Generates detailed migration report
 
+**v2.x Support:** Security fixes only until 2026-07-19. Please migrate soon.
+
+---
+
+## 📚 Documentation
+
+- **[INTEGRATION.md](INTEGRATION.md)** - Complete integration guide
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history and release notes
+- **[meta/migration-guide.md](meta/migration-guide.md)** - Detailed v2.x → v3.x migration
+- **[core/settings/README.md](core/settings/README.md)** - Settings profile documentation
+- **[STATUS.md](STATUS.md)** - Implementation status and roadmap
+
+### Component Documentation
+
+Each component includes:
+- **AGENT.md** / **SKILL.md** / **RULE.md** - Purpose and usage
+- **config.json** - Configuration and dependencies
+- **prompts/** or **templates/** - Customizable content
+- **examples/** - Real-world usage examples
+
+---
+
+## 💡 Common Setups
+
+### Frontend (React)
 ```bash
-# Create local registry
-cat > .claude/registry.local.json << 'EOF'
-{
-  "version": "1.0.0",
-  "components": {
-    "skills": {
-      "custom-deploy": {
-        "id": "custom-deploy",
-        "type": "skill",
-        "name": "Custom Deploy",
-        "description": "Project-specific deployment automation",
-        "version": "1.0.0",
-        "dependencies": {},
-        "files": [...]
-      }
-    }
-  }
-}
-EOF
-
-# Create skill files
-mkdir -p .github/skills/custom-deploy
-vim .github/skills/custom-deploy/SKILL.md
-
-# Run setup - custom skill appears in list
-/claude-skills:setup
+.claude/best-practices/scripts/link.sh --profile=web-frontend
+.claude/best-practices/scripts/merge-settings.sh \
+    .claude/best-practices/core/settings/standard.json \
+    .claude/best-practices/domains/web/settings/react.json \
+    .claude/settings.json
 ```
 
-## Requirements
+**Includes**: Bash, Explore, Plan, Frontend agents + git-workflow, test-runner, ui-component-gen + code-style, testing, web-security, performance
 
-- **Bash**: 4.0 or higher
-- **jq**: 1.5 or higher (JSON processor)
-- **OS**: macOS, Linux, or WSL on Windows
-
-### Install jq
-
-If setup fails with "jq: command not found":
-
+### Backend (Node + PostgreSQL)
 ```bash
-# macOS
-brew install jq
-
-# Ubuntu/Debian
-sudo apt-get install jq
-
-# Fedora
-sudo dnf install jq
+.claude/best-practices/scripts/link.sh --profile=web-backend
+.claude/best-practices/scripts/merge-settings.sh \
+    .claude/best-practices/core/settings/standard.json \
+    .claude/best-practices/domains/web/settings/node-express.json \
+    .claude/settings.json
 ```
 
-## Documentation
+**Includes**: Core agents + Backend agent + API testing + security rules
 
-- **Quick Start**: [QUICKSTART.md](QUICKSTART.md) - 5-minute setup
-- **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md) - Add components
-- **Registry Schema**: [registry.json](registry.json) - Technical reference
-
-## Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
-- Adding new skills, agents, or rules
-- Improving existing components
-- Documentation improvements
-- Bug fixes
-
-## Philosophy
-
-**Why selective installation?**
-
-1. **Slim Context**: Claude Code reads project files. Fewer files = faster, more focused responses
-2. **No Clutter**: Only see components you use
-3. **Clear Intent**: Installed components document project patterns
-4. **Easy Customization**: Modify without affecting unused components
-5. **Version Control Friendly**: Commit only what's needed
-
-**Design Principles**:
-- Self-contained projects (work offline)
-- Explicit dependencies (no surprises)
-- Customization-aware (preserve modifications)
-- Update-friendly (safe to re-run)
-- Registry-driven (single source of truth)
-
-## Troubleshooting
-
-### Plugin not found
-
-```
-# Make sure marketplace is added
-/plugin marketplace add Latros-io/claude-setup
-
-# Then install
-/plugin install claude-skills
-```
-
-### jq not installed
-
+### Data Science (Python)
 ```bash
-# Install jq (see Requirements section)
-brew install jq  # macOS
-sudo apt-get install jq  # Ubuntu/Debian
+.claude/best-practices/scripts/link.sh --profile=data-science
+.claude/best-practices/scripts/merge-settings.sh \
+    .claude/best-practices/core/settings/standard.json \
+    .claude/best-practices/domains/data-science/settings/pandas-numpy.json \
+    .claude/settings.json
 ```
 
-### Components not working
+**Includes**: Core components + DataAnalyst agent + Jupyter workflow + reproducibility rules
 
+### DevOps (Docker + K8s)
 ```bash
-# Verify installation
-cat .claude/installation.state.json
-
-# Check configuration
-cat .claude/settings.local.json
-
-# Re-run setup if needed
-/claude-skills:setup
+.claude/best-practices/scripts/link.sh --profile=devops
+.claude/best-practices/scripts/merge-settings.sh \
+    .claude/best-practices/core/settings/standard.json \
+    .claude/best-practices/domains/devops/settings/kubernetes.json \
+    .claude/settings.json
 ```
 
-### Setup command not found
+**Includes**: Core components + Infrastructure, CICD agents + K8s helper + deployment safety
 
-```bash
-# Verify plugin is installed - check both CLI and within Claude Code
-claude plugin install claude-skills  # Use CLI command format
+---
 
-# Verify marketplace is added
-claude plugin marketplace list
+## 🛠️ Integration Scripts
 
-# Update marketplace cache to get latest version
-claude plugin marketplace update claude-skills-registry
+All scripts in `scripts/` directory:
 
-# If command still not available, restart Claude Code session
-```
+| Script | Purpose |
+|--------|---------|
+| **link.sh** | Create symlinks from submodule to project |
+| **sync.sh** | Pull updates and validate against overrides |
+| **customize.sh** | Create, list, validate overrides |
+| **validate.sh** | Validate all configurations and dependencies |
+| **merge-settings.sh** | Compose multiple settings profiles |
+| **migrate-from-plugin.sh** | Migrate from v2.x plugin |
 
-### Installation validation error
+All scripts include `--help` for detailed usage.
 
-If you see "Invalid schema" or "commands: Invalid input" errors:
+---
 
-```bash
-# This usually means you're trying to add an older version
-# Update the marketplace to get the latest fixes:
-claude plugin marketplace update claude-skills-registry
+## 🤝 Contributing
 
-# Then try installing again:
-claude plugin install claude-skills
-```
+We welcome contributions!
 
-## Support
+**Ways to contribute:**
+- Add new components (agents, skills, rules)
+- Improve existing components
+- Add domain-specific configurations
+- Fix bugs
+- Improve documentation
 
-- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-setup/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-setup/discussions)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## License
+**Component Development:**
+1. Follow existing structure (AGENT.md, config.json, etc.)
+2. Include examples and documentation
+3. Declare dependencies clearly
+4. Add to registry.json
+5. Submit PR
+
+---
+
+## 🔒 Security
+
+- Never commit secrets to version control
+- Use environment variables for sensitive data
+- Security rules check for common vulnerabilities
+- Regular dependency audits
+- Report vulnerabilities: security@latros.io
+
+---
+
+## 📊 Project Stats
+
+- **61 files** in v3.0.0
+- **15 stable components** (4 agents, 5 skills, 5 rules, 1 settings group)
+- **42 planned components** across 3 domains
+- **6 integration scripts**
+- **5 MCP server configurations**
+- **3 core settings profiles**
+- **Comprehensive documentation** (4 major docs + component docs)
+
+---
+
+## 🗺️ Roadmap
+
+### v3.0.0 (Current)
+- ✅ Core components (agents, skills, rules)
+- ✅ Settings profiles
+- ✅ Integration scripts
+- ✅ MCP server configs
+- ✅ Web domain (examples)
+- ✅ Migration tooling
+
+### v3.1.0 (Q2 2026)
+- Complete web domain components
+- Additional settings profiles
+- Enhanced documentation
+
+### v3.2.0 (Q3 2026)
+- Data science domain components
+- DevOps domain components
+- Performance optimizations
+
+### v3.3.0 (Q4 2026)
+- Advanced agent capabilities
+- Plugin ecosystem
+- Community components
+
+---
+
+## ❓ Support
+
+- **Documentation**: Start with [INTEGRATION.md](INTEGRATION.md)
+- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-code-best-practices/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-code-best-practices/discussions)
+- **Email**: support@latros.io
+
+---
+
+## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file
 
 ---
 
-**Version**: 2.1.0 (Auto-install with merge support)
-**Status**: Active Development
-**Last Updated**: 2026-01-16
+## 🙏 Acknowledgments
+
+Built for the Claude Code community. Inspired by best practices from leading software teams.
+
+Special thanks to all contributors and early adopters.
+
+---
+
+**Version**: 3.0.0 | **Status**: Active Development | **Last Updated**: 2026-01-19
