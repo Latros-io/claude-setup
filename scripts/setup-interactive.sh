@@ -83,9 +83,9 @@ cat << "EOF"
 ===============================================================
 EOF
 echo
-echo -e "${CYAN}Welcome! This wizard will help you set up Claude Code for your project.${NC}"
+echo "Welcome! This wizard will help you set up Claude Code for your project."
 echo
-echo -e "Press ${YELLOW}CTRL+C${NC} at any time to cancel."
+echo "Press CTRL+C at any time to cancel."
 echo
 
 # Function to prompt for yes/no
@@ -95,10 +95,10 @@ prompt_yes_no() {
     local response
 
     if [[ "$default" == "y" ]]; then
-        read -p "$(echo -e "${prompt} ${GREEN}[Y/n]${NC}: ")" response
+        read -p "$prompt [Y/n]: " response
         response="${response:-y}"
     else
-        read -p "$(echo -e "${prompt} ${YELLOW}[y/N]${NC}: ")" response
+        read -p "$prompt [y/N]: " response
         response="${response:-n}"
     fi
 
@@ -110,9 +110,9 @@ prompt_select() {
     local prompt="$1"
     shift
     local options=("$@")
-    local PS3="$(echo -e "${BLUE}Select (1-${#options[@]}): ${NC}")"
+    local PS3="Select (1-${#options[@]}): "
 
-    echo -e "${BOLD}${prompt}${NC}"
+    echo "$prompt"
     select opt in "${options[@]}"; do
         if [[ -n "$opt" ]]; then
             echo "$opt"
@@ -152,43 +152,43 @@ detect_project_type() {
 }
 
 # Step 1: Detect project type
-echo -e "${BOLD}${BLUE}Step 1: Project Type Detection${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Step 1: Project Type Detection"
+echo "============================================================"
 echo
 
 detected_type=$(detect_project_type)
 if [[ "$detected_type" != "unknown" ]]; then
-    echo -e "${GREEN}✓${NC} Detected project type: ${BOLD}$detected_type${NC}"
+    echo "* Detected project type: $detected_type"
 else
-    echo -e "${YELLOW}⚠${NC} Could not auto-detect project type"
+    echo "* Could not auto-detect project type"
 fi
 echo
 
 # Step 2: Select profile
-echo -e "${BOLD}${BLUE}Step 2: Choose Profile${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Step 2: Choose Profile"
+echo "============================================================"
 echo
 
-cat << EOF
-${BOLD}Available Profiles:${NC}
+cat << 'EOF'
+Available Profiles:
 
-${GREEN}1. core${NC}
+1. core
    General development (recommended for most projects)
    Components: 4 agents, 5 skills, 5 rules
 
-${CYAN}2. web-frontend${NC}
+2. web-frontend
    React, Vue, or other frontend frameworks
    Components: Core + Web domain (Frontend agent, UI components)
 
-${CYAN}3. web-backend${NC}
+3. web-backend
    Node, Express, or other backend APIs
    Components: Core + Web domain (Backend agent, API tools)
 
-${MAGENTA}4. data-science${NC}
+4. data-science
    Python, Jupyter, ML projects
    Components: Core + Data Science domain (Jupyter, visualization)
 
-${YELLOW}5. devops${NC}
+5. devops
    Docker, Kubernetes, infrastructure
    Components: Core + DevOps domain (Container, K8s helpers)
 
@@ -196,19 +196,19 @@ EOF
 
 # Recommend based on detected type
 if [[ "$detected_type" == "web-frontend" ]]; then
-    echo -e "${GREEN}→ Recommended: web-frontend${NC}"
+    echo "> Recommended: web-frontend"
     default_profile="web-frontend"
 elif [[ "$detected_type" == "web-backend" ]]; then
-    echo -e "${GREEN}→ Recommended: web-backend${NC}"
+    echo "> Recommended: web-backend"
     default_profile="web-backend"
 elif [[ "$detected_type" == "data-science" ]]; then
-    echo -e "${GREEN}→ Recommended: data-science${NC}"
+    echo "> Recommended: data-science"
     default_profile="data-science"
 elif [[ "$detected_type" == "devops" ]]; then
-    echo -e "${GREEN}→ Recommended: devops${NC}"
+    echo "> Recommended: devops"
     default_profile="devops"
 else
-    echo -e "${GREEN}→ Recommended: core (safe default)${NC}"
+    echo "> Recommended: core (safe default)"
     default_profile="core"
 fi
 echo
@@ -220,26 +220,26 @@ profile=$(prompt_select "Which profile do you want to use?" \
     "data-science" \
     "devops")
 
-echo -e "${GREEN}✓${NC} Selected profile: ${BOLD}$profile${NC}"
+echo "* Selected profile: $profile"
 echo
 
 # Step 3: Settings profile
-echo -e "${BOLD}${BLUE}Step 3: Settings Profile${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Step 3: Settings Profile"
+echo "============================================================"
 echo
 
-cat << EOF
-${BOLD}Available Settings Profiles:${NC}
+cat << 'EOF'
+Available Settings Profiles:
 
-${YELLOW}1. minimal${NC}
+1. minimal
    Barebones setup (1 agent, 1 skill, 1 rule)
    For: Simple scripts, small projects
 
-${GREEN}2. standard (recommended)${NC}
+2. standard (recommended)
    Recommended for most projects (3 agents, 3 skills, 3 rules)
    For: Most development work
 
-${BLUE}3. comprehensive${NC}
+3. comprehensive
    Full power (4 agents, 5 skills, 5 rules)
    For: Large codebases, enterprise projects
 
@@ -253,23 +253,23 @@ settings_profile=$(prompt_select "Which settings profile do you want?" \
 # Remove "(recommended)" suffix if present
 settings_profile="${settings_profile%% (*}"
 
-echo -e "${GREEN}✓${NC} Selected settings: ${BOLD}$settings_profile${NC}"
+echo "* Selected settings: $settings_profile"
 echo
 
 # Step 4: Link mode
-echo -e "${BOLD}${BLUE}Step 4: Link Mode${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Step 4: Link Mode"
+echo "============================================================"
 echo
 
-cat << EOF
-${BOLD}Choose how to integrate components:${NC}
+cat << 'EOF'
+Choose how to integrate components:
 
-${GREEN}1. Symlink (recommended)${NC}
+1. Symlink (recommended)
    Creates symbolic links to submodule files
    Pros: Updates automatically, no duplication
    Cons: Not supported on older Windows systems
 
-${YELLOW}2. Copy${NC}
+2. Copy
    Copies files from submodule to project
    Pros: Works everywhere, can modify locally
    Cons: Must re-run after updates
@@ -277,30 +277,30 @@ ${YELLOW}2. Copy${NC}
 EOF
 
 if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
-    echo -e "${YELLOW}→ Detected Windows - copy mode recommended${NC}"
+    echo "> Detected Windows - copy mode recommended"
     default_copy=true
 else
-    echo -e "${GREEN}→ Recommended: symlink${NC}"
+    echo "> Recommended: symlink"
     default_copy=false
 fi
 echo
 
 if prompt_yes_no "Use copy mode instead of symlinks?" "$([ "$default_copy" = true ] && echo 'y' || echo 'n')"; then
     copy_mode="--copy"
-    echo -e "${GREEN}✓${NC} Will use ${YELLOW}copy mode${NC}"
+    echo "* Will use copy mode"
 else
     copy_mode=""
-    echo -e "${GREEN}✓${NC} Will use ${GREEN}symlink mode${NC}"
+    echo "* Will use symlink mode"
 fi
 echo
 
 # Step 5: Auto-update
-echo -e "${BOLD}${BLUE}Step 5: Auto-Update (Optional)${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Step 5: Auto-Update (Optional)"
+echo "============================================================"
 echo
 
-cat << EOF
-${BOLD}Would you like to enable automatic updates?${NC}
+cat << 'EOF'
+Would you like to enable automatic updates?
 
 This will create a git hook that checks for updates to the best-practices
 submodule when you pull changes. You'll be notified if updates are available.
@@ -309,51 +309,51 @@ EOF
 
 if prompt_yes_no "Enable auto-update checks?" "n"; then
     enable_auto_update=true
-    echo -e "${GREEN}✓${NC} Auto-update will be enabled"
+    echo "* Auto-update will be enabled"
 else
     enable_auto_update=false
-    echo -e "${YELLOW}⊘${NC} Auto-update disabled (you can enable it later)"
+    echo "* Auto-update disabled (you can enable it later)"
 fi
 echo
 
 # Step 6: Summary and confirmation
-echo -e "${BOLD}${BLUE}Step 6: Review Configuration${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Step 6: Review Configuration"
+echo "============================================================"
 echo
 
 cat << EOF
-${BOLD}Your Configuration:${NC}
+Your Configuration:
 
-  Profile:          ${GREEN}$profile${NC}
-  Settings:         ${GREEN}$settings_profile${NC}
-  Link Mode:        ${GREEN}$([ -n "$copy_mode" ] && echo "copy" || echo "symlink")${NC}
-  Auto-Update:      ${GREEN}$([ "$enable_auto_update" = true ] && echo "enabled" || echo "disabled")${NC}
+  Profile:          $profile
+  Settings:         $settings_profile
+  Link Mode:        $([ -n "$copy_mode" ] && echo "copy" || echo "symlink")
+  Auto-Update:      $([ "$enable_auto_update" = true ] && echo "enabled" || echo "disabled")
 
 EOF
 
-if ! prompt_yes_no "${BOLD}Proceed with setup?${NC}" "y"; then
+if ! prompt_yes_no "Proceed with setup?" "y"; then
     echo
-    echo -e "${YELLOW}Setup cancelled.${NC}"
+    echo "Setup cancelled."
     exit 0
 fi
 
 echo
-echo -e "${BOLD}${BLUE}Installing...${NC}"
-echo -e "${BLUE}============================================================${NC}"
+echo "Installing..."
+echo "============================================================"
 echo
 
 # Step 7: Run link.sh
-echo -e "${CYAN}→ Linking components...${NC}"
+echo "> Linking components..."
 if "$SCRIPT_DIR/link.sh" --profile="$profile" $copy_mode; then
-    echo -e "${GREEN}✓ Components linked successfully${NC}"
+    echo "* Components linked successfully"
 else
-    echo -e "${RED}✗ Failed to link components${NC}"
+    echo "ERROR: Failed to link components"
     exit 1
 fi
 echo
 
 # Step 8: Apply settings
-echo -e "${CYAN}→ Applying settings profile...${NC}"
+echo "> Applying settings profile..."
 
 settings_source="$SUBMODULE_ROOT/core/settings/${settings_profile}.json"
 settings_target="$PROJECT_ROOT/.claude/settings.json"
@@ -383,10 +383,10 @@ if [[ "$profile" =~ ^(web-frontend|web-backend|data-science|devops)$ ]]; then
     # Merge if domain settings exist
     if [[ -f "$domain_settings" ]]; then
         if "$SCRIPT_DIR/merge-settings.sh" "$settings_source" "$domain_settings" "$settings_target"; then
-            echo -e "${GREEN}✓ Settings merged with domain profile${NC}"
+            echo "* Settings merged with domain profile"
         else
             # Fallback to just copying core settings
-            echo -e "${YELLOW}⚠ Domain settings not found, using core only${NC}"
+            echo "* Domain settings not found, using core only"
             cp "$settings_source" "$settings_target"
         fi
     else
@@ -395,23 +395,23 @@ if [[ "$profile" =~ ^(web-frontend|web-backend|data-science|devops)$ ]]; then
 else
     # Just copy core settings
     cp "$settings_source" "$settings_target"
-    echo -e "${GREEN}✓ Settings applied${NC}"
+    echo "* Settings applied"
 fi
 echo
 
 # Step 9: Setup auto-update if requested
 if [[ "$enable_auto_update" = true ]]; then
-    echo -e "${CYAN}→ Setting up auto-update...${NC}"
+    echo "> Setting up auto-update..."
     if "$SCRIPT_DIR/setup-auto-update.sh" --enable; then
-        echo -e "${GREEN}✓ Auto-update configured${NC}"
+        echo "* Auto-update configured"
     else
-        echo -e "${YELLOW}⚠ Could not setup auto-update (optional feature)${NC}"
+        echo "* Could not setup auto-update (optional feature)"
     fi
     echo
 fi
 
 # Step 10: Save configuration
-echo -e "${CYAN}→ Saving configuration...${NC}"
+echo "> Saving configuration..."
 cat > "$CONFIG_FILE" << EOF
 {
   "profile": "$profile",
@@ -422,44 +422,44 @@ cat > "$CONFIG_FILE" << EOF
   "version": "3.0.0"
 }
 EOF
-echo -e "${GREEN}✓ Configuration saved to .claude/setup-config.json${NC}"
+echo "* Configuration saved to .claude/setup-config.json"
 echo
 
 # Final summary
 echo
-echo -e "${BOLD}${GREEN}============================================================${NC}"
-echo -e "${BOLD}${GREEN}  Setup Complete!${NC}"
-echo -e "${BOLD}${GREEN}============================================================${NC}"
+echo "============================================================"
+echo "  Setup Complete!"
+echo "============================================================"
 echo
 
 cat << EOF
-${BOLD}What's Next:${NC}
+What's Next:
 
-${GREEN}1.${NC} Commit the changes to version control:
-   ${CYAN}git add .claude .github
-   git commit -m "Setup Claude Code best practices"${NC}
+1. Commit the changes to version control:
+   git add .claude .github
+   git commit -m "Setup Claude Code best practices"
 
-${GREEN}2.${NC} Try these Claude commands:
-   ${CYAN}"Where is the authentication logic implemented?"
+2. Try these Claude commands:
+   "Where is the authentication logic implemented?"
    "Run the test suite"
-   "Create a commit for these changes"${NC}
+   "Create a commit for these changes"
 
-${GREEN}3.${NC} Customize components as needed:
-   ${CYAN}$SCRIPT_DIR/customize.sh create-override --component=core/agents/Bash${NC}
+3. Customize components as needed:
+   $SCRIPT_DIR/customize.sh create-override --component=core/agents/Bash
 
-${GREEN}4.${NC} Keep up to date:
-   ${CYAN}$SCRIPT_DIR/sync.sh${NC}
+4. Keep up to date:
+   $SCRIPT_DIR/sync.sh
 
-${BOLD}Documentation:${NC}
-  • README: $SUBMODULE_ROOT/README.md
-  • Integration Guide: $SUBMODULE_ROOT/INTEGRATION.md
-  • Component Docs: $SUBMODULE_ROOT/core/
+Documentation:
+  - README: $SUBMODULE_ROOT/README.md
+  - Integration Guide: $SUBMODULE_ROOT/INTEGRATION.md
+  - Component Docs: $SUBMODULE_ROOT/core/
 
-${BOLD}Need Help?${NC}
-  • Issues: https://github.com/Latros-io/claude-setup/issues
-  • Discussions: https://github.com/Latros-io/claude-setup/discussions
+Need Help?
+  - Issues: https://github.com/Latros-io/claude-setup/issues
+  - Discussions: https://github.com/Latros-io/claude-setup/discussions
 
 EOF
 
-echo -e "${GREEN}Happy coding with Claude!${NC}"
+echo "Happy coding with Claude!"
 echo
