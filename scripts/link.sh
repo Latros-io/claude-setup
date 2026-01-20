@@ -8,7 +8,7 @@
 #   ./link.sh --core-only                     # Only core components
 #   ./link.sh --help                          # Show help
 
-set -euo pipefail
+set -eo pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -28,14 +28,31 @@ COPY_MODE=false
 TARGET_DIR="${TARGET_DIR:-.github}"
 DRY_RUN=false
 
-# Profiles mapping
-declare -A PROFILES=(
-    ["core"]="core/agents core/skills core/rules"
-    ["web-frontend"]="core/agents core/skills core/rules domains/web/agents domains/web/skills domains/web/rules"
-    ["web-backend"]="core/agents core/skills core/rules domains/web/agents domains/web/skills domains/web/rules"
-    ["data-science"]="core/agents core/skills core/rules domains/data-science/agents domains/data-science/skills domains/data-science/rules"
-    ["devops"]="core/agents core/skills core/rules domains/devops/agents domains/devops/skills domains/devops/rules"
-)
+# Function to get profile components
+get_profile_components() {
+    local profile="$1"
+
+    case "$profile" in
+        core)
+            echo "core/agents core/skills core/rules"
+            ;;
+        web-frontend)
+            echo "core/agents core/skills core/rules domains/web/agents domains/web/skills domains/web/rules"
+            ;;
+        web-backend)
+            echo "core/agents core/skills core/rules domains/web/agents domains/web/skills domains/web/rules"
+            ;;
+        data-science)
+            echo "core/agents core/skills core/rules domains/data-science/agents domains/data-science/skills domains/data-science/rules"
+            ;;
+        devops)
+            echo "core/agents core/skills core/rules domains/devops/agents domains/devops/skills domains/devops/rules"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
 
 # Usage function
 usage() {
@@ -123,14 +140,14 @@ fi
 # Get components to link
 COMPONENTS=""
 if [ "$CORE_ONLY" = true ]; then
-    COMPONENTS="${PROFILES[core]:-}"
+    COMPONENTS=$(get_profile_components "core")
 elif [ -n "$PROFILE" ]; then
-    if [ -z "${PROFILES[$PROFILE]:-}" ]; then
+    COMPONENTS=$(get_profile_components "$PROFILE")
+    if [ -z "$COMPONENTS" ]; then
         echo -e "${RED}Error: Unknown profile: $PROFILE${NC}"
-        echo "Available profiles: ${!PROFILES[@]}"
+        echo "Available profiles: core, web-frontend, web-backend, data-science, devops"
         exit 1
     fi
-    COMPONENTS="${PROFILES[$PROFILE]:-}"
 fi
 
 # Print header
@@ -156,12 +173,9 @@ for component_path in $COMPONENTS; do
     source_path="$SUBMODULE_ROOT/$component_path"
 
     # Extract component type (agents, skills, rules)
-    component_type=$(basename "$(dirname "$component_path")")
-
-    # Handle domain paths
-    if [[ "$component_path" == domains/* ]]; then
-        component_type=$(basename "$component_path")
-    fi
+    # component_path is like "core/agents" or "domains/web/agents"
+    # We want the last part: "agents"
+    component_type=$(basename "$component_path")
 
     target_path="$TARGET_DIR/$component_type"
 

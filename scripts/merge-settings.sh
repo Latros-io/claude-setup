@@ -7,7 +7,7 @@
 #   ./merge-settings.sh profile1.json profile2.json local.json [output.json]
 #   ./merge-settings.sh --help
 
-set -euo pipefail
+set -eo pipefail
 
 # Colors for output
 RED='\033[0;31m'
@@ -116,9 +116,12 @@ if [ ${#INPUT_FILES[@]} -lt 2 ]; then
 fi
 
 # Determine if last argument is output file
+# Bash 3.2 compatible way to get last element
 if [ ${#INPUT_FILES[@]} -gt 2 ]; then
-    OUTPUT_FILE="${INPUT_FILES[-1]}"
-    unset 'INPUT_FILES[-1]'
+    last_index=$((${#INPUT_FILES[@]} - 1))
+    OUTPUT_FILE="${INPUT_FILES[$last_index]}"
+    # Remove last element (Bash 3.2 compatible)
+    INPUT_FILES=("${INPUT_FILES[@]:0:$last_index}")
 fi
 
 # Print header
