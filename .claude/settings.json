@@ -1,7 +1,12 @@
 {
   "name": "standard",
   "description": "Recommended setup for most projects - balanced capabilities and performance",
-  "version": "3.0.0",
+  "version": "4.0.0",
+  "paths": {
+    "agents": "core/agents",
+    "skills": "core/skills",
+    "rules": "core/rules"
+  },
   "mcpServers": [
     "filesystem",
     "github"

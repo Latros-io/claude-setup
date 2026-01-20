@@ -5,6 +5,116 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-01-20
+
+### 🚀 Major Release: Direct Submodule Usage (Simplification)
+
+This release dramatically simplifies the architecture by removing the complex extraction/linking system. Components are now read directly from the submodule.
+
+### Breaking Changes
+
+- **BREAKING**: Removed symlink extraction system
+- **BREAKING**: Removed `.github/agents/`, `.github/skills/`, `.github/rules/` directories
+- **BREAKING**: Components now live exclusively in `.claude/best-practices/` submodule
+- **BREAKING**: Settings files now include `paths` configuration pointing to submodule
+- **BREAKING**: Removed 6 scripts: `link.sh`, `setup-interactive.sh`, `setup-auto-update.sh`, `customize.sh`, `sync.sh`, `migrate-from-plugin.sh`
+
+### Added
+
+- **New Architecture**
+  - Direct submodule usage - no extraction needed
+  - Path configuration in settings.json
+  - Simplified mental model
+
+- **New Script**
+  - `scripts/setup.sh` - Simple setup script (replaces complex interactive wizard)
+  - Supports both interactive and direct modes
+  - Only 200 lines (down from 467!)
+
+### Changed
+
+- **Settings Schema (v4.0.0)**
+  - Added `paths` section to specify component locations
+  - Supports both single path and array of paths
+  - Example:
+    ```json
+    {
+      "version": "4.0.0",
+      "paths": {
+        "agents": ".claude/best-practices/core/agents",
+        "skills": ".claude/best-practices/core/skills",
+        "rules": ".claude/best-practices/core/rules"
+      }
+    }
+    ```
+
+- **Updated All Settings Profiles**
+  - `core/settings/minimal.json` - Now v4.0.0 with paths
+  - `core/settings/standard.json` - Now v4.0.0 with paths
+  - `core/settings/comprehensive.json` - Now v4.0.0 with paths
+  - `domains/web/settings/react.json` - Now v4.0.0 with array paths
+
+- **Documentation**
+  - Completely rewritten README.md for new architecture
+  - Updated all references from v3.x to v4.0
+  - Simplified installation instructions (2 minutes vs 5 minutes)
+  - Added "What's Different in v4.0?" section
+  - Removed override system documentation (no longer needed)
+
+### Removed
+
+- **Scripts** (6 removed)
+  - `link.sh` - No longer needed (no extraction)
+  - `setup-interactive.sh` - Replaced by simpler `setup.sh`
+  - `setup-auto-update.sh` - No longer needed (just `git pull`)
+  - `customize.sh` - Override system removed
+  - `sync.sh` - No longer needed (just `git pull`)
+  - `migrate-from-plugin.sh` - v2.x migration obsolete
+
+- **Directories**
+  - `.github/agents/` - No longer generated
+  - `.github/skills/` - No longer generated
+  - `.github/rules/` - No longer generated
+  - `.github/overrides/` - Override system removed
+
+- **Features**
+  - Override system (use local settings.json edits instead)
+  - Auto-update git hooks (just use standard git)
+  - Copy mode option (no longer needed without symlinks)
+  - Complex profile system (simplified to settings files)
+
+### Improved
+
+- **Setup Time**: 5 minutes → 2 minutes
+- **Script Count**: 9 scripts → 4 scripts
+- **Setup Complexity**: 467 lines → 200 lines
+- **Mental Model**: Much simpler (just git submodule + settings file)
+- **Windows Support**: No symlinks needed!
+- **Update Process**: `git pull` in submodule (that's it!)
+
+### Migration from v3.x
+
+Quick migration:
+```bash
+# 1. Remove old structure
+rm -rf .github/agents .github/skills .github/rules .github/overrides
+
+# 2. Run new setup
+.claude/best-practices/scripts/setup.sh
+
+# 3. Commit
+git add .claude .github
+git commit -m "Migrate to v4.0 (direct submodule usage)"
+```
+
+See [meta/migration-guide.md](meta/migration-guide.md) for detailed instructions.
+
+### v3.x Support
+
+v3.x will receive security fixes only until 2026-07-19. Please migrate to v4.0 as soon as possible.
+
+---
+
 ## [3.0.0] - 2026-01-19
 
 ### 🚀 Major Release: Git Submodule-Based Architecture

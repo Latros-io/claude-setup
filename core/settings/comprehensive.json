@@ -1,7 +1,12 @@
 {
   "name": "comprehensive",
   "description": "Maximum assistance for large projects and enterprise applications",
-  "version": "3.0.0",
+  "version": "4.0.0",
+  "paths": {
+    "agents": ".claude/best-practices/core/agents",
+    "skills": ".claude/best-practices/core/skills",
+    "rules": ".claude/best-practices/core/rules"
+  },
   "mcpServers": [
     "filesystem",
     "github",

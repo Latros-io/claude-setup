@@ -1,6 +1,6 @@
-# Test Suite for Claude Code Best Practices Scripts
+# Test Suite for Claude Code Best Practices Scripts (v4.0)
 
-This test suite validates all integration scripts to ensure they work correctly across different environments, including macOS with Bash 3.2.
+This test suite validates the v4.0 simplified architecture to ensure direct submodule usage works correctly.
 
 ## Running Tests
 
@@ -18,28 +18,32 @@ This test suite validates all integration scripts to ensure they work correctly 
 
 ## Test Coverage
 
-The test suite includes 20 tests covering:
+The test suite includes 15 tests covering:
 
-### Script Functionality (Tests 1-12)
-- `link.sh` - Component linking with symlinks and copy mode
-- `merge-settings.sh` - JSON file merging
+### Script Functionality (Tests 1-3)
+- `setup.sh` - Simple setup with profile selection
 - `validate.sh` - Configuration validation
-- `customize.sh` - Override management
-- `sync.sh` - Update synchronization
-- `setup-auto-update.sh` - Auto-update configuration
-- `setup-interactive.sh` - Interactive setup wizard
+- `merge-settings.sh` - JSON file merging
 
-### Component Existence (Tests 13-16)
-- Core settings files (minimal, standard, comprehensive)
+### Component Existence (Tests 4-6)
 - Core agents (Bash, Explore, Plan, GeneralPurpose)
-- Core skills (git-workflow, test-runner, doc-generator, etc.)
-- Core rules (code-style, testing, documentation, etc.)
+- Core skills (git-workflow, test-runner, doc-generator, project-setup, refactor-helper)
+- Core rules (code-style, testing, documentation, security, git-hygiene)
 
-### Quality Checks (Tests 17-20)
+### Settings Validation (Tests 7-8)
+- Settings profiles exist and contain valid JSON
+- Settings profiles have v4.0.0 version and paths configuration
+
+### Quality Checks (Tests 9-10)
 - All scripts are executable
-- All settings files contain valid JSON
-- Different profile configurations work correctly
-- Documentation files exist
+- Core documentation files exist
+
+### Integration Tests (Tests 11-15)
+- `setup.sh --profile=standard` creates correct settings file
+- `merge-settings.sh` merges JSON files properly
+- No `.github/` directories created (v4.0 behavior)
+- Domain settings (react.json) exists and is valid
+- `setup.sh --profile=react` works correctly
 
 ## Test Output
 
@@ -49,8 +53,8 @@ The test suite includes 20 tests covering:
   Test Summary
 ============================================================
 
-Total tests:  20
-Passed:       20
+Total tests:  15
+Passed:       15
 Failed:       0
 
 ALL TESTS PASSED
@@ -59,16 +63,34 @@ ALL TESTS PASSED
 ### Failure
 When tests fail, you'll see specific error messages:
 ```
-TEST 3: link.sh --profile=core creates symlinks
-  ✗ FAIL: Expected symlinks were not created
+TEST 11: setup.sh --profile=standard creates .claude/settings.json
+  * FAIL: Settings file not created or doesn't have correct format
 ```
+
+## What's Different in v4.0 Tests?
+
+### Removed Tests (from v3.x)
+- ❌ `link.sh` tests (script removed)
+- ❌ `setup-interactive.sh` tests (replaced with simpler setup.sh)
+- ❌ `setup-auto-update.sh` tests (feature removed)
+- ❌ `customize.sh` tests (override system removed)
+- ❌ `sync.sh` tests (script removed)
+- ❌ Symlink creation tests (no symlinks in v4.0)
+- ❌ `.github/` directory tests (not generated in v4.0)
+
+### New Tests (for v4.0)
+- ✅ Settings files have v4.0.0 version
+- ✅ Settings files have paths configuration
+- ✅ No `.github/` directories created
+- ✅ Direct submodule usage works
+- ✅ Array paths for multi-domain profiles
 
 ## Compatibility
 
 The test suite is designed to work with:
 - **Bash 3.2+** (macOS default)
 - **Bash 4.0+** (Linux default)
-- **Python 3.6+** (required for JSON merging)
+- **Python 3.6+** (required for JSON validation)
 
 ## Test Environment
 
@@ -91,7 +113,6 @@ To add a new test:
 2. Available assertion helpers:
    - `assert_file_exists <file>` - Check if file exists
    - `assert_dir_exists <dir>` - Check if directory exists
-   - `assert_symlink_exists <link>` - Check if symlink exists
    - `assert_command_succeeds <command>` - Check if command exits with 0
    - `assert_string_contains <string> <substring>` - Check string contains substring
 

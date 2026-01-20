@@ -1,8 +1,22 @@
 {
   "name": "react",
   "description": "Optimized setup for React development with testing, bundling, and accessibility support",
-  "version": "1.0.0",
-  "extends": "core/settings/standard.json",
+  "version": "4.0.0",
+  "extends": ".claude/best-practices/core/settings/standard.json",
+  "paths": {
+    "agents": [
+      ".claude/best-practices/core/agents",
+      ".claude/best-practices/domains/web/agents"
+    ],
+    "skills": [
+      ".claude/best-practices/core/skills",
+      ".claude/best-practices/domains/web/skills"
+    ],
+    "rules": [
+      ".claude/best-practices/core/rules",
+      ".claude/best-practices/domains/web/rules"
+    ]
+  },
   "mcpServers": [
     "filesystem",
     "github",
