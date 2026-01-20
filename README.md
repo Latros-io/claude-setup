@@ -20,7 +20,30 @@ A **git submodule-based library** of reusable components for Claude Code:
 - **⚙️ Settings Profiles**: Pre-configured setups for different project types
 - **🔌 MCP Servers**: Integration configurations for external services
 
-**Why git submodule?** Standard git workflow, version pinning, clean updates, and clear separation between upstream and your customizations.
+---
+
+## ✨ Why Use This Library?
+
+### The Problem
+Setting up Claude Code for each project is repetitive:
+- Re-creating the same agents, skills, and rules
+- Copy-pasting configurations between projects
+- Maintaining consistency across team members
+- Keeping components up-to-date
+
+### The Solution
+One library, reusable everywhere:
+- **10+ hours saved** per project setup
+- **Consistent best practices** across your team
+- **One update** propagates to all projects
+- **Battle-tested components** from the community
+
+### How It Works
+Instead of copying files, your project references a shared library:
+- **Add once**: Install as git submodule
+- **Link selectively**: Choose only what you need
+- **Customize freely**: Override without affecting upstream
+- **Update easily**: `git pull` to get latest improvements
 
 ---
 
@@ -51,6 +74,16 @@ git checkout v3.0.0         # Pin version
 - **Comprehensive**: Full power for large codebases
 - **Domain-Specific**: React, Python, Docker, etc.
 
+### ✅ MCP Server Configurations
+MCP (Model Context Protocol) servers extend Claude's capabilities with external integrations:
+- **filesystem**: Secure file system access
+- **github**: GitHub API integration for issues, PRs
+- **browser**: Playwright for web automation and testing
+- **postgres**: Database queries and schema inspection
+- **docker**: Container management and debugging
+
+Pre-configured for security and best practices.
+
 ### ✅ Integrated Tools
 - **link.sh**: Set up symlinks from submodule to project
 - **sync.sh**: Pull updates safely
@@ -60,9 +93,47 @@ git checkout v3.0.0         # Pin version
 
 ---
 
+## 📋 Before Getting Started
+
+### System Requirements
+- **Git**: 2.13 or higher (for submodule support)
+- **Bash**: 4.0 or higher (for integration scripts)
+- **Python**: 3.6 or higher (for settings merging)
+- **OS**: macOS, Linux, or WSL on Windows
+
+### Knowledge Requirements
+- Basic git familiarity (clone, commit, push)
+- Understanding of your project type (web, data science, devops, etc.)
+- 5 minutes of setup time
+
+### Choose Your Profile
+
+Not sure which profile to use? Here's a quick guide:
+
+| Your Project | Profile | Example |
+|-------------|---------|---------|
+| Web frontend (React, Vue) | `web-frontend` | Single-page apps, dashboards |
+| Web backend (Node, Express) | `web-backend` | REST APIs, microservices |
+| Python + ML/Data | `data-science` | Jupyter notebooks, model training |
+| Infrastructure | `devops` | Docker, K8s, Terraform |
+| Other / Unsure | `core` | General-purpose development |
+
+### What You'll Get
+
+After installation, Claude Code will have access to:
+- **Agents** that assist with specific tasks (code exploration, planning, etc.)
+- **Skills** that automate workflows (git commits, test running, etc.)
+- **Rules** that enforce best practices (code style, security, etc.)
+
+---
+
 ## 🚀 Quick Start
 
-### Installation (3 steps)
+**Prerequisites:** Git 2.13+, Bash 4.0+, Python 3.6+
+**Time:** ~5 minutes
+**Skill Level:** Intermediate (familiarity with git required)
+
+### Installation (4 steps)
 
 **1. Add Submodule**
 ```bash
@@ -70,23 +141,31 @@ cd your-project
 git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
 git submodule update --init --recursive
 ```
+*This adds the best practices library to your project.*
 
 **2. Link Components**
+
+Choose ONE profile based on your project:
+- `core` - General development (recommended for most)
+- `web-frontend` - React, Vue, or other frontend
+- `web-backend` - Node, Express, or other backend
+- `data-science` - Python, Jupyter, ML projects
+- `devops` - Docker, Kubernetes, infrastructure
+
 ```bash
-# Choose a profile based on your project type
-.claude/best-practices/scripts/link.sh --profile=core              # General
-.claude/best-practices/scripts/link.sh --profile=web-frontend     # React, Vue
-.claude/best-practices/scripts/link.sh --profile=web-backend      # Node, Express
-.claude/best-practices/scripts/link.sh --profile=data-science     # Python, ML
-.claude/best-practices/scripts/link.sh --profile=devops           # Docker, K8s
+.claude/best-practices/scripts/link.sh --profile=core
 ```
+*This creates symlinks from the library to your .github/ directory.*
 
 **3. Apply Settings**
-```bash
-# Standard profile (recommended)
-cp .claude/best-practices/core/settings/standard.json .claude/settings.json
 
-# Or compose with domain profile
+**Option A - Simple (most users):**
+```bash
+cp .claude/best-practices/core/settings/standard.json .claude/settings.json
+```
+
+**Option B - Advanced (if you need domain-specific settings):**
+```bash
 .claude/best-practices/scripts/merge-settings.sh \
     .claude/best-practices/core/settings/standard.json \
     .claude/best-practices/domains/web/settings/react.json \
@@ -99,7 +178,44 @@ git add .claude .github
 git commit -m "Integrate Claude Code best practices v3.0.0"
 ```
 
+**Verify Installation:**
+```bash
+ls -la .github/agents/  # Should show symlinks to agents
+cat .claude/settings.json  # Should show your settings
+```
+
 ✅ **Done!** Claude Code now has access to your selected components.
+
+---
+
+## 🎯 What Happens Next?
+
+After installation, you can immediately use the components:
+
+### Try These Commands
+
+**Ask Claude to explore your codebase:**
+```
+"Where is the authentication logic implemented?"
+```
+*Uses the Explore agent to search your codebase.*
+
+**Ask Claude to run tests:**
+```
+"Run the test suite and show me any failures"
+```
+*Uses the test-runner skill to execute tests.*
+
+**Ask Claude to create a commit:**
+```
+"Create a commit for these changes with a conventional commit message"
+```
+*Uses the git-workflow skill to automate git operations.*
+
+### Next Steps
+1. **Customize components** - See [Customization](#-customization)
+2. **Explore other components** - Check [What's Included](#-whats-included)
+3. **Read the integration guide** - [INTEGRATION.md](INTEGRATION.md)
 
 ---
 
@@ -188,22 +304,48 @@ git commit -m "Update best-practices to v3.1.0"
 
 ### Customization
 
-**Create override:**
+#### Why Customize?
+The library provides defaults, but every project is unique. Customize to:
+- Adjust settings for your tech stack
+- Add project-specific templates
+- Modify agent behavior
+- Create team standards
+
+#### How to Customize
+
+**1. Create an override:**
 ```bash
 .claude/best-practices/scripts/customize.sh create-override \
     --component=core/skills/git-workflow \
     --file=config.json
 ```
 
-**Edit override:**
+**2. Edit the override:**
 ```bash
 vim .github/overrides/skills/git-workflow/config.json
 ```
 
-**Validate:**
+**3. Validate your changes:**
 ```bash
 .claude/best-practices/scripts/customize.sh validate
 ```
+
+#### Example: Custom Commit Message Template
+
+Override the git-workflow commit template:
+```bash
+.claude/best-practices/scripts/customize.sh create-override \
+    --component=core/skills/git-workflow \
+    --file=templates/commit-message.md
+
+# Edit to match your team's style
+vim .github/overrides/skills/git-workflow/templates/commit-message.md
+```
+
+#### Override vs. Settings
+- **Overrides** modify component behavior (agents, skills, rules)
+- **Settings** configure which components are active
+- Both are preserved when updating the library
 
 ### Project Structure
 
@@ -415,6 +557,78 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 - Advanced agent capabilities
 - Plugin ecosystem
 - Community components
+
+---
+
+## ❗ Troubleshooting
+
+### Submodule won't initialize
+**Problem:** `git submodule update` hangs or fails
+
+**Solution:**
+```bash
+# Check network connection
+git submodule update --init --recursive --verbose
+
+# If it still fails, try cloning directly:
+git clone https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+```
+
+---
+
+### Symlinks don't work (Windows)
+**Problem:** Symlinks appear as files, components not found
+
+**Solution:** Use copy mode instead
+```bash
+.claude/best-practices/scripts/link.sh --profile=core --copy
+```
+*Note: Re-run after each submodule update*
+
+---
+
+### Components not detected by Claude Code
+**Problem:** Claude doesn't see agents/skills/rules
+
+**Solution:** Verify symlinks were created
+```bash
+ls -la .github/agents/  # Should show symlinks like: Bash -> ../../.claude/...
+```
+
+If missing, re-run link script:
+```bash
+.claude/best-practices/scripts/link.sh --profile=core
+```
+
+---
+
+### Settings not applying
+**Problem:** Changes to settings.json don't take effect
+
+**Solution:**
+1. Verify file location: `ls -la .claude/settings.json`
+2. Validate JSON syntax: `python3 -m json.tool .claude/settings.json`
+3. Restart Claude Code
+
+---
+
+### How do I uninstall?
+**Solution:**
+```bash
+# Remove symlinks
+rm -rf .github/agents .github/skills .github/rules
+
+# Remove submodule
+git submodule deinit .claude/best-practices
+git rm .claude/best-practices
+rm -rf .git/modules/.claude/best-practices
+
+# Remove settings
+rm .claude/settings.json
+
+# Commit removal
+git commit -m "Remove Claude Code best practices"
+```
 
 ---
 
