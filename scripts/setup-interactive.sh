@@ -24,7 +24,8 @@ BOLD='\033[1m'
 # Script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SUBMODULE_ROOT="$(dirname "$SCRIPT_DIR")"
-PROJECT_ROOT="$(dirname "$SUBMODULE_ROOT/..")"
+# Project root is the current working directory (where user runs the script)
+PROJECT_ROOT="$(pwd)"
 
 # Configuration file to store user selections
 CONFIG_FILE="$PROJECT_ROOT/.claude/setup-config.json"
