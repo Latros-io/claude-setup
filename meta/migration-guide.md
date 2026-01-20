@@ -102,7 +102,7 @@ This guide helps you migrate from the v2.x plugin-based installation to the v3.x
 
 1. **Installation Method**
    - Old: `claude plugin install claude-skills`
-   - New: `git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices`
+   - New: `git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices`
 
 2. **Component Paths**
    - Components moved from root to `core/` directory
@@ -143,7 +143,7 @@ The automated script handles everything for you.
    .claude/best-practices/scripts/migrate-from-plugin.sh
 
    # Or download standalone
-   curl -O https://raw.githubusercontent.com/Latros-io/claude-code-best-practices/main/scripts/migrate-from-plugin.sh
+   curl -O https://raw.githubusercontent.com/Latros-io/claude-setup/main/scripts/migrate-from-plugin.sh
    chmod +x migrate-from-plugin.sh
    ./migrate-from-plugin.sh
    ```
@@ -226,7 +226,7 @@ rm -rf .github/rules
 cd /path/to/your-project
 
 # Add submodule
-git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
 
 # Initialize and update
 git submodule update --init --recursive
@@ -532,7 +532,7 @@ claude plugin install component git-workflow
 
 **v3.x:**
 ```bash
-git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
 .claude/best-practices/scripts/link.sh --profile=core
 ```
 
@@ -583,8 +583,8 @@ After successful migration:
 
 ## Support
 
-**Issues:** https://github.com/Latros-io/claude-code-best-practices/issues
-**Discussions:** https://github.com/Latros-io/claude-code-best-practices/discussions
+**Issues:** https://github.com/Latros-io/claude-setup/issues
+**Discussions:** https://github.com/Latros-io/claude-setup/discussions
 **Email:** support@latros.io
 
 ---

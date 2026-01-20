@@ -195,6 +195,6 @@ Individual components are versioned independently in `meta/versions.json`:
 
 ---
 
-[3.0.0]: https://github.com/Latros-io/claude-code-best-practices/releases/tag/v3.0.0
-[2.1.0]: https://github.com/Latros-io/claude-code-best-practices/releases/tag/v2.1.0
-[2.0.0]: https://github.com/Latros-io/claude-code-best-practices/releases/tag/v2.0.0
+[3.0.0]: https://github.com/Latros-io/claude-setup/releases/tag/v3.0.0
+[2.1.0]: https://github.com/Latros-io/claude-setup/releases/tag/v2.1.0
+[2.0.0]: https://github.com/Latros-io/claude-setup/releases/tag/v2.0.0

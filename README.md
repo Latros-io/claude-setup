@@ -4,7 +4,7 @@
 
 **Build better software with battle-tested components** that integrate seamlessly into your development workflow.
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/Latros-io/claude-code-best-practices)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/Latros-io/claude-setup)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/claude--code-v3.0-purple.svg)](https://claude.ai/code)
 
@@ -133,12 +133,29 @@ After installation, Claude Code will have access to:
 **Time:** ~5 minutes
 **Skill Level:** Intermediate (familiarity with git required)
 
-### Installation (4 steps)
+### Installation Options
+
+#### Option 1: Interactive Setup (Recommended for First-Time Users)
+
+```bash
+cd your-project
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
+git submodule update --init --recursive
+.claude/best-practices/scripts/setup-interactive.sh
+```
+
+The interactive wizard will guide you through:
+- Project type detection
+- Profile selection
+- Settings configuration
+- Auto-update setup
+
+#### Option 2: Manual Setup (4 steps)
 
 **1. Add Submodule**
 ```bash
 cd your-project
-git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
 git submodule update --init --recursive
 ```
 *This adds the best practices library to your project.*
@@ -478,6 +495,8 @@ All scripts in `scripts/` directory:
 
 | Script | Purpose |
 |--------|---------|
+| **setup-interactive.sh** | Interactive setup wizard with guided configuration |
+| **setup-auto-update.sh** | Enable/disable automatic update notifications |
 | **link.sh** | Create symlinks from submodule to project |
 | **sync.sh** | Pull updates and validate against overrides |
 | **customize.sh** | Create, list, validate overrides |
@@ -486,6 +505,21 @@ All scripts in `scripts/` directory:
 | **migrate-from-plugin.sh** | Migrate from v2.x plugin |
 
 All scripts include `--help` for detailed usage.
+
+### Interactive Setup (Recommended for New Users)
+
+For a guided setup experience:
+
+```bash
+.claude/best-practices/scripts/setup-interactive.sh
+```
+
+This wizard will:
+- Detect your project type
+- Recommend an appropriate profile
+- Let you select components and settings
+- Configure auto-updates (optional)
+- Complete setup in minutes
 
 ---
 
@@ -571,7 +605,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 git submodule update --init --recursive --verbose
 
 # If it still fails, try cloning directly:
-git clone https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git clone https://github.com/Latros-io/claude-setup.git .claude/best-practices
 ```
 
 ---
@@ -635,8 +669,8 @@ git commit -m "Remove Claude Code best practices"
 ## ❓ Support
 
 - **Documentation**: Start with [INTEGRATION.md](INTEGRATION.md)
-- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-code-best-practices/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-code-best-practices/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-setup/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-setup/discussions)
 - **Email**: support@latros.io
 
 ---

@@ -287,6 +287,6 @@ This release represents:
 
 ## 📞 Support
 
-- **Issues**: https://github.com/Latros-io/claude-code-best-practices/issues
-- **Discussions**: https://github.com/Latros-io/claude-code-best-practices/discussions
+- **Issues**: https://github.com/Latros-io/claude-setup/issues
+- **Discussions**: https://github.com/Latros-io/claude-setup/discussions
 - **Email**: support@latros.io

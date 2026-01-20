@@ -24,7 +24,7 @@ Version: 3.0.0
 cd your-project
 
 # Add best-practices as submodule
-git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
 
 # Initialize and update
 git submodule update --init --recursive
@@ -76,7 +76,7 @@ git commit -m "Integrate Claude Code best practices"
 
 ```bash
 cd your-project
-git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
 git submodule update --init --recursive
 ```
 
@@ -569,6 +569,6 @@ chmod +x .claude/best-practices/scripts/*.sh
 
 ## Support
 
-- Issues: https://github.com/Latros-io/claude-code-best-practices/issues
-- Discussions: https://github.com/Latros-io/claude-code-best-practices/discussions
+- Issues: https://github.com/Latros-io/claude-setup/issues
+- Discussions: https://github.com/Latros-io/claude-setup/discussions
 - Discord: https://discord.gg/claude-code

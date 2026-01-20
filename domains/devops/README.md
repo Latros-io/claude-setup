@@ -119,7 +119,7 @@ Example tasks:
 **1. Add submodule** (if not already added)
 ```bash
 cd your-infrastructure-project
-git submodule add https://github.com/Latros-io/claude-code-best-practices.git .claude/best-practices
+git submodule add https://github.com/Latros-io/claude-setup.git .claude/best-practices
 git submodule update --init --recursive
 ```
 
@@ -431,8 +431,8 @@ We welcome contributions to the DevOps domain!
 ## Support
 
 - **Documentation**: See [INTEGRATION.md](../../INTEGRATION.md) for general integration
-- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-code-best-practices/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-code-best-practices/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Latros-io/claude-setup/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Latros-io/claude-setup/discussions)
 
 ## License
 
