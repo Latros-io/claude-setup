@@ -123,20 +123,20 @@ fi
 # Get components to link
 COMPONENTS=""
 if [ "$CORE_ONLY" = true ]; then
-    COMPONENTS="${PROFILES[core]}"
+    COMPONENTS="${PROFILES[core]:-}"
 elif [ -n "$PROFILE" ]; then
     if [ -z "${PROFILES[$PROFILE]:-}" ]; then
         echo -e "${RED}Error: Unknown profile: $PROFILE${NC}"
         echo "Available profiles: ${!PROFILES[@]}"
         exit 1
     fi
-    COMPONENTS="${PROFILES[$PROFILE]}"
+    COMPONENTS="${PROFILES[$PROFILE]:-}"
 fi
 
 # Print header
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}============================================================${NC}"
 echo -e "${BLUE}  Claude Code Best Practices - Component Linker${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}============================================================${NC}"
 echo
 echo -e "Mode:        $([ "$COPY_MODE" = true ] && echo "${YELLOW}COPY${NC}" || echo "${GREEN}SYMLINK${NC}")"
 echo -e "Target:      ${BLUE}$TARGET_DIR${NC}"
@@ -167,7 +167,7 @@ for component_path in $COMPONENTS; do
 
     # Check if source exists
     if [ ! -d "$source_path" ]; then
-        echo -e "${YELLOW}⊘ Skipping $component_path (not found)${NC}"
+        echo -e "${YELLOW}- Skipping $component_path (not found)${NC}"
         ((skipped_count++))
         continue
     fi
@@ -188,7 +188,7 @@ for component_path in $COMPONENTS; do
 
         # Skip if already exists
         if [ -e "$target_item" ] || [ -L "$target_item" ]; then
-            echo -e "${YELLOW}⊘ Skipping $component_type/$item_name (already exists)${NC}"
+            echo -e "${YELLOW}- Skipping $component_type/$item_name (already exists)${NC}"
             ((skipped_count++))
             continue
         fi
@@ -197,7 +197,7 @@ for component_path in $COMPONENTS; do
         rel_path=$(python3 -c "import os.path; print(os.path.relpath('$item', '$target_path'))")
 
         if [ "$DRY_RUN" = true ]; then
-            echo -e "${BLUE}→ Would link: $target_item → $rel_path${NC}"
+            echo -e "${BLUE}> Would link: $target_item -> $rel_path${NC}"
         else
             if [ "$COPY_MODE" = true ]; then
                 cp -r "$item" "$target_item"
@@ -213,9 +213,9 @@ done
 
 # Print summary
 echo
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}============================================================${NC}"
 echo -e "${BLUE}  Summary${NC}"
-echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${BLUE}============================================================${NC}"
 echo
 if [ "$DRY_RUN" = true ]; then
     echo -e "${YELLOW}Dry run - no changes made${NC}"

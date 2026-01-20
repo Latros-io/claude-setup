@@ -95,11 +95,11 @@ if [ -d ".claude/best-practices" ]; then
 
             if [ "$COMMITS_BEHIND" -gt 0 ]; then
                 echo ""
-                echo "╔═══════════════════════════════════════════════════════════════╗"
-                echo "║  Claude Code Best Practices - Updates Available              ║"
-                echo "╚═══════════════════════════════════════════════════════════════╝"
+                echo "==============================================================="
+                echo "  Claude Code Best Practices - Updates Available"
+                echo "==============================================================="
                 echo ""
-                echo "  📦 $COMMITS_BEHIND new update(s) available for best-practices"
+                echo "  $COMMITS_BEHIND new update(s) available for best-practices"
                 echo ""
                 echo "  To review and apply updates, run:"
                 echo "    .claude/best-practices/scripts/sync.sh"
@@ -189,7 +189,7 @@ remove_hook() {
 # Function to enable auto-update
 enable_auto_update() {
     echo -e "${BOLD}${BLUE}Enabling Auto-Update Checks${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}============================================================${NC}"
     echo
 
     # Check if we're in a git repository
@@ -221,7 +221,7 @@ enable_auto_update() {
 # Function to disable auto-update
 disable_auto_update() {
     echo -e "${BOLD}${BLUE}Disabling Auto-Update Checks${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}============================================================${NC}"
     echo
 
     # Remove hooks
@@ -239,7 +239,7 @@ disable_auto_update() {
 # Function to show status
 show_status() {
     echo -e "${BOLD}${BLUE}Auto-Update Status${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}============================================================${NC}"
     echo
 
     local post_merge_installed
