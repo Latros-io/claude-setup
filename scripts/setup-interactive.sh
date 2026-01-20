@@ -112,7 +112,7 @@ prompt_select() {
     local options=("$@")
     local PS3="Select (1-${#options[@]}): "
 
-    echo "$prompt"
+    echo "$prompt" >&2
     select opt in "${options[@]}"; do
         if [[ -n "$opt" ]]; then
             echo "$opt"
