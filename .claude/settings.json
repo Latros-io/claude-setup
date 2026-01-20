@@ -1,0 +1,31 @@
+{
+  "name": "standard",
+  "description": "Recommended setup for most projects - balanced capabilities and performance",
+  "version": "3.0.0",
+  "mcpServers": [
+    "filesystem",
+    "github"
+  ],
+  "agents": [
+    "Bash",
+    "Explore",
+    "Plan"
+  ],
+  "skills": [
+    "git-workflow",
+    "test-runner",
+    "doc-generator"
+  ],
+  "rules": [
+    "code-style",
+    "testing",
+    "documentation"
+  ],
+  "settings": {
+    "autoSave": true,
+    "suggestionMode": "auto",
+    "verbosity": "normal",
+    "testOnSave": false,
+    "lintOnSave": true
+  }
+}
